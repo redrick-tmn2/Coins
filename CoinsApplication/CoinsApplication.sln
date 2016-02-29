@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinsApplication", "CoinsAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinsApplication.DAO", "CoinsApplication.DAO\CoinsApplication.DAO.csproj", "{C6C1445C-21FB-4A35-95F6-AE4DC1DBCBA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{38BE4FDD-1651-49BA-93A3-1FC94F128420}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{C6C1445C-21FB-4A35-95F6-AE4DC1DBCBA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6C1445C-21FB-4A35-95F6-AE4DC1DBCBA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6C1445C-21FB-4A35-95F6-AE4DC1DBCBA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38BE4FDD-1651-49BA-93A3-1FC94F128420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38BE4FDD-1651-49BA-93A3-1FC94F128420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38BE4FDD-1651-49BA-93A3-1FC94F128420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38BE4FDD-1651-49BA-93A3-1FC94F128420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
