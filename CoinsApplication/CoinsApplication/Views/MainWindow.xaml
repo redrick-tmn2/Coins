@@ -4,15 +4,67 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sampleData="clr-namespace:CoinsApplication.ViewModel.SampleData"
-        xmlns:controls="clr-namespace:CoinsApplication.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800" 
         d:DataContext="{x:Static sampleData:FakeCoinViewModelProvider.MainWindowViewModel}">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Converters.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Model.Name" HorizontalAlignment="Left" MinWidth="200">
+            </ComboBox>
+        </Grid>
+
+        <Grid Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="127*"></ColumnDefinition>
+                <ColumnDefinition Width="427*"/>
+                <ColumnDefinition Width="238*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ListView ItemsSource="{Binding SelectedProfile.Model.Coins}" SelectedItem="{Binding SelectedProfile.SelectedCoin}" DisplayMemberPath="Title" Grid.ColumnSpan="2">
+            </ListView>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Image MinHeight="100" MinWidth="100" HorizontalAlignment="Center" Source="{Binding SelectedProfile.SelectedCoin.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"/>
+
+                <TextBox Grid.Row="1" Text="{Binding SelectedProfile.SelectedCoin.Title}"></TextBox>
+            </Grid>
+
+
+        </Grid>
+    </Grid>
+
+    <!--
     <StackPanel>
         <ListBox ItemsSource="{Binding Coins}">
 
         </ListBox>
         <controls:TagEditor ></controls:TagEditor>
     </StackPanel>
+    -->
 </Window>

@@ -1,27 +1,48 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using CoinsApplication.Services;
-using CoinsApplication.ViewModel.SampleData;
+using CoinsApplication.Services.Interfaces;
 using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<CoinViewModel> _coins = new ObservableCollection<CoinViewModel>();
- 
-        public ObservableCollection<CoinViewModel> Coins
+        private readonly IProfileService _profileService;
+
+        private readonly ObservableCollection<ProfileViewModel> _profiles = new ObservableCollection<ProfileViewModel>();
+        public ObservableCollection<ProfileViewModel> Profiles
         {
-            get { return _coins; }
+            get { return _profiles; }
         }
 
-        public MainWindowViewModel(ISampleService sampleService)
+        private ProfileViewModel _selectedProfile;
+        public ProfileViewModel SelectedProfile
         {
-            if (IsInDesignMode)
+            get { return _selectedProfile; }
+            set { Set(ref _selectedProfile, value); }
+        }
+        
+
+        public MainWindowViewModel(IProfileService profileService)
+        {
+            _profileService = profileService;
+
+            RefreshProfiles();
+        }
+
+        public void RefreshProfiles()
+        {
+            var allProfiles = _profileService.GetAllProfiles();
+
+            Profiles.Clear();
+
+            foreach (var profile in allProfiles)
             {
-                _coins = FakeCoinViewModelProvider.GetCoinsViewModels();
+                Profiles.Add(new ProfileViewModel(profile));
             }
 
-            //sampleService.SampleMethod();
+            SelectedProfile = Profiles.FirstOrDefault();
         }
-    }
+    }   
 }

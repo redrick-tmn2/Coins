@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CoinsApplication.DAO")]
+[assembly: AssemblyTitle("CoinsApplication.Models")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Schlumberger")]
-[assembly: AssemblyProduct("CoinsApplication.DAO")]
+[assembly: AssemblyProduct("CoinsApplication.Models")]
 [assembly: AssemblyCopyright("Copyright © Schlumberger 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3ce8b15d-890a-409f-99cd-3722f76ef713")]
+[assembly: Guid("dd10936e-1d07-4e2e-ba5e-fd90fef18af6")]
 
 // Version information for an assembly consists of the following four values:
 //

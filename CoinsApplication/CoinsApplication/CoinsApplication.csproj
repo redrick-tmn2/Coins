@@ -83,14 +83,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\TagEditor.cs" />
+    <Compile Include="Converters\ByteArrayToImageSource.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Services\ISampleService.cs" />
-    <Compile Include="ViewModel\CoinViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\ProfileViewModel.cs" />
     <Compile Include="ViewModel\SampleData\FakeCoinViewModelProvider.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -99,6 +99,10 @@
       <DependentUpon>TagEditorControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -138,6 +142,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoinsApplication.FakeServices\CoinsApplication.FakeServices.csproj">
+      <Project>{86D787D2-ADBB-4B3E-B68F-82A5E7B2C4AC}</Project>
+      <Name>CoinsApplication.FakeServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.Models\CoinsApplication.Models.csproj">
+      <Project>{A298FD1E-BBB6-464D-9617-0FA4A82CA5D4}</Project>
+      <Name>CoinsApplication.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.Services\CoinsApplication.Services.csproj">
+      <Project>{8AB151DD-3C63-45B2-94BB-7678CCBD3D32}</Project>
+      <Name>CoinsApplication.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

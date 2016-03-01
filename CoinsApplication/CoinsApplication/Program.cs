@@ -1,5 +1,7 @@
 ﻿using System;
+using CoinsApplication.FakeServices;
 using CoinsApplication.Services;
+using CoinsApplication.Services.Interfaces;
 using CoinsApplication.ViewModel;
 using CoinsApplication.Views;
 using SimpleInjector;
@@ -24,11 +26,12 @@ namespace CoinsApplication
             var container = new Container();
 
             // Register your types, for instance:
-            container.Register<ISampleService, SampleService>(Lifestyle.Singleton);
+            container.Register<IProfileService, FakeProfileService>(Lifestyle.Singleton);
 
             // Register your windows and view models:
-            container.Register<MainWindow>();
-            container.Register<MainWindowViewModel>();
+            
+            //container.Register<MainWindow>();
+            //container.Register<MainWindowViewModel>();
 
             container.Verify();
 
