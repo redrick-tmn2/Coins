@@ -53,6 +53,7 @@
                 <Image MinHeight="100" MinWidth="100" HorizontalAlignment="Center" Source="{Binding SelectedProfile.SelectedCoin.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"/>
 
                 <TextBox Grid.Row="1" Text="{Binding SelectedProfile.SelectedCoin.Title}"></TextBox>
+                <ComboBox ItemsSource=""></ComboBox>
             </Grid>
 
 

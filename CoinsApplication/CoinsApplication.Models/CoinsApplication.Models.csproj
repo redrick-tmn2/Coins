@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoinModel.cs" />
+    <Compile Include="CountryModel.cs" />
+    <Compile Include="CurrencyModel.cs" />
     <Compile Include="ProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

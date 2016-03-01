@@ -17,5 +17,19 @@ namespace CoinsApplication.Models
             get { return _image; }
             set { Set(ref _image, value); }
         }
+
+        private CountryModel _country;
+        public CountryModel CountryModel
+        {
+            get { return _country; }
+            set { Set(ref _country, value); }
+        }
+
+        private CurrencyModel _currency;
+        public CurrencyModel Currency
+        {
+            get { return _currency; }
+            set { Set(ref _currency, value); }
+        }
     }
 }

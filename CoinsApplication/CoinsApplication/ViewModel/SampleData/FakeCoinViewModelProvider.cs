@@ -1,4 +1,5 @@
 ﻿using CoinsApplication.FakeServices;
+using CoinsApplication.Services;
 
 namespace CoinsApplication.ViewModel.SampleData
 {
@@ -6,7 +7,7 @@ namespace CoinsApplication.ViewModel.SampleData
     {
         public static MainWindowViewModel MainWindowViewModel
         {
-            get { return new MainWindowViewModel(new FakeProfileService()); }
+            get { return new MainWindowViewModel(new ProfileService()); }
         }
     }
 }

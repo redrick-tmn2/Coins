@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -54,9 +55,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CountryService.cs" />
+    <Compile Include="CurrencyService.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Interfaces\ICountryService.cs" />
+    <Compile Include="Interfaces\ICurrencyService.cs" />
     <Compile Include="ProfileService.cs" />
     <Compile Include="Interfaces\IProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -66,6 +77,27 @@
       <Project>{A298FD1E-BBB6-464D-9617-0FA4A82CA5D4}</Project>
       <Name>CoinsApplication.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\russia_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saint_kitts_and_nevis_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\one_rouble.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curSymbol1088-1091-1073.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curSymbol36.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

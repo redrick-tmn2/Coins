@@ -26,13 +26,11 @@ namespace CoinsApplication
             var container = new Container();
 
             // Register your types, for instance:
-            container.Register<IProfileService, FakeProfileService>(Lifestyle.Singleton);
+            container.Register<IProfileService, ProfileService>(Lifestyle.Singleton);
+            container.Register<ICountryService, CountryService>(Lifestyle.Singleton);
+            container.Register<ICurrencyService, CurrencyService>(Lifestyle.Singleton);
 
             // Register your windows and view models:
-            
-            //container.Register<MainWindow>();
-            //container.Register<MainWindowViewModel>();
-
             container.Verify();
 
             return container;

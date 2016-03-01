@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CoinsApplication.FakeServices.Properties {
+namespace CoinsApplication.Services.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CoinsApplication.FakeServices.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CoinsApplication.FakeServices.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CoinsApplication.Services.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,56 @@ namespace CoinsApplication.FakeServices.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap curSymbol1088_1091_1073 {
+            get {
+                object obj = ResourceManager.GetObject("curSymbol1088_1091_1073", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap curSymbol36 {
+            get {
+                object obj = ResourceManager.GetObject("curSymbol36", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap one_rouble {
+            get {
+                object obj = ResourceManager.GetObject("one_rouble", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap russia_64 {
+            get {
+                object obj = ResourceManager.GetObject("russia_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap saint_kitts_and_nevis_64 {
+            get {
+                object obj = ResourceManager.GetObject("saint_kitts_and_nevis_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

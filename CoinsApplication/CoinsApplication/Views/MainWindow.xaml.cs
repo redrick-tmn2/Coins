@@ -10,7 +10,7 @@ namespace CoinsApplication.Views
         public MainWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
-
+            
             DataContext = mainWindowViewModel;
         }
     }
