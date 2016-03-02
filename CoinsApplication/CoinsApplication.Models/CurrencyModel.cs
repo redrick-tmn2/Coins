@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.Models
 {
     public class CurrencyModel : ObservableObject
     {
-        private string _name;
-        public string Name
+        private string _title;
+        public string Title
         {
-            get { return _name; }
-            set { Set(ref _name, value); }
+            get { return _title; }
+            set { Set(ref _title, value); }
         }
 
         private byte[] _image;

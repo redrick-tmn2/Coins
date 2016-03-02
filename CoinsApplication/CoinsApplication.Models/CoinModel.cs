@@ -19,7 +19,7 @@ namespace CoinsApplication.Models
         }
 
         private CountryModel _country;
-        public CountryModel CountryModel
+        public CountryModel Country
         {
             get { return _country; }
             set { Set(ref _country, value); }

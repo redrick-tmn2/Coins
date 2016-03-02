@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using CoinsApplication.Models;
-using CoinsApplication.Services;
 using CoinsApplication.Services.Interfaces;
 using GalaSoft.MvvmLight;
 
@@ -9,9 +8,6 @@ namespace CoinsApplication.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly IProfileService _profileService;
-        private readonly ICountryService _countryService;
-
         private readonly ObservableCollection<ProfileViewModel> _profiles = new ObservableCollection<ProfileViewModel>();
         public ObservableCollection<ProfileViewModel> Profiles
         {
@@ -31,32 +27,46 @@ namespace CoinsApplication.ViewModel
             get { return _countries; }
         }
 
-
-        public MainWindowViewModel(IProfileService profileService, ICountryService countryService)
+        private readonly ObservableCollection<CurrencyModel> _currencies = new ObservableCollection<CurrencyModel>();
+        public ObservableCollection<CurrencyModel> Currencies
         {
-            _profileService = profileService;
-            _countryService = countryService;
-
-            RefreshProfiles();
+            get { return _currencies; }
         }
-        /*
-        private void RefreshCountries()
+
+        public MainWindowViewModel(IProfileService profileService, ICountryService countryService, ICurrencyService currencyService)
         {
-            var allCountries = _countryService.GetAllCountries();
+            RefreshCountries(countryService);
+            RefreshCurrencies(currencyService);
+            RefreshProfiles(profileService);
+        }
+
+        private void RefreshCurrencies(ICurrencyService currencyService)
+        {
+            var allCurrencies = currencyService.GetAllCurrencies();
+
+            Currencies.Clear();
+
+            foreach (var currency in allCurrencies)
+            {
+                Currencies.Add(currency);
+            }
+        }
+
+        private void RefreshCountries(ICountryService countryService)
+        {
+            var allCountries = countryService.GetAllCountries();
 
             Countries.Clear();
 
-            foreach (var profile in allCountries)
+            foreach (var country in allCountries)
             {
-                Countries.Add(new ProfileViewModel(profile));
+                Countries.Add(country);
             }
-
-            SelectedProfile = Profiles.FirstOrDefault();
         }
-        */
-        private void RefreshProfiles()
+
+        private void RefreshProfiles(IProfileService profileService)
         {
-            var allProfiles = _profileService.GetAllProfiles();
+            var allProfiles = profileService.GetAllProfiles();
 
             Profiles.Clear();
 

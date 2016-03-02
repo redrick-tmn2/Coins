@@ -1,8 +1,6 @@
 ﻿using System;
-using CoinsApplication.FakeServices;
 using CoinsApplication.Services;
 using CoinsApplication.Services.Interfaces;
-using CoinsApplication.ViewModel;
 using CoinsApplication.Views;
 using SimpleInjector;
 

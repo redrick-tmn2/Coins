@@ -1,0 +1,17 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CoinsApplication.Converters">
+
+    <DataTemplate x:Key="ComboBoxImageItemTemplate">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+            </StackPanel.Resources>
+            
+            <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}" Height="16" Margin="1 0 1 0"/>
+            <TextBlock Text="{Binding Title}" Margin="1 0 1 0"/>
+        </StackPanel>
+    </DataTemplate>
+    
+</ResourceDictionary>

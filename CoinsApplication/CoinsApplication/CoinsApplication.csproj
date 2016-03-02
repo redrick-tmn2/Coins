@@ -84,6 +84,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\TagEditor.cs" />
     <Compile Include="Converters\ByteArrayToImageSource.cs" />
+    <Compile Include="DesignTime\DesignTimeResources.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -91,7 +92,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\ProfileViewModel.cs" />
-    <Compile Include="ViewModel\SampleData\FakeCoinViewModelProvider.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -99,6 +99,14 @@
       <DependentUpon>TagEditorControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Templates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
