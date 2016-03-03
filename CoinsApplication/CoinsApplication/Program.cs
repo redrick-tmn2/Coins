@@ -1,8 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using CoinsApplication.Services;
+using CoinsApplication.Services.Implementation.Data;
+using CoinsApplication.Services.Implementation.System;
 using CoinsApplication.Services.Interfaces;
 using CoinsApplication.Views;
+using GalaSoft.MvvmLight;
 using SimpleInjector;
+using Container = SimpleInjector.Container;
 
 namespace CoinsApplication
 {
@@ -18,15 +23,23 @@ namespace CoinsApplication
             RunApplication(container);
         }
 
-        private static Container Bootstrap()
+        internal static Container Bootstrap()
         {
             // Create the container as usual.
             var container = new Container();
 
             // Register your types, for instance:
+            container.Register<IDialogService, DialogService>(Lifestyle.Singleton);
+            container.Register<IImageReaderService, ImageReaderService>(Lifestyle.Singleton);
+
             container.Register<IProfileService, ProfileService>(Lifestyle.Singleton);
             container.Register<ICountryService, CountryService>(Lifestyle.Singleton);
             container.Register<ICurrencyService, CurrencyService>(Lifestyle.Singleton);
+
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                //Register design mode specific services
+            }
 
             // Register your windows and view models:
             container.Verify();

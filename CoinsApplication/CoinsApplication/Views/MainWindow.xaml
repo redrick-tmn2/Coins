@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:designTime="clr-namespace:CoinsApplication.DesignTime"
+        xmlns:controls="clr-namespace:CoinsApplication.Views.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800" 
         d:DataContext="{x:Static designTime:DesignTimeResources.MainWindowViewModel}">
@@ -42,6 +43,7 @@
             </Grid.ColumnDefinitions>
 
             <ListView x:Name="ListView" ItemsSource="{Binding SelectedProfile.Model.Coins}" SelectedItem="{Binding SelectedProfile.SelectedCoin}" DisplayMemberPath="Title" Margin="{StaticResource DefaultThickness}">
+
             </ListView>
 
             <Border Grid.Column="1" BorderThickness="1" BorderBrush="{Binding ElementName=ListView, Path=BorderBrush}"  Margin="{StaticResource DefaultThickness}">
@@ -53,8 +55,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Image MinHeight="100" MinWidth="100" HorizontalAlignment="Center" Margin="{StaticResource DefaultThickness}" Source="{Binding SelectedProfile.SelectedCoin.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"/>
-
+                    <controls:ImageControl DataContext="{Binding SelectedProfile}" />
+                    
                     <TextBox Grid.Row="1" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedProfile.SelectedCoin.Title}"></TextBox>
                     <ComboBox Grid.Row="2" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Currency}" ItemTemplate="{StaticResource ComboBoxImageItemTemplate}"></ComboBox>
                     <ComboBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Country}" ItemTemplate="{StaticResource ComboBoxImageItemTemplate}"></ComboBox>

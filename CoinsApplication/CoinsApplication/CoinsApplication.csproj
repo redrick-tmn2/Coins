@@ -92,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\ProfileViewModel.cs" />
+    <Compile Include="ViewModel\Factories\ProfileViewModelFactory.cs" />
+    <Compile Include="Views\Controls\ImageControl.xaml.cs">
+      <DependentUpon>ImageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -101,6 +105,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\ImageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Templates.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -164,6 +172,9 @@
       <Project>{8AB151DD-3C63-45B2-94BB-7678CCBD3D32}</Project>
       <Name>CoinsApplication.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

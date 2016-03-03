@@ -2,17 +2,14 @@
 using System.Linq;
 using CoinsApplication.Models;
 using CoinsApplication.Services.Interfaces;
+using CoinsApplication.ViewModel.Factories;
 using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<ProfileViewModel> _profiles = new ObservableCollection<ProfileViewModel>();
-        public ObservableCollection<ProfileViewModel> Profiles
-        {
-            get { return _profiles; }
-        }
+        public ObservableCollection<ProfileViewModel> Profiles { get; } = new ObservableCollection<ProfileViewModel>();
 
         private ProfileViewModel _selectedProfile;
         public ProfileViewModel SelectedProfile
@@ -21,23 +18,18 @@ namespace CoinsApplication.ViewModel
             set { Set(ref _selectedProfile, value); }
         }
 
-        private readonly ObservableCollection<CountryModel> _countries = new ObservableCollection<CountryModel>();
-        public ObservableCollection<CountryModel> Countries
-        {
-            get { return _countries; }
-        }
+        public ObservableCollection<CountryModel> Countries { get; } = new ObservableCollection<CountryModel>();
 
-        private readonly ObservableCollection<CurrencyModel> _currencies = new ObservableCollection<CurrencyModel>();
-        public ObservableCollection<CurrencyModel> Currencies
-        {
-            get { return _currencies; }
-        }
+        public ObservableCollection<CurrencyModel> Currencies { get; } = new ObservableCollection<CurrencyModel>();
 
-        public MainWindowViewModel(IProfileService profileService, ICountryService countryService, ICurrencyService currencyService)
+        public MainWindowViewModel(IProfileService profileService, 
+            ICountryService countryService, 
+            ICurrencyService currencyService, 
+            ProfileViewModelFactory profileViewModelFactory)
         {
             RefreshCountries(countryService);
             RefreshCurrencies(currencyService);
-            RefreshProfiles(profileService);
+            RefreshProfiles(profileService, profileViewModelFactory);
         }
 
         private void RefreshCurrencies(ICurrencyService currencyService)
@@ -64,7 +56,7 @@ namespace CoinsApplication.ViewModel
             }
         }
 
-        private void RefreshProfiles(IProfileService profileService)
+        private void RefreshProfiles(IProfileService profileService, ProfileViewModelFactory profileViewModelFactory)
         {
             var allProfiles = profileService.GetAllProfiles();
 
@@ -72,7 +64,8 @@ namespace CoinsApplication.ViewModel
 
             foreach (var profile in allProfiles)
             {
-                Profiles.Add(new ProfileViewModel(profile));
+                var profileViewModel = profileViewModelFactory.Create(profile);
+                Profiles.Add(profileViewModel);
             }
 
             SelectedProfile = Profiles.FirstOrDefault();

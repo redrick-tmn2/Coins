@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CoinsApplication.FakeServices;
 using CoinsApplication.Models;
+using CoinsApplication.Services.Extensions;
 using CoinsApplication.Services.Interfaces;
 
-namespace CoinsApplication.Services
+namespace CoinsApplication.Services.Implementation.Data
 {
     public class ProfileService : IProfileService
     {
