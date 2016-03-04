@@ -3,23 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:designTime="clr-namespace:CoinsApplication.DesignTime"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{Binding SelectedProfile, Source={x:Static designTime:DesignTimeResources.MainWindowViewModel} }">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="../Templates.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="../Converters.xaml"></ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
+             d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <Image MinHeight="100" MinWidth="100" HorizontalAlignment="Center" 
+        <Label Content="Image:" Style="{DynamicResource DescriptionHeaderStyle}" />
+
+        <StackPanel Orientation="Horizontal">
+            <Image Height="100" Width="100" HorizontalAlignment="Center" 
                Margin="{StaticResource DefaultThickness}" 
                Source="{Binding SelectedCoin.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"/>
-        <Button HorizontalAlignment="Center" Command="{Binding UpdateCoinImageCommand}" CommandParameter="{Binding SelectedCoin}">Browse...</Button>
+
+            <Button HorizontalAlignment="Center" 
+                Style="{DynamicResource AccentedSquareButtonStyle}" 
+                Command="{Binding UpdateCoinImageCommand}" 
+                CommandParameter="{Binding SelectedCoin}">Browse...</Button>
+            
+        </StackPanel>
     </StackPanel>
 </UserControl>

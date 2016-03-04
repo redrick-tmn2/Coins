@@ -6,41 +6,16 @@
         xmlns:controls="clr-namespace:CoinsApplication.Views.Controls"
         xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Coins" Height="600" Width="800" 
+        Title="Coins" Height="600" Width="800"
+        ShowIconOnTitleBar="True"
+        Icon="pack://application:,,,/CoinsApplication;component/Resources/Coin-us-dollar-icon.png"
         
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
-    <Grid>
-        <Grid.ColumnDefinitions>
-
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Model.Name" HorizontalAlignment="Left" MinWidth="200">
-            </ComboBox>
-        </Grid>
-
-        <Grid Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*"></ColumnDefinition>
-                <ColumnDefinition Width="0.3*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <ListView x:Name="ListView" ItemsSource="{Binding SelectedProfile.Model.Coins}" SelectedItem="{Binding SelectedProfile.SelectedCoin}" DisplayMemberPath="Title" Margin="{StaticResource DefaultThickness}">
-
-            </ListView>
-
-            <Border Grid.Column="1" BorderThickness="1" BorderBrush="{Binding ElementName=ListView, Path=BorderBrush}"  Margin="{StaticResource DefaultThickness}">
-                <Grid >
+    <mahApps:MetroWindow.Flyouts>
+        <mahApps:FlyoutsControl>
+            <mahApps:Flyout Header="Edit the coin" Position="Right" Width="200" x:Name="Flyout1">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -51,8 +26,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    
-                    <controls:ImageControl DataContext="{Binding SelectedProfile}" />
+                    <controls:ImageControl DataContext="{Binding SelectedProfile}" d:DataContext="{Binding SelectedProfile}"/>
 
                     <Label Grid.Row="1" Content="Title:" Style="{DynamicResource DescriptionHeaderStyle}" />
                     <TextBox Grid.Row="2" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedProfile.SelectedCoin.Title}"></TextBox>
@@ -63,7 +37,39 @@
                     <Label Grid.Row="5" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
                     <ComboBox Grid.Row="6" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Country}" ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>
                 </Grid>
-            </Border>
+            </mahApps:Flyout>
+        </mahApps:FlyoutsControl>
+    </mahApps:MetroWindow.Flyouts>
+    
+    <Grid Margin="{StaticResource DefaultThickness}">
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0 0 0 2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Model.Name" HorizontalAlignment="Left" MinWidth="200">
+            </ComboBox>
         </Grid>
+
+        <ListView x:Name="ListView" Grid.Row="1" ItemsSource="{Binding SelectedProfile.Model.Coins}" SelectedItem="{Binding SelectedProfile.SelectedCoin}" DisplayMemberPath="Title" SelectionChanged="ListView_OnSelectionChanged" >
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"></GridViewColumn>
+                        <GridViewColumn Header="Currency" DisplayMemberBinding="{Binding Currency.Title}"></GridViewColumn>
+                        <GridViewColumn Header="Country" DisplayMemberBinding="{Binding Country.Title}"></GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </mahApps:MetroWindow>

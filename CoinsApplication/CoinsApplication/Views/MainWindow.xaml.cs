@@ -1,4 +1,4 @@
-﻿using CoinsApplication.ViewModel;
+﻿using System.Windows.Controls;
 
 namespace CoinsApplication.Views
 {
@@ -10,8 +10,11 @@ namespace CoinsApplication.Views
         public MainWindow()
         {
             InitializeComponent();
-            
-            //DataContext = mainWindowViewModel;
+        }
+
+        private void ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Flyout1.IsOpen = true;
         }
     }
 }
