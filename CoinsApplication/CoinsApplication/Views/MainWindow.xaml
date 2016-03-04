@@ -7,14 +7,22 @@
         xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Coins" Height="600" Width="800"
+      
         ShowIconOnTitleBar="True"
+                     
+        BorderThickness="0" 
+        GlowBrush="Black"
+        ResizeMode="CanResizeWithGrip"
+
+        WindowTransitionsEnabled="False"
+        WindowStartupLocation="CenterScreen"
         Icon="pack://application:,,,/CoinsApplication;component/Resources/Coin-us-dollar-icon.png"
         
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <mahApps:MetroWindow.Flyouts>
         <mahApps:FlyoutsControl>
-            <mahApps:Flyout Header="Edit the coin" Position="Right" Width="200" x:Name="Flyout1">
+            <mahApps:Flyout x:Name="EditFlyout" Header="Edit the coin" Position="Right" Width="300">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -56,11 +64,22 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Model.Name" HorizontalAlignment="Left" MinWidth="200">
+            <ComboBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" DisplayMemberPath="Model.Name" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="200" Height="16">
             </ComboBox>
+
+            <Button Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}" 
+                    Width="40" Height="40" HorizontalAlignment="Right" Click="OnEditClick">
+                <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
         </Grid>
 
-        <ListView x:Name="ListView" Grid.Row="1" ItemsSource="{Binding SelectedProfile.Model.Coins}" SelectedItem="{Binding SelectedProfile.SelectedCoin}" DisplayMemberPath="Title" SelectionChanged="ListView_OnSelectionChanged" >
+        <ListView x:Name="ListView" Grid.Row="1" ItemsSource="{Binding SelectedProfile.Model.Coins}" SelectedItem="{Binding SelectedProfile.SelectedCoin}" DisplayMemberPath="Title" >
             <ListView.View>
                 <GridView>
                     <GridView.Columns>

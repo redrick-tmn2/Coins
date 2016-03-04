@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace CoinsApplication.Views
 {
@@ -12,9 +13,9 @@ namespace CoinsApplication.Views
             InitializeComponent();
         }
 
-        private void ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnEditClick(object sender, RoutedEventArgs e)
         {
-            Flyout1.IsOpen = true;
+            EditFlyout.IsOpen = true;
         }
     }
 }
