@@ -11,11 +11,11 @@ namespace CoinsApplication.Models
             set { Set(ref _title, value); }
         }
 
-        private byte[] _image;
-        public byte[] Image
+        private string _code;
+        public string Code
         {
-            get { return _image; }
-            set { Set(ref _image, value); }
+            get { return _code; }
+            set { Set(ref _code, value); }
         }
     }
 }

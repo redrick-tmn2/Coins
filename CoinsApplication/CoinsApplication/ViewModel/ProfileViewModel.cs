@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using CoinsApplication.Models;
-using CoinsApplication.Services;
 using CoinsApplication.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;

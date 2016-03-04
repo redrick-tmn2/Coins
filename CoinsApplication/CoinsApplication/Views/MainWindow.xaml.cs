@@ -7,11 +7,11 @@ namespace CoinsApplication.Views
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow(MainWindowViewModel mainWindowViewModel)
+        public MainWindow()
         {
             InitializeComponent();
             
-            DataContext = mainWindowViewModel;
+            //DataContext = mainWindowViewModel;
         }
     }
 }

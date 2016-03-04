@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CoinsApplication.Models;
-using CoinsApplication.Services.Extensions;
 using CoinsApplication.Services.Interfaces;
 
 namespace CoinsApplication.Services.Implementation.Data
@@ -12,12 +11,12 @@ namespace CoinsApplication.Services.Implementation.Data
                 new CurrencyModel
                 {
                     Title = "Russia Rouble",
-                    Image = Properties.Resources.curSymbol1088_1091_1073.ToByteArray()
+                    Code = "RUB"
                 },
                 new CurrencyModel
                 {
                     Title = "East Caribbean Dollar",
-                    Image = Properties.Resources.curSymbol36.ToByteArray()
+                    Code = "XCD"
                 },
             }; 
 

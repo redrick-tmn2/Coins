@@ -1,17 +1,22 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:CoinsApplication.Converters">
+    xmlns:models="clr-namespace:CoinsApplication.Models;assembly=CoinsApplication.Models">
 
-    <DataTemplate x:Key="ComboBoxImageItemTemplate">
+    <DataTemplate x:Key="CountryItemTemplate" DataType="{x:Type models:CountryModel}">
         <StackPanel Orientation="Horizontal">
-            <StackPanel.Resources>
-                <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
-            </StackPanel.Resources>
-            
+
             <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}" Height="16" Margin="1 0 1 0"/>
             <TextBlock Text="{Binding Title}" Margin="1 0 1 0"/>
         </StackPanel>
     </DataTemplate>
-    
+
+
+    <DataTemplate x:Key="CurrencyItemTemplate" DataType="{x:Type models:CurrencyModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Code}" Margin="1 0 1 0" FontSize="12" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Title}" Margin="1 0 1 0"/>
+        </StackPanel>
+    </DataTemplate>
+
 </ResourceDictionary>

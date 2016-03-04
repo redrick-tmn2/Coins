@@ -1,22 +1,15 @@
-﻿<Window x:Class="CoinsApplication.Views.MainWindow"
+﻿<mahApps:MetroWindow x:Class="CoinsApplication.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:designTime="clr-namespace:CoinsApplication.DesignTime"
         xmlns:controls="clr-namespace:CoinsApplication.Views.Controls"
+        xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" 
-        d:DataContext="{x:Static designTime:DesignTimeResources.MainWindowViewModel}">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Converters.xaml"/>
-                <ResourceDictionary Source="Styles.xaml"/>
-                <ResourceDictionary Source="Templates.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        Title="Coins" Height="600" Width="800" 
+        
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
+        d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <Grid>
         <Grid.ColumnDefinitions>
 
@@ -53,15 +46,24 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <controls:ImageControl DataContext="{Binding SelectedProfile}" />
                     
-                    <TextBox Grid.Row="1" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedProfile.SelectedCoin.Title}"></TextBox>
-                    <ComboBox Grid.Row="2" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Currency}" ItemTemplate="{StaticResource ComboBoxImageItemTemplate}"></ComboBox>
-                    <ComboBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Country}" ItemTemplate="{StaticResource ComboBoxImageItemTemplate}"></ComboBox>
+                    <controls:ImageControl DataContext="{Binding SelectedProfile}" />
+
+                    <Label Grid.Row="1" Content="Title:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                    <TextBox Grid.Row="2" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedProfile.SelectedCoin.Title}"></TextBox>
+
+                    <Label Grid.Row="3" Content="Currency:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                    <ComboBox Grid.Row="4" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Currency}" ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>
+
+                    <Label Grid.Row="5" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                    <ComboBox Grid.Row="6" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedProfile.SelectedCoin.Country}" ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>
                 </Grid>
             </Border>
         </Grid>
     </Grid>
-</Window>
+</mahApps:MetroWindow>
