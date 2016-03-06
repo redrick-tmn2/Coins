@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Windows.Media;
+using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.Models
 {
@@ -11,8 +12,8 @@ namespace CoinsApplication.Models
             set { Set(ref _title, value); }
         }
 
-        private byte[] _image;
-        public byte[] Image
+        private ImageSource _image;
+        public ImageSource Image
         {
             get { return _image; }
             set { Set(ref _image, value); }

@@ -19,9 +19,9 @@
 
 
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Converters.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Styles.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Templates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/Templates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <viewModel:ViewModelLocator x:Key="ViewModelLocator"></viewModel:ViewModelLocator>

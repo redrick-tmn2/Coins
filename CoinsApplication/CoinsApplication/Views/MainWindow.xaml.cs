@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using MahApps.Metro.Controls;
 
 namespace CoinsApplication.Views
 {
@@ -11,11 +11,6 @@ namespace CoinsApplication.Views
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void OnEditClick(object sender, RoutedEventArgs e)
-        {
-            EditFlyout.IsOpen = true;
         }
     }
 }

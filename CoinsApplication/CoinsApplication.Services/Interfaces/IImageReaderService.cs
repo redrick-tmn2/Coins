@@ -1,7 +1,9 @@
-﻿namespace CoinsApplication.Services.Interfaces
+﻿using System.Windows.Media;
+
+namespace CoinsApplication.Services.Interfaces
 {
     public interface IImageReaderService
     {
-        byte[] ReadImage(string fileName);
+        ImageSource ReadImage(string fileName);
     }
 }

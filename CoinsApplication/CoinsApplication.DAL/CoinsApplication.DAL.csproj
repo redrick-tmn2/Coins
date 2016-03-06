@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Currency.cs" />
-    <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\Coin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

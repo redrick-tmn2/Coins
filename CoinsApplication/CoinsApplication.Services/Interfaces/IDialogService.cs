@@ -1,7 +1,11 @@
-﻿namespace CoinsApplication.Services.Interfaces
+﻿using System.Windows;
+
+namespace CoinsApplication.Services.Interfaces
 {
     public interface IDialogService
     {
-        string OpenFileDialog();
+        string ShowOpenFileDialog();
+
+        MessageBoxResult ShowMessageBox(string text);
     }
 }

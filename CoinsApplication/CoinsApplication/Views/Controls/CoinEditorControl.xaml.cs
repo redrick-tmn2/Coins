@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CoinsApplication.Views
+namespace CoinsApplication.Views.Controls
 {
     /// <summary>
-    /// Interaction logic for TagEditorControl.xaml
+    /// Interaction logic for CoinEditorControl.xaml
     /// </summary>
-    public partial class TagEditorControl : UserControl
+    public partial class CoinEditorControl : UserControl
     {
-        public TagEditorControl()
+        public CoinEditorControl()
         {
             InitializeComponent();
         }

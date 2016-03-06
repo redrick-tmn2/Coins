@@ -1,6 +1,7 @@
 ﻿using CoinsApplication.Services.Implementation.Data;
 using CoinsApplication.Services.Implementation.System;
 using CoinsApplication.Services.Interfaces;
+using CoinsApplication.ViewModel;
 using GalaSoft.MvvmLight;
 using SimpleInjector;
 
@@ -24,9 +25,11 @@ namespace CoinsApplication
             container.Register<IDialogService, DialogService>(Lifestyle.Singleton);
             container.Register<IImageReaderService, ImageReaderService>(Lifestyle.Singleton);
 
-            container.Register<IProfileService, ProfileService>(Lifestyle.Singleton);
+            container.Register<ICoinService, CoinService>(Lifestyle.Singleton);
             container.Register<ICountryService, CountryService>(Lifestyle.Singleton);
             container.Register<ICurrencyService, CurrencyService>(Lifestyle.Singleton);
+
+            container.Register<MainWindowViewModel>(Lifestyle.Singleton);
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

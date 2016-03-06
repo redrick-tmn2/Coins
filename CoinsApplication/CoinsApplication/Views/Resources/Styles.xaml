@@ -1,0 +1,23 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Thickness x:Key="DefaultThickness">2</Thickness>
+    
+    <Style x:Key="ExpanderGroupStyle" TargetType="{x:Type GroupItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Expander IsExpanded="True">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Name.Image}" Height="16" Margin="0 0 1 0"/>
+                                <TextBlock Text="{Binding Name.Title}" Foreground="White"  VerticalAlignment="Bottom" />
+                            </StackPanel>
+                        </Expander.Header>
+                        <ItemsPresenter />
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

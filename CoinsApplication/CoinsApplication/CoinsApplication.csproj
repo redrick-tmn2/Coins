@@ -62,6 +62,7 @@
       <HintPath>..\packages\SimpleInjector.3.1.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -85,25 +86,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\TagEditor.cs" />
-    <Compile Include="Converters\ByteArrayToImageSource.cs" />
-    <Compile Include="DesignTime\DesignTimeResources.cs" />
+    <Compile Include="Converters\DebuggingConverter.cs" />
+    <Compile Include="Factories\CoinModelFactory.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\ProfileViewModel.cs" />
-    <Compile Include="ViewModel\Factories\ProfileViewModelFactory.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\Controls\CoinEditorControl.xaml.cs">
+      <DependentUpon>CoinEditorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\CollectionControl.xaml.cs">
+      <DependentUpon>CollectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\ImageControl.xaml.cs">
       <DependentUpon>ImageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\MainMenuControl.xaml.cs">
+      <DependentUpon>MainMenuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TagEditorControl.xaml.cs">
-      <DependentUpon>TagEditorControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -113,27 +117,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Controls\CoinEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\CollectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controls\ImageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Templates.xaml">
+    <Page Include="Views\Controls\MainMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Templates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Styles.xaml">
+    <Page Include="Views\Resources\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Converters.xaml">
+    <Page Include="Views\Resources\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TagEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -192,6 +204,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NoImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

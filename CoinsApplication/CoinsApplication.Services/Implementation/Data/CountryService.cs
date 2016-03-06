@@ -12,12 +12,12 @@ namespace CoinsApplication.Services.Implementation.Data
                 new CountryModel
                 {
                     Title = "Russia",
-                    Image = Properties.Resources.russia_64.ToByteArray(),
+                    Image = Properties.Resources.russia_64.ToImageSource(),
                 },
                 new CountryModel
                 {
                     Title = "Saint Kitts and Nevis",
-                    Image = Properties.Resources.saint_kitts_and_nevis_64.ToByteArray()
+                    Image = Properties.Resources.saint_kitts_and_nevis_64.ToImageSource()
                 }
             }; 
 

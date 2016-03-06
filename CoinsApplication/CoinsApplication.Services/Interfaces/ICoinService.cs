@@ -3,8 +3,8 @@ using CoinsApplication.Models;
 
 namespace CoinsApplication.Services.Interfaces
 {
-    public interface IProfileService
+    public interface ICoinService
     {
-        IEnumerable<ProfileModel> GetAllProfiles();
+        IEnumerable<CoinModel> GetAllCoins();
     }
 }
