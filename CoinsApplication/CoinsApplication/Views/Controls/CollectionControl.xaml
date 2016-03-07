@@ -9,14 +9,25 @@
              d:DesignHeight="300" d:DesignWidth="600">
     <ListView x:Name="ListView"
             ItemsSource="{Binding Coins}" 
+            SelectionMode="Single"
             SelectedItem="{Binding SelectedCoin}"
             DisplayMemberPath="Title">
         <ListView.View>
             <GridView>
                 <GridView.Columns>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"></GridViewColumn>
-                    <GridViewColumn Header="Currency" DisplayMemberBinding="{Binding Currency.Title}"></GridViewColumn>
-                    <GridViewColumn Header="Country" DisplayMemberBinding="{Binding Country.Title}"></GridViewColumn>
+                    <GridViewColumn Header="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" 
+                                    DisplayMemberBinding="{Binding Title}"
+                                    HeaderTemplate="{StaticResource TitleHeaderTemplate}">
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" 
+                                    DisplayMemberBinding="{Binding Currency.Title}"
+                                    HeaderTemplate="{StaticResource CurrencyHeaderTemplate}">
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" 
+                                    DisplayMemberBinding="{Binding Country.Title}"
+                                    HeaderTemplate="{StaticResource CountryHeaderTemplate}"></GridViewColumn>
                 </GridView.Columns>
             </GridView>
         </ListView.View>

@@ -24,7 +24,7 @@
                                     <Setter Property="Fill" Value="#00000000"></Setter>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=Image}" Value="True">
-                                            <Setter Property="Fill" Value="#AAFFFFFF"></Setter>
+                                            <Setter Property="Fill" Value="#FFFFFFFF"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

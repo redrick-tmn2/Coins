@@ -1,6 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewModel="clr-namespace:CoinsApplication.ViewModel"
     xmlns:models="clr-namespace:CoinsApplication.Models;assembly=CoinsApplication.Models">
 
     <DataTemplate x:Key="CountryItemTemplate" DataType="{x:Type models:CountryModel}">
@@ -14,6 +15,161 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Code}" Margin="1 0 1 0" FontSize="12" FontWeight="Bold"/>
             <TextBlock Text="{Binding Title}" Margin="1 0 1 0"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FilterButtonContentTemplate">
+        <Rectangle Width="12" Height="12" Fill="Black">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TitleHeaderTemplate" DataType="viewModel:MainWindowViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Title" VerticalAlignment="Center"></TextBlock>
+
+            <Button x:Name="ShowFilterButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareButtonStyle}"
+                    ContentTemplate="{StaticResource FilterButtonContentTemplate}"
+                    Height="12" BorderThickness="0">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsOpen"
+                                        Storyboard.Target="{Binding ElementName=FilterPopup}">
+                                        <BooleanAnimationUsingKeyFrames.KeyFrames>
+                                            <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"></DiscreteBooleanKeyFrame>
+                                        </BooleanAnimationUsingKeyFrames.KeyFrames>
+                                    </BooleanAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Popup x:Name="FilterPopup" StaysOpen="False" 
+                   Placement="Relative" PlacementTarget="{Binding ElementName=ShowFilterButton}"
+                   PopupAnimation="Scroll" AllowsTransparency="True">
+                <Border BorderBrush="{DynamicResource ControlBorderBrush}" 
+                        BorderThickness="1"
+                        Background="{DynamicResource WindowBackgroundBrush}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding TitleFilterPattern, UpdateSourceTrigger=PropertyChanged}" Width="120" Margin="2"></TextBox>
+
+                        <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="30" Height="30" Command="{Binding ClearTitleFilterPatternCommand}">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CurrencyHeaderTemplate" DataType="viewModel:MainWindowViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Currency" VerticalAlignment="Center"></TextBlock>
+
+            <Button x:Name="ShowFilterButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareButtonStyle}"
+                    ContentTemplate="{StaticResource FilterButtonContentTemplate}"
+                    Height="12" BorderThickness="0">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsOpen"
+                                        Storyboard.Target="{Binding ElementName=FilterPopup}">
+                                        <BooleanAnimationUsingKeyFrames.KeyFrames>
+                                            <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"></DiscreteBooleanKeyFrame>
+                                        </BooleanAnimationUsingKeyFrames.KeyFrames>
+                                    </BooleanAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Popup x:Name="FilterPopup" StaysOpen="False" 
+                   Placement="Relative" PlacementTarget="{Binding ElementName=ShowFilterButton}"
+                   PopupAnimation="Scroll" AllowsTransparency="True">
+                <Border BorderBrush="{DynamicResource ControlBorderBrush}" 
+                        BorderThickness="1"
+                        Background="{DynamicResource WindowBackgroundBrush}">
+                    <ListBox ItemsSource="{Binding Currencies}"  ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="200">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Model.Code}" Margin="1 0 1 0" FontSize="12" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Model.Title}" Margin="1 0 1 0"/>
+                                    </StackPanel>
+                                </CheckBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Popup>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CountryHeaderTemplate" DataType="viewModel:MainWindowViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Country" VerticalAlignment="Center"></TextBlock>
+
+            <Button x:Name="ShowFilterButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareButtonStyle}"
+                    ContentTemplate="{StaticResource FilterButtonContentTemplate}"
+                    Height="12" BorderThickness="0">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsOpen"
+                                        Storyboard.Target="{Binding ElementName=FilterPopup}">
+                                        <BooleanAnimationUsingKeyFrames.KeyFrames>
+                                            <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"></DiscreteBooleanKeyFrame>
+                                        </BooleanAnimationUsingKeyFrames.KeyFrames>
+                                    </BooleanAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Popup x:Name="FilterPopup" StaysOpen="False" 
+                   Placement="Relative" PlacementTarget="{Binding ElementName=ShowFilterButton}"
+                   PopupAnimation="Scroll" AllowsTransparency="True">
+                <Border BorderBrush="{DynamicResource ControlBorderBrush}" 
+                        BorderThickness="1"
+                        Background="{DynamicResource WindowBackgroundBrush}">
+                    <ListBox ItemsSource="{Binding Countries}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="200">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Model.Image}" Height="16" Margin="1 0 1 0"/>
+                                        <TextBlock Text="{Binding Model.Title}" Margin="1 0 1 0"/>
+                                    </StackPanel>
+                                </CheckBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Popup>
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

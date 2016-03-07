@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CoinsApplication.Views.Controls"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
              d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
@@ -34,10 +33,15 @@
             <TextBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedCoin.Title}"></TextBox>
 
             <Label Grid.Row="4" Content="Currency:" Style="{DynamicResource DescriptionHeaderStyle}" />
-            <ComboBox Grid.Row="5" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedCoin.Currency}" ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>
+            <ComboBox Grid.Row="5" Margin="{StaticResource DefaultThickness}" 
+                      ItemsSource="{Binding Currencies, Converter={StaticResource CurrencyVeiwModelsToCurrencyModelsConverter}}" 
+                      SelectedItem="{Binding SelectedCoin.Currency}" 
+                      ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>
 
             <Label Grid.Row="6" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
-            <ComboBox Grid.Row="7" Margin="{StaticResource DefaultThickness}" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCoin.Country}" ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>
+            <ComboBox Grid.Row="7" Margin="{StaticResource DefaultThickness}" 
+                      ItemsSource="{Binding Countries, Converter={StaticResource CountryVeiwModelsToCountryModelsConverter}}" SelectedItem="{Binding SelectedCoin.Country}"
+                      ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>
 
             <Label Grid.Row="8" Content="Year:" Style="{DynamicResource DescriptionHeaderStyle}" />
             <TextBox Grid.Row="9" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedCoin.Year}"></TextBox>

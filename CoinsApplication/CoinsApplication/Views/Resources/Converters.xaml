@@ -4,4 +4,6 @@
     xmlns:converters="clr-namespace:CoinsApplication.Converters">
     <converters:NoImageConverter x:Key="NoImageConverter"></converters:NoImageConverter>
     <converters:DebuggingConverter x:Key="DebuggingConverter"></converters:DebuggingConverter>
+    <converters:CurrencyVeiwModelsToCurrencyModelsConverter x:Key="CurrencyVeiwModelsToCurrencyModelsConverter"></converters:CurrencyVeiwModelsToCurrencyModelsConverter>
+    <converters:CountryVeiwModelsToCountryModelsConverter x:Key="CountryVeiwModelsToCountryModelsConverter"></converters:CountryVeiwModelsToCountryModelsConverter>
 </ResourceDictionary>

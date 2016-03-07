@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
-using CoinsApplication.Factories;
+using CoinsApplication.Extensions;
 using CoinsApplication.Models;
 using CoinsApplication.Services.Interfaces;
 using GalaSoft.MvvmLight;
@@ -12,21 +14,26 @@ namespace CoinsApplication.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly CoinModelFactory _coinFactory = new CoinModelFactory();
-
         private readonly IDialogService _dialogService;
         private readonly IImageReaderService _imageReaderService;
+        private readonly ICoinService _coinService;
 
         public ICollectionView CoinsCollectionView { get; set; }
 
-        private bool _isEditOpened;
-        public bool IsEditOpened
-        {
-            get { return _isEditOpened; }
-            set { Set(ref _isEditOpened, value); }
-        }
+        #region Collections
+
+        public ObservableCollection<CoinModel> Coins { get; } = new ObservableCollection<CoinModel>();
+
+        public ObservableCollection<CountryViewModel> Countries { get; } = new ObservableCollection<CountryViewModel>();
+
+        public ObservableCollection<CurrencyViewModel> Currencies { get; } = new ObservableCollection<CurrencyViewModel>();
+
+        #endregion
+
+        #region Properties
 
         private CoinModel _selectedCoin;
+
         public CoinModel SelectedCoin
         {
             get { return _selectedCoin; }
@@ -40,12 +47,39 @@ namespace CoinsApplication.ViewModel
             }
         }
 
-        public ObservableCollection<CoinModel> Coins { get; } = new ObservableCollection<CoinModel>();
+        private bool _isEditOpened;
 
-        public ObservableCollection<CountryModel> Countries { get; } = new ObservableCollection<CountryModel>();
+        public bool IsEditOpened
+        {
+            get { return _isEditOpened; }
+            set { Set(ref _isEditOpened, value); }
+        }
 
-        public ObservableCollection<CurrencyModel> Currencies { get; } = new ObservableCollection<CurrencyModel>();
+        private string _titleFilterPattern;
 
+        public string TitleFilterPattern
+        {
+            get { return _titleFilterPattern; }
+            set
+            {
+                Set(ref _titleFilterPattern, value);
+                CoinsCollectionView.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region ClearTitleFilterPatternCommand
+
+        public RelayCommand ClearTitleFilterPatternCommand { get; }
+
+        private void ClearTitleFilterPattern()
+        {
+            TitleFilterPattern = string.Empty;
+        }
+
+        #endregion
+        
         #region UpdateCoinImageCommand
 
         public RelayCommand<CoinModel> UpdateCoinImageCommand { get; }
@@ -84,10 +118,12 @@ namespace CoinsApplication.ViewModel
         {
             try
             {
-                var coinModel = _coinFactory.Create();
+                var coinModel = _coinService.CreateNewCoin();
                 Coins.Add(coinModel);
                 SelectedCoin = coinModel;
                 IsEditOpened = true;
+
+                CoinsCollectionView.Refresh();
             }
             catch (Exception ex)
             {
@@ -113,6 +149,7 @@ namespace CoinsApplication.ViewModel
                 if (coin != null)
                 {
                     Coins.Remove(coin);
+                    CoinsCollectionView.Refresh();
                 }
             }
             catch (Exception ex)
@@ -147,11 +184,15 @@ namespace CoinsApplication.ViewModel
         {
             _dialogService = dialogService;
             _imageReaderService = imageReaderService;
+            _coinService = coinService;
 
             UpdateCoinImageCommand = new RelayCommand<CoinModel>(UpdateCoinImage, CanUpdateCoinImage);
-            AddNewCoinCommand = new RelayCommand(AddNewCoin);
+            
             RemoveCoinCommand = new RelayCommand<CoinModel>(RemoveCoin, CanRemoveCoin);
             EditCoinCommand = new RelayCommand<CoinModel>(EditCoin, CanEditCoin);
+            AddNewCoinCommand = new RelayCommand(AddNewCoin);
+
+            ClearTitleFilterPatternCommand = new RelayCommand(ClearTitleFilterPattern);
 
             RefreshCountries(countryService);
             RefreshCurrencies(currencyService);
@@ -166,45 +207,94 @@ namespace CoinsApplication.ViewModel
             }
 
             CoinsCollectionView = CollectionViewSource.GetDefaultView(Coins);
-            //CoinsCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Country"));
-            //ActiveLiveGrouping(CoinsCollectionView, new[] { "Country", });
+
+            CoinsCollectionView.Filter = item =>
+            {
+                var coin = item as CoinModel;
+                if (coin == null)
+                {
+                    return false;
+                }
+
+                return IsTitlePassed(coin) && IsCurrencyPassed(coin) && IsCountryPassed(coin);
+            };
+
+            ActiveLiveFiltering(CoinsCollectionView, new List<string> { "Title", "Country", "Currency" });
+        }
+        
+        //TODO: should be refactored
+        private void ActiveLiveFiltering(ICollectionView collectionView, IList<string> involvedProperties)
+        {
+            var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
+            if (collectionViewLiveShaping == null) return;
+            if (collectionViewLiveShaping.CanChangeLiveFiltering)
+            {
+                foreach (string propName in involvedProperties)
+                    collectionViewLiveShaping.LiveFilteringProperties.Add(propName);
+                collectionViewLiveShaping.IsLiveFiltering = true;
+            }
         }
 
-        //should be refactored
-        //private void ActiveLiveGrouping(ICollectionView collectionView, IList<string> involvedProperties)
-        //{
-        //    var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
-        //    if (collectionViewLiveShaping == null)
-        //    {
-        //        return;
-        //    }
+        private bool IsTitlePassed(CoinModel coin)
+        {
+            return _titleFilterPattern == null || coin.Title.Contains(_titleFilterPattern, StringComparison.OrdinalIgnoreCase);
+        }
 
-        //    if (collectionViewLiveShaping.CanChangeLiveGrouping)
-        //    {
-        //        foreach (string propName in involvedProperties)
-        //            collectionViewLiveShaping.LiveGroupingProperties.Add(propName);
-        //        collectionViewLiveShaping.IsLiveGrouping = true;
-        //    }
-        //}
+        private bool IsCurrencyPassed(CoinModel coin)
+        {
+            return Currencies.Any(x => x.IsSelected && x.Model == coin.Currency);
+        }
+
+        private bool IsCountryPassed(CoinModel coin)
+        {
+            return Countries.Any(x => x.IsSelected && x.Model == coin.Country);
+        }
+
+        private void ClearCurrencies()
+        {
+            foreach (var currency in Currencies)
+            {
+                currency.IsSelectedChanged -= IsSelectedChanged;
+            }
+
+            Currencies.Clear();
+        }
 
         private void RefreshCurrencies(ICurrencyService currencyService)
         {
-            Currencies.Clear();
-
+            ClearCurrencies();
             foreach (var currency in currencyService.GetAllCurrencies())
             {
-                Currencies.Add(currency);
+                var currencyViewModel = new CurrencyViewModel(currency);
+                currencyViewModel.IsSelectedChanged += IsSelectedChanged;
+                Currencies.Add(currencyViewModel);
             }
+        }
+
+        private void ClearCountries()
+        {
+            foreach (var country in Countries)
+            {
+                country.IsSelectedChanged -= IsSelectedChanged;
+            }
+
+            Countries.Clear();
         }
 
         private void RefreshCountries(ICountryService countryService)
         {
-            Countries.Clear();
-
+            ClearCountries();
             foreach (var country in countryService.GetAllCountries())
             {
-                Countries.Add(country);
+                var countryViewModel = new CountryViewModel(country);
+                countryViewModel.IsSelectedChanged += IsSelectedChanged;
+                Countries.Add(countryViewModel);
             }
+        }
+
+        private void IsSelectedChanged(object sender, EventArgs eventArgs)
+        {
+            CoinsCollectionView.Refresh();
         }
     }   
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoinsApplication.Models;
 using CoinsApplication.Services.Extensions;
@@ -9,6 +10,8 @@ namespace CoinsApplication.Services.Implementation.Data
     public class CoinService : ICoinService
     {
         private readonly IEnumerable<CoinModel> _coins;
+        private readonly CountryModel _defaultCountry;
+        private readonly CurrencyModel _defaultCurrency;
 
         public CoinService(ICountryService countryService, ICurrencyService currencyService)
         {
@@ -20,6 +23,9 @@ namespace CoinsApplication.Services.Implementation.Data
 
             var dollar = allCurrencies.LastOrDefault();
             var stKits = allCountries.LastOrDefault();
+
+            _defaultCountry = stKits;
+            _defaultCurrency = dollar;
 
             _coins = new List<CoinModel>
             {
@@ -51,6 +57,17 @@ namespace CoinsApplication.Services.Implementation.Data
         public IEnumerable<CoinModel> GetAllCoins()
         {
             return _coins;
+        }
+
+        public CoinModel CreateNewCoin()
+        {
+            return new CoinModel()
+            {
+                Country = _defaultCountry,
+                Currency = _defaultCurrency,
+                Year = DateTime.Now.Year,
+                Title = "New Coin"
+            };
         }
     }
 }

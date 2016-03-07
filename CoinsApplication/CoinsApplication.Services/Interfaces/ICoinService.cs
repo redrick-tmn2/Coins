@@ -6,5 +6,6 @@ namespace CoinsApplication.Services.Interfaces
     public interface ICoinService
     {
         IEnumerable<CoinModel> GetAllCoins();
+        CoinModel CreateNewCoin();
     }
 }
