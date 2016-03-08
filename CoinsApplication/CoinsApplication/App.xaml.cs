@@ -30,6 +30,7 @@ namespace CoinsApplication
             container.Register<ICurrencyService, CurrencyService>(Lifestyle.Singleton);
 
             container.Register<MainWindowViewModel>(Lifestyle.Singleton);
+            container.Register<FilterViewModel>(Lifestyle.Singleton);
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

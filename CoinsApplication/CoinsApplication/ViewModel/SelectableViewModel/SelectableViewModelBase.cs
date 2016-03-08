@@ -1,7 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 
-namespace CoinsApplication.ViewModel
+namespace CoinsApplication.ViewModel.SelectableViewModel
 {
     public class SelectableViewModelBase<T> : ViewModelBase
         where T : class
@@ -21,11 +21,17 @@ namespace CoinsApplication.ViewModel
                 IsSelectedChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        private SelectableViewModelBase()
+        {
+            IsSelected = true;
+        }
 
         public SelectableViewModelBase(T model)
         {
             Model = model;
             IsSelected = true;
         }
+
+        public static SelectableViewModelBase<T> Empty { get; } = new SelectableViewModelBase<T>();
     }
 }

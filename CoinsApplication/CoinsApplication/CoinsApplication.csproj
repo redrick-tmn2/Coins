@@ -86,12 +86,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\CoinViewModelToCoinModelConverter.cs" />
     <Compile Include="Converters\DebuggingConverter.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="ViewModel\SelectableViewModelBase.cs" />
-    <Compile Include="ViewModel\CountryViewModel.cs" />
-    <Compile Include="ViewModel\CurrencyViewModel.cs" />
+    <Compile Include="ViewModel\FilterViewModel.cs" />
+    <Compile Include="ViewModel\SelectableViewModel\SelectableViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -130,6 +129,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\MainMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\FilterTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

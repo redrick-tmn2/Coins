@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/Converters.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/Styles.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/Templates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/FilterTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <viewModel:ViewModelLocator x:Key="ViewModelLocator"></viewModel:ViewModelLocator>

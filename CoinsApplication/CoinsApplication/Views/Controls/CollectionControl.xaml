@@ -15,17 +15,17 @@
         <ListView.View>
             <GridView>
                 <GridView.Columns>
-                    <GridViewColumn Header="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" 
+                    <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
                                     DisplayMemberBinding="{Binding Title}"
                                     HeaderTemplate="{StaticResource TitleHeaderTemplate}">
                     </GridViewColumn>
 
-                    <GridViewColumn Header="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" 
+                    <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
                                     DisplayMemberBinding="{Binding Currency.Title}"
                                     HeaderTemplate="{StaticResource CurrencyHeaderTemplate}">
                     </GridViewColumn>
 
-                    <GridViewColumn Header="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" 
+                    <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
                                     DisplayMemberBinding="{Binding Country.Title}"
                                     HeaderTemplate="{StaticResource CountryHeaderTemplate}"></GridViewColumn>
                 </GridView.Columns>

@@ -61,10 +61,8 @@ namespace CoinsApplication.Services.Implementation.Data
 
         public CoinModel CreateNewCoin()
         {
-            return new CoinModel()
+            return new CoinModel
             {
-                Country = _defaultCountry,
-                Currency = _defaultCurrency,
                 Year = DateTime.Now.Year,
                 Title = "New Coin"
             };
