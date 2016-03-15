@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using CoinsApplication.DAL.Entities;
+using CoinsApplication.DAL.Infrastructure;
+using CoinsApplication.DAL.Repositories;
 using CoinsApplication.Extensions;
 using CoinsApplication.Models;
-using CoinsApplication.Services.Interfaces;
 using CoinsApplication.ViewModel.SelectableViewModel;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 
 namespace CoinsApplication.ViewModel
 {
@@ -22,17 +23,6 @@ namespace CoinsApplication.ViewModel
             nameof(CoinModel.Title)
         };
 
-        #region ClearTitleFilterPatternCommand
-
-        public RelayCommand ClearTitleFilterPatternCommand { get; }
-
-        private void ClearTitleFilterPattern()
-        {
-            TitleFilterPattern = string.Empty;
-        }
-
-        #endregion
-
         #region public properties
 
         private string _titleFilterPattern;
@@ -46,24 +36,26 @@ namespace CoinsApplication.ViewModel
             }
         }
 
-        public List<SelectableViewModelBase<CountryModel>> Countries { get; } = new List<SelectableViewModelBase<CountryModel>>();
+        public List<SelectableViewModelBase<Country>> Countries { get; } = new List<SelectableViewModelBase<Country>>();
 
-        public List<SelectableViewModelBase<CurrencyModel>> Currencies { get; } = new List<SelectableViewModelBase<CurrencyModel>>();
+        public List<SelectableViewModelBase<Currency>> Currencies { get; } = new List<SelectableViewModelBase<Currency>>();
 
         #endregion
 
         #region ctor
 
-        public FilterViewModel(ICountryService countryService,
-            ICurrencyService currencyService,
+        public FilterViewModel(ICountryRepository countryRepository,
+            ICurrencyRepository currencyRepository,
+            IUnitOfWorkFactory unitOfWorkFactory,
             MainWindowViewModel mainViewModel)
         {
             _mainWindowViewModel = mainViewModel;
-
-            ClearTitleFilterPatternCommand = new RelayCommand(ClearTitleFilterPattern);
-
-            RefreshCurrencies(currencyService);
-            RefreshCountries(countryService);
+            
+            using (unitOfWorkFactory.Create())
+            {
+                RefreshCurrencies(currencyRepository);
+                RefreshCountries(countryRepository);
+            }
 
             SetFilter();
         }
@@ -108,18 +100,22 @@ namespace CoinsApplication.ViewModel
 
         private bool IsCurrencyPassed(CoinModel coin)
         {
-            return Currencies.Any(x => x.IsSelected && x.Model == coin.Currency);
+            var selectedCurrencies = Currencies.Where(x => x.IsSelected);
+
+            return coin.Currency == null ? selectedCurrencies.Any(x => x.Model == null) : selectedCurrencies.Any(x => coin.Currency.Id == x.Model.Id);
         }
 
         private bool IsCountryPassed(CoinModel coin)
         {
-            return Countries.Any(x => x.IsSelected && x.Model == coin.Country);
+            var selectedCountries = Countries.Where(x => x.IsSelected);
+
+             return coin.Country == null ? selectedCountries.Any(x => x.Model == null) : selectedCountries.Any(x => coin.Country.Id == x.Model.Id);
         }
 
-        private void RefreshCurrencies(ICurrencyService currencyService)
+        private void RefreshCurrencies(ICurrencyRepository currencyService)
         {
-            Currencies.Add(SelectableViewModelBase<CurrencyModel>.Empty);
-            Currencies.AddRange(currencyService.GetAllCurrencies().Select(x => new SelectableViewModelBase<CurrencyModel>(x)));
+            Currencies.Add(SelectableViewModelBase<Currency>.Empty);
+            Currencies.AddRange(currencyService.GetAll().Select(x => new SelectableViewModelBase<Currency>(x)));
 
             foreach (var currencyViewModel in Currencies)
             {
@@ -127,10 +123,10 @@ namespace CoinsApplication.ViewModel
             }
         }
 
-        private void RefreshCountries(ICountryService countryService)
+        private void RefreshCountries(ICountryRepository countryService)
         {
-            Countries.Add(SelectableViewModelBase<CountryModel>.Empty);
-            Countries.AddRange(countryService.GetAllCountries().Select(x => new SelectableViewModelBase<CountryModel>(x)));
+            Countries.Add(SelectableViewModelBase<Country>.Empty);
+            Countries.AddRange(countryService.GetAll().Select(x => new SelectableViewModelBase<Country>(x)));
 
             foreach (var countryViewModel in Countries)
             {

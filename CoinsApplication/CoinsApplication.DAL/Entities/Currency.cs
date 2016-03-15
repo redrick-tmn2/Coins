@@ -1,11 +1,16 @@
-﻿namespace CoinsApplication.DAL.Entities
+﻿using System.Collections.Generic;
+using CoinsApplication.DAL.Infrastructure;
+
+namespace CoinsApplication.DAL.Entities
 {
-    public class Currency
+    public class Currency : IEntity
     {
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
-        public string Code { get; set; }
+        public virtual string Code { get; set; }
+
+        public virtual IList<Coin> Coins { get; set; }
     }
 }

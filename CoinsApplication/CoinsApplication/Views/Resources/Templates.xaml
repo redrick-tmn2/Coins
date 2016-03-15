@@ -1,20 +1,19 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewModel="clr-namespace:CoinsApplication.ViewModel"
-    xmlns:models="clr-namespace:CoinsApplication.Models;assembly=CoinsApplication.Models">
+    xmlns:entities="clr-namespace:CoinsApplication.DAL.Entities;assembly=CoinsApplication.DAL">
 
-    <DataTemplate x:Key="CountryItemTemplate" DataType="{x:Type models:CountryModel}">
+    <DataTemplate x:Key="CountryItemTemplate" DataType="{x:Type entities:Country}">
         <StackPanel Orientation="Horizontal">
             <Image Source="{Binding Image}" Height="16" Margin="1 0 1 0"/>
-            <TextBlock Text="{Binding Title}" Margin="1 0 1 0"/>
+            <TextBlock Text="{Binding Name}" Margin="1 0 1 0"/>
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate x:Key="CurrencyItemTemplate" DataType="{x:Type models:CurrencyModel}">
+    <DataTemplate x:Key="CurrencyItemTemplate" DataType="{x:Type entities:Currency}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Code}" Margin="1 0 1 0" FontSize="12" FontWeight="Bold"/>
-            <TextBlock Text="{Binding Title}" Margin="1 0 1 0"/>
+            <TextBlock Text="{Binding Name}" Margin="1 0 1 0"/>
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

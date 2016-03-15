@@ -1,9 +1,12 @@
-﻿namespace CoinsApplication.ViewModel
+﻿using System.Windows.Markup;
+using Microsoft.Practices.ServiceLocation;
+
+namespace CoinsApplication.ViewModel
 {
     public class ViewModelLocator
     {
-        public MainWindowViewModel MainWindowViewModel => App.Container.GetInstance<MainWindowViewModel>();
+        public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
 
-        public FilterViewModel FilterViewModel => App.Container.GetInstance<FilterViewModel>();
+        public FilterViewModel FilterViewModel => ServiceLocator.Current.GetInstance<FilterViewModel>();
     }
 }

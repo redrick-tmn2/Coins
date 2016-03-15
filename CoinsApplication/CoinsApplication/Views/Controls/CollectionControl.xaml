@@ -21,12 +21,12 @@
                     </GridViewColumn>
 
                     <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
-                                    DisplayMemberBinding="{Binding Currency.Title}"
+                                    DisplayMemberBinding="{Binding Currency.Name}"
                                     HeaderTemplate="{StaticResource CurrencyHeaderTemplate}">
                     </GridViewColumn>
 
                     <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
-                                    DisplayMemberBinding="{Binding Country.Title}"
+                                    DisplayMemberBinding="{Binding Country.Name}"
                                     HeaderTemplate="{StaticResource CountryHeaderTemplate}"></GridViewColumn>
                 </GridView.Columns>
             </GridView>

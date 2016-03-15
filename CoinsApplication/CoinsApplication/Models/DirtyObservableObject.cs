@@ -1,0 +1,35 @@
+using System;
+using System.Runtime.CompilerServices;
+using CoinsApplication.DAL.Infrastructure;
+using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.Utils;
+using GalaSoft.MvvmLight;
+
+namespace CoinsApplication.Models
+{
+    public abstract class DirtyObservableObject : ObservableObject, IDirtySerializable
+    {
+        protected IDirtySerializableCacheService SerializableCacheService { get; }
+
+        protected DirtyObservableObject(IDirtySerializableCacheService serializableCacheService)
+        {
+            if (serializableCacheService == null)
+                throw new ArgumentNullException(nameof(serializableCacheService));
+
+            SerializableCacheService = serializableCacheService;
+        }
+
+        public void SetAndDirty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        {
+            if (Set(propertyName, ref field, newValue))
+            {
+                IsDirty = true;
+                SerializableCacheService.Add(this);
+            }
+        }
+
+        public bool IsDirty { get; set; }
+
+        public abstract IEntity GetEntity();
+    }
+}

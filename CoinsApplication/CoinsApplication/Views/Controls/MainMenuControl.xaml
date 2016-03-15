@@ -13,7 +13,16 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-
+            <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                        Command="{Binding SaveAllCommand}">
+                <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

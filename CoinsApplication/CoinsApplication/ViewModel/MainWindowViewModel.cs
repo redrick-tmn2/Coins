@@ -4,8 +4,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using CoinsApplication.DAL.Entities;
+using CoinsApplication.DAL.Infrastructure;
+using CoinsApplication.DAL.Repositories;
 using CoinsApplication.Extensions;
 using CoinsApplication.Models;
+using CoinsApplication.Models.Factories;
 using CoinsApplication.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -16,7 +20,8 @@ namespace CoinsApplication.ViewModel
     {
         private readonly IDialogService _dialogService;
         private readonly IImageReaderService _imageReaderService;
-        private readonly ICoinService _coinService;
+        private readonly ICoinModelFactory _coinModelFactory;
+        private readonly IDirtySerializableCacheService _serializableCacheService;
 
         public ICollectionView CoinsCollectionView { get; set; }
 
@@ -24,9 +29,9 @@ namespace CoinsApplication.ViewModel
 
         public ObservableCollection<CoinModel> Coins { get; } = new ObservableCollection<CoinModel>();
 
-        public List<CountryModel> Countries { get; } = new List<CountryModel>();
+        public List<Country> Countries { get; } = new List<Country>();
 
-        public List<CurrencyModel> Currencies { get; } = new List<CurrencyModel>();
+        public List<Currency> Currencies { get; } = new List<Currency>();
 
         #endregion
 
@@ -56,7 +61,7 @@ namespace CoinsApplication.ViewModel
 
 
         #endregion
-        
+
         #region UpdateCoinImageCommand
 
         public RelayCommand<CoinModel> UpdateCoinImageCommand { get; }
@@ -95,11 +100,12 @@ namespace CoinsApplication.ViewModel
         {
             try
             {
-                var coinModel = _coinService.CreateNewCoin();
+                var coinModel = _coinModelFactory.Create();
+
                 Coins.Add(coinModel);
                 SelectedCoin = coinModel;
-                IsEditOpened = true;
 
+                IsEditOpened = true;
                 CoinsCollectionView.Refresh();
             }
             catch (Exception ex)
@@ -153,27 +159,58 @@ namespace CoinsApplication.ViewModel
 
         #endregion
 
-        public MainWindowViewModel(ICoinService coinService, 
-            ICountryService countryService, 
-            ICurrencyService currencyService, 
+        #region SaveAllCommand
+
+        public RelayCommand SaveAllCommand { get; }
+
+        private bool CanSaveAll()
+        {
+            return !_serializableCacheService.IsEmpty;
+        }
+
+        private void SaveAll()
+        {
+            _serializableCacheService.SaveAll();
+        }
+
+        #endregion
+
+        public MainWindowViewModel(ICoinRepository coinRepository, 
+            ICountryRepository countryRepository, 
+            ICurrencyRepository currencyRepository, 
             IDialogService dialogService, 
-            IImageReaderService imageReaderService)
+            IImageReaderService imageReaderService,
+            IUnitOfWorkFactory unitOfWorkFactory,
+            ICoinModelFactory coinModelFactory,
+            IDirtySerializableCacheService serializableCacheService)
         {
             _dialogService = dialogService;
             _imageReaderService = imageReaderService;
-            _coinService = coinService;
+            _coinModelFactory = coinModelFactory;
+            _serializableCacheService = serializableCacheService;
 
             UpdateCoinImageCommand = new RelayCommand<CoinModel>(UpdateCoinImage, CanUpdateCoinImage);
             
             RemoveCoinCommand = new RelayCommand<CoinModel>(RemoveCoin, CanRemoveCoin);
             EditCoinCommand = new RelayCommand<CoinModel>(EditCoin, CanEditCoin);
+            SaveAllCommand = new RelayCommand(SaveAll, CanSaveAll);
             AddNewCoinCommand = new RelayCommand(AddNewCoin);
 
-            Countries.AddRange(countryService.GetAllCountries());
-            Currencies.AddRange(currencyService.GetAllCurrencies());
-            Coins.AddRange(coinService.GetAllCoins());
+            _serializableCacheService.CacheChanged += CacheChangedHandler;
+
+            using (unitOfWorkFactory.Create())
+            {
+                Countries.AddRange(countryRepository.GetAll());
+                Currencies.AddRange(currencyRepository.GetAll());
+                Coins.AddRange(coinRepository.GetAll().Select(x => _coinModelFactory.Create(x)));
+            }
 
             CoinsCollectionView = CollectionViewSource.GetDefaultView(Coins);
+        }
+
+        private void CacheChangedHandler(object sender, EventArgs eventArgs)
+        {
+            SaveAllCommand.RaiseCanExecuteChanged();
         }
     }   
 }

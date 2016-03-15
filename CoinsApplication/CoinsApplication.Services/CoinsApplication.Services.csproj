@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoinsApplication.Services</RootNamespace>
     <AssemblyName>CoinsApplication.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,8 +40,16 @@
     <Reference Include="GalaSoft.MvvmLight.Platform">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -60,18 +69,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\System\DialogService.cs" />
-    <Compile Include="Implementation\Data\CountryService.cs" />
-    <Compile Include="Implementation\Data\CurrencyService.cs" />
-    <Compile Include="Extensions\ImageExtensions.cs" />
-    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="Implementation\DirtySerializableCacheService.cs" />
     <Compile Include="Interfaces\IDialogService.cs" />
-    <Compile Include="Interfaces\ICountryService.cs" />
-    <Compile Include="Interfaces\ICurrencyService.cs" />
+    <Compile Include="Interfaces\Utils\IDirtySerializable.cs" />
+    <Compile Include="Interfaces\IDirtySerializableCacheService.cs" />
     <Compile Include="Interfaces\IFlyoutService.cs" />
     <Compile Include="Interfaces\IImageReaderService.cs" />
     <Compile Include="Implementation\System\ImageReaderService.cs" />
-    <Compile Include="Implementation\Data\CoinService.cs" />
-    <Compile Include="Interfaces\ICoinService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -83,9 +87,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoinsApplication.Models\CoinsApplication.Models.csproj">
-      <Project>{A298FD1E-BBB6-464D-9617-0FA4A82CA5D4}</Project>
-      <Name>CoinsApplication.Models</Name>
+    <ProjectReference Include="..\CoinsApplication.DAL.Infrastructure\CoinsApplication.DAL.Infrastructure.csproj">
+      <Project>{ca36c53d-d6e9-42be-a1af-e5a31fb7b6c6}</Project>
+      <Name>CoinsApplication.DAL.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.DAL.NHibernate\CoinsApplication.DAL.NHibernate.csproj">
+      <Project>{3322F3E2-B082-4CCB-8228-151367E22A21}</Project>
+      <Name>CoinsApplication.DAL.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.DAL\CoinsApplication.DAL.csproj">
+      <Project>{E453094C-DB88-4369-A08C-45B17B6BD282}</Project>
+      <Name>CoinsApplication.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.Misc\CoinsApplication.Misc.csproj">
+      <Project>{A728708F-2FC6-412B-961E-B9AFB7130F2A}</Project>
+      <Name>CoinsApplication.Misc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +125,7 @@
   <ItemGroup>
     <None Include="Resources\curSymbol36.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,8 @@
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:viewModel="clr-namespace:CoinsApplication.ViewModel" 
              d1p1:Ignorable="d" 
-             StartupUri="Views/MainWindow.xaml" >
+             x:Class="CoinsApplication.App"
+             Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
