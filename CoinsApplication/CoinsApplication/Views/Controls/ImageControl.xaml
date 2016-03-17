@@ -8,7 +8,7 @@
              DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <StackPanel>
         <Button Command="{Binding UpdateCoinImageCommand}" 
-                CommandParameter="{Binding SelectedCoin}">
+                CommandParameter="{Binding CoinsCollectionView.CurrentItem}">
             <Button.Template>
                 <ControlTemplate>
                     <Grid Height="160">
@@ -16,7 +16,7 @@
                         <Image x:Name="Image" HorizontalAlignment="Center" 
                                    Stretch="Uniform"
                                    Margin="{StaticResource DefaultThickness}" 
-                                   Source="{Binding SelectedCoin.Image, Converter={StaticResource NoImageConverter}}"/>
+                                   Source="{Binding CoinsCollectionView.CurrentItem.Image, Converter={StaticResource NoImageConverter}}"/>
                         
                         <Rectangle Width="80" Height="80" IsHitTestVisible="False">
                             <Rectangle.Style>

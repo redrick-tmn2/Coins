@@ -39,7 +39,7 @@
 
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40"
                         Command="{Binding EditCoinCommand}"
-                        CommandParameter="{Binding SelectedCoin}">
+                        CommandParameter="{Binding CoinsCollectionView.CurrentItem}">
                 <Rectangle Width="16" Height="16"
                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -50,7 +50,7 @@
 
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
                     Command="{Binding RemoveCoinCommand}"
-                    CommandParameter="{Binding SelectedCoin}">
+                    CommandParameter="{Binding CoinsCollectionView.CurrentItem}">
                 <Rectangle Width="16"
                            Height="16"
                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

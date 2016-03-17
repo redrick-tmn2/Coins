@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Infrastructure;
@@ -10,9 +11,12 @@ using CoinsApplication.DAL.Repositories;
 using CoinsApplication.Extensions;
 using CoinsApplication.Models;
 using CoinsApplication.Models.Factories;
+using CoinsApplication.Properties;
+using CoinsApplication.Services.Implementation;
 using CoinsApplication.Services.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace CoinsApplication.ViewModel
 {
@@ -25,6 +29,8 @@ namespace CoinsApplication.ViewModel
 
         public ICollectionView CoinsCollectionView { get; set; }
 
+        public IWindowWrapper Window { get; set; }
+
         #region Collections
 
         public ObservableCollection<CoinModel> Coins { get; } = new ObservableCollection<CoinModel>();
@@ -36,21 +42,7 @@ namespace CoinsApplication.ViewModel
         #endregion
 
         #region Properties
-
-        private CoinModel _selectedCoin;
-
-        public CoinModel SelectedCoin
-        {
-            get { return _selectedCoin; }
-            set
-            {
-                Set(ref _selectedCoin, value);
-
-                EditCoinCommand.RaiseCanExecuteChanged();
-                UpdateCoinImageCommand.RaiseCanExecuteChanged();
-                RemoveCoinCommand.RaiseCanExecuteChanged();
-            }
-        }
+        public CoinModel SelectedCoin => CoinsCollectionView.CurrentItem as CoinModel;
 
         private bool _isEditOpened;
         public bool IsEditOpened
@@ -86,7 +78,7 @@ namespace CoinsApplication.ViewModel
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessageBox(ex.Message);
+                ThrowUnknownErrorMessageBox(ex);
             }
         }
 
@@ -103,14 +95,14 @@ namespace CoinsApplication.ViewModel
                 var coinModel = _coinModelFactory.Create();
 
                 Coins.Add(coinModel);
-                SelectedCoin = coinModel;
+                CoinsCollectionView.MoveCurrentTo(coinModel);
 
                 IsEditOpened = true;
                 CoinsCollectionView.Refresh();
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessageBox(ex.Message);
+                ThrowUnknownErrorMessageBox(ex);
             }
         }
 
@@ -122,22 +114,25 @@ namespace CoinsApplication.ViewModel
 
         private bool CanRemoveCoin(CoinModel coin)
         {
-            return coin != null;
+            return CoinsCollectionView.CurrentItem != null;
         }
 
-        private void RemoveCoin(CoinModel coin)
+        private async void RemoveCoin(CoinModel coin)
         {
             try
             {
-                if (coin != null)
+                if (SelectedCoin != null && await ThrowWillBeRemovedMessageBox(SelectedCoin) == MessageDialogResult.Affirmative)
                 {
-                    Coins.Remove(coin);
+                    
+                    Coins.Remove(SelectedCoin);
+
+                    CoinsCollectionView.MoveCurrentToNext();
                     CoinsCollectionView.Refresh();
                 }
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessageBox(ex.Message);
+                ThrowUnknownErrorMessageBox(ex);
             }
         }
 
@@ -149,7 +144,7 @@ namespace CoinsApplication.ViewModel
 
         private bool CanEditCoin(CoinModel coin)
         {
-            return coin != null;
+            return SelectedCoin != null;
         }
 
         private void EditCoin(CoinModel coin)
@@ -206,11 +201,31 @@ namespace CoinsApplication.ViewModel
             }
 
             CoinsCollectionView = CollectionViewSource.GetDefaultView(Coins);
+            CoinsCollectionView.CurrentChanged += CoinsCollectionView_CurrentChanged;
+        }
+
+        private void CoinsCollectionView_CurrentChanged(object sender, EventArgs e)
+        {
+            EditCoinCommand.RaiseCanExecuteChanged();
+            UpdateCoinImageCommand.RaiseCanExecuteChanged();
+            RemoveCoinCommand.RaiseCanExecuteChanged();
         }
 
         private void CacheChangedHandler(object sender, EventArgs eventArgs)
         {
             SaveAllCommand.RaiseCanExecuteChanged();
+        }
+
+        private async void ThrowUnknownErrorMessageBox(Exception ex)
+        {
+            await Window.ShowMessageAsync(Resources.UnknownErrorMessageBoxTitle,
+                string.Format(Resources.UnknownErrorMessageBoxText, ex.Message), DialogStyle.Affirmative);
+        }
+
+        private async Task<MessageDialogResult> ThrowWillBeRemovedMessageBox(CoinModel coin)
+        {
+            var message = string.Format(Resources.RemoveCoinMessageBoxText, coin.Title);
+            return await Window.ShowMessageAsync(Resources.RemoveCoinMessageBoxTtitle, message, DialogStyle.AffirmativeAndNegative);
         }
     }   
 }

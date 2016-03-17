@@ -79,5 +79,41 @@ namespace CoinsApplication.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coin {0} will be removed?.
+        /// </summary>
+        internal static string RemoveCoinMessageBoxText {
+            get {
+                return ResourceManager.GetString("RemoveCoinMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coin removing.
+        /// </summary>
+        internal static string RemoveCoinMessageBoxTtitle {
+            get {
+                return ResourceManager.GetString("RemoveCoinMessageBoxTtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        internal static string UnknownErrorMessageBoxText {
+            get {
+                return ResourceManager.GetString("UnknownErrorMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown error.
+        /// </summary>
+        internal static string UnknownErrorMessageBoxTitle {
+            get {
+                return ResourceManager.GetString("UnknownErrorMessageBoxTitle", resourceCulture);
+            }
+        }
     }
 }

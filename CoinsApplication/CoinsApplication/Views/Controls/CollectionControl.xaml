@@ -10,7 +10,7 @@
     <ListView x:Name="ListView"
             ItemsSource="{Binding Coins}" 
             SelectionMode="Single"
-            SelectedItem="{Binding SelectedCoin}"
+              IsSynchronizedWithCurrentItem="True"
             DisplayMemberPath="Title">
         <ListView.View>
             <GridView>

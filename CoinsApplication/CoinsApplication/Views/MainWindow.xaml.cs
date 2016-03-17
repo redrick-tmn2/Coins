@@ -1,5 +1,8 @@
 ﻿using System.Windows;
+using CoinsApplication.Services.Implementation;
+using CoinsApplication.ViewModel;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace CoinsApplication.Views
 {
@@ -11,6 +14,8 @@ namespace CoinsApplication.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            ((MainWindowViewModel)DataContext).Window = new WindowWrapper(this);
         }
     }
 }
