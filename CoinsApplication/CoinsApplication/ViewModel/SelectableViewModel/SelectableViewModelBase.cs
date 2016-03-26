@@ -1,12 +1,13 @@
 ﻿using System;
+using CoinsApplication.DAL.Infrastructure;
 using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.ViewModel.SelectableViewModel
 {
     public class SelectableViewModelBase<T> : ViewModelBase
-        where T : class, new ()
+        where T : class, IEntity
     {
-        public T Model { get; set; }
+        public Entity<T> Model { get; set; }
 
         public event EventHandler IsSelectedChanged;
 
@@ -24,13 +25,23 @@ namespace CoinsApplication.ViewModel.SelectableViewModel
         private SelectableViewModelBase()
         {
             IsSelected = true;
-            Model = new T();
+            Model = null;
         }
 
-        public SelectableViewModelBase(T model)
+        public SelectableViewModelBase(Entity<T> model)
         {
             Model = model;
             IsSelected = true;
+        }
+
+        public bool IsPassed(Entity<T> model)
+        {
+            if (!IsSelected)
+            {
+                return false;
+            }
+
+            return model == Model;
         }
 
         public static SelectableViewModelBase<T> Empty { get; } = new SelectableViewModelBase<T>();

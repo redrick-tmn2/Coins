@@ -73,15 +73,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\WindowWrapper.cs" />
+    <Compile Include="ImageCaching\CachedImage.cs" />
+    <Compile Include="ImageCaching\ImageCacheService.cs" />
+    <Compile Include="Window\WindowWrapper.cs" />
     <Compile Include="Implementation\DialogService.cs" />
-    <Compile Include="Implementation\DialogStyle.cs" />
     <Compile Include="Implementation\DirtySerializableCacheService.cs" />
-    <Compile Include="Implementation\IWindowWrapper.cs" />
-    <Compile Include="Interfaces\IDialogService.cs" />
-    <Compile Include="Interfaces\Utils\IDirtySerializable.cs" />
-    <Compile Include="Interfaces\IDirtySerializableCacheService.cs" />
-    <Compile Include="Interfaces\IImageReaderService.cs" />
     <Compile Include="Implementation\ImageReaderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -89,7 +85,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\MessageDialogStyleExtensions.cs" />
+    <Compile Include="Window\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -110,6 +106,10 @@
     <ProjectReference Include="..\CoinsApplication.Misc\CoinsApplication.Misc.csproj">
       <Project>{A728708F-2FC6-412B-961E-B9AFB7130F2A}</Project>
       <Name>CoinsApplication.Misc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.Services.Interfaces\CoinsApplication.Services.Interfaces.csproj">
+      <Project>{F26B035D-41EF-4934-A433-A680D49B3A29}</Project>
+      <Name>CoinsApplication.Services.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

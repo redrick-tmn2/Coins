@@ -2,7 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.Services.Interfaces;
-using CoinsApplication.Services.Interfaces.Utils;
 using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.Models
@@ -23,9 +22,25 @@ namespace CoinsApplication.Models
         {
             if (Set(propertyName, ref field, newValue))
             {
-                IsDirty = true;
-                SerializableCacheService.Add(this);
+                SetDirty();
             }
+        }
+
+        public void SetAndDirty<T>(T oldValue, T newValue, Action setValue, [CallerMemberName] string propertyName = null)
+        {
+            if (newValue != null && !newValue.Equals(oldValue))
+            {
+                setValue();
+                RaisePropertyChanged(propertyName);
+
+                SetDirty();
+            }
+        }
+
+        public void SetDirty()
+        {
+            IsDirty = true;
+            SerializableCacheService.Add(this);
         }
 
         public bool IsDirty { get; set; }

@@ -9,13 +9,24 @@ namespace CoinsApplication.DAL.NHibernate.Mappings
         {
             Id(x => x.Id);
             Map(x => x.Title).Nullable();
-            Map(x => x.Image).Nullable();
             Map(x => x.Year);
+            
+            HasMany(x => x.Images)
+                .Inverse()
+                .KeyColumn("CoinId")
+                .Cascade.AllDeleteOrphan();
 
             References(x => x.Country)
-                .Column("CountryId");
+                .Column("CountryId")
+                .Nullable()
+                .Cascade
+                .SaveUpdate();
+
             References(x => x.Currency)
-                .Column("CurrencyId");
+                .Column("CurrencyId")
+                .Nullable()
+                .Cascade
+                .SaveUpdate();
         }
     }
 }

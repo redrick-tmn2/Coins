@@ -2,6 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:CoinsApplication.Converters">
-    <converters:NoImageConverter x:Key="NoImageConverter"></converters:NoImageConverter>
+    <converters:CachingImageConverter x:Key="CachingImageConverter"></converters:CachingImageConverter>
     <converters:DebuggingConverter x:Key="DebuggingConverter"></converters:DebuggingConverter>
 </ResourceDictionary>

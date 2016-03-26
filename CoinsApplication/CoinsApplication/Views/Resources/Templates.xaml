@@ -5,7 +5,7 @@
 
     <DataTemplate x:Key="CountryItemTemplate" DataType="{x:Type entities:Country}">
         <StackPanel Orientation="Horizontal">
-            <Image Source="{Binding Image}" Height="16" Margin="1 0 1 0"/>
+            <Image Source="{Binding Flag, Converter={StaticResource CachingImageConverter}}" Height="16" Margin="1 0 1 0"/>
             <TextBlock Text="{Binding Name}" Margin="1 0 1 0"/>
         </StackPanel>
     </DataTemplate>
@@ -15,5 +15,9 @@
             <TextBlock Text="{Binding Code}" Margin="1 0 1 0" FontSize="12" FontWeight="Bold"/>
             <TextBlock Text="{Binding Name}" Margin="1 0 1 0"/>
         </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="ImageTemplate" DataType="{x:Type entities:Image}">
+        <Image Source="{Binding Content, Converter={StaticResource CachingImageConverter}}"/>
     </DataTemplate>
 </ResourceDictionary>

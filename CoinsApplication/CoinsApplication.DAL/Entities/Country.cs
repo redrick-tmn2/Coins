@@ -3,10 +3,8 @@ using CoinsApplication.DAL.Infrastructure;
 
 namespace CoinsApplication.DAL.Entities
 {
-    public class Country : IEntity
+    public class Country : Entity<Country>
     {
-        public virtual int Id { get; set; }
-
         public virtual string Name { get; set; }
 
         public virtual byte[] Flag { get; set; }

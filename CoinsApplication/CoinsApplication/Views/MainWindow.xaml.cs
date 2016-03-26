@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CoinsApplication.Services.Implementation;
+using CoinsApplication.Services.Window;
 using CoinsApplication.ViewModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;

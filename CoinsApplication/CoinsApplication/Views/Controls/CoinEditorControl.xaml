@@ -32,21 +32,23 @@
             <local:ImageControl Grid.Row="1" />
 
             <Label Grid.Row="2" Content="Title:" Style="{DynamicResource DescriptionHeaderStyle}" />
-            <TextBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" Text="{Binding CoinsCollectionView.CurrentItem.Title}"></TextBox>
+            <TextBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" Text="{Binding SelectedCoin.Title, ValidatesOnDataErrors=True}"></TextBox>
 
             <Label Grid.Row="4" Content="Currency:" Style="{DynamicResource DescriptionHeaderStyle}" />
             <ComboBox Grid.Row="5" Margin="{StaticResource DefaultThickness}" 
                       ItemsSource="{Binding Currencies}" 
-                      SelectedItem="{Binding CoinsCollectionView.CurrentItem.Currency}" 
+                      SelectedItem="{Binding CoinsCollectionView.CurrentItem.Currency, ValidatesOnDataErrors=True}" 
                       ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>
 
             <Label Grid.Row="6" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
             <ComboBox Grid.Row="7" Margin="{StaticResource DefaultThickness}" 
-                      ItemsSource="{Binding Countries}" SelectedItem="{Binding CoinsCollectionView.CurrentItem.Country}"
+                      ItemsSource="{Binding Countries}" 
+                      SelectedItem="{Binding CoinsCollectionView.CurrentItem.Country, ValidatesOnDataErrors=True}"
                       ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>
 
             <Label Grid.Row="8" Content="Year:" Style="{DynamicResource DescriptionHeaderStyle}" />
-            <controls:NumericUpDown Grid.Row="9" Margin="{StaticResource DefaultThickness}" Value="{Binding CoinsCollectionView.CurrentItem.Year}"></controls:NumericUpDown>
+            <controls:NumericUpDown Grid.Row="9" Margin="{StaticResource DefaultThickness}" 
+                                    Value="{Binding CoinsCollectionView.CurrentItem.Year}"></controls:NumericUpDown>
         </Grid>
     </ScrollViewer>
 </UserControl>

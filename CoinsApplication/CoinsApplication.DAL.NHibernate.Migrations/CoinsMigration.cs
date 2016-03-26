@@ -2,7 +2,7 @@
 
 namespace CoinsApplication.DAL.NHibernate.Migrations
 {
-    [Migration(1)]
+    [Migration(250320161113)]
     public class CoinsMigration : Migration
     {
         public override void Up()
@@ -14,33 +14,27 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
 
             Create.Table("Country")
                 .WithIdColumn()
-                .WithColumn("Name").AsString().NotNullable()
-                .WithColumn("Flag").AsBinary().Nullable();
+                .WithColumn("Flag").AsBinary()
+                .WithColumn("Name").AsString().NotNullable();
 
             Create.Table("Coin")
                 .WithIdColumn()
                 .WithColumn("Title").AsString()
                 .WithColumn("Year").AsInt32().NotNullable()
-                .WithColumn("Image").AsBinary()
                 .WithColumn("CurrencyId").AsInt32().ForeignKey("Currency", "Id")
                 .WithColumn("CountryId").AsInt32().ForeignKey("Country", "Id");
 
-            Insert.IntoTable("Country").Row(new
-            {
-                Name = "Russia"
-            });
-
-            Insert.IntoTable("Currency").Row(new
-            {
-                Name = "Rouble",
-                Code = "RUB"
-            });
+            Create.Table("Image")
+                .WithIdColumn()
+                .WithColumn("Content").AsBinary()
+                .WithColumn("CoinId").AsInt32().Nullable().ForeignKey("Coin", "Id");
         }
 
         public override void Down()
         {
             Delete.Table("Currency");
             Delete.Table("Country");
+            Delete.Table("Image");
             Delete.Table("Coin");
         }
     }

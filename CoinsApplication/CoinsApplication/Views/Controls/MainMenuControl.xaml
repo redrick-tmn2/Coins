@@ -49,8 +49,7 @@
             </Button>
 
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
-                    Command="{Binding RemoveCoinCommand}"
-                    CommandParameter="{Binding CoinsCollectionView.CurrentItem}">
+                    Command="{Binding RemoveCoinCommand}">
                 <Rectangle Width="16"
                            Height="16"
                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

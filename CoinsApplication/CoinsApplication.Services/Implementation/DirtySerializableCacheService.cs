@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.Repositories;
 using CoinsApplication.Services.Interfaces;
-using CoinsApplication.Services.Interfaces.Utils;
 
 namespace CoinsApplication.Services.Implementation
 {
@@ -12,9 +11,10 @@ namespace CoinsApplication.Services.Implementation
         private readonly ISaveObjectRepository _saveObjectRepository;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        private readonly HashSet<IDirtySerializable> _serializable = new HashSet<IDirtySerializable>();
+        private readonly HashSet<IDirtySerializable> _saveCollection = new HashSet<IDirtySerializable>();
+        private readonly HashSet<IDirtySerializable> _removeCollection = new HashSet<IDirtySerializable>();
 
-        public bool IsEmpty => _serializable.Count == 0;
+        public bool IsEmpty => _saveCollection.Count == 0 && _removeCollection.Count == 0;
 
         public event EventHandler CacheChanged;
 
@@ -32,23 +32,40 @@ namespace CoinsApplication.Services.Implementation
 
         public void Add(IDirtySerializable serializable)
         {
-            _serializable.Add(serializable);
+            _saveCollection.Add(serializable);
             OnCacheChanged();
         }
 
-        public void SaveAll()
+        public void Remove(IDirtySerializable serializable)
+        {
+            _saveCollection.Remove(serializable);
+            _removeCollection.Add(serializable);
+
+            OnCacheChanged();
+        }
+
+        public void Commit()
         {
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {
-                foreach (var dirtySerializable in _serializable)
+                foreach (var dirtySerializable in _removeCollection)
                 {
-                    _saveObjectRepository.Save(dirtySerializable.GetEntity());
+                    var entity = dirtySerializable.GetEntity();
+                    _saveObjectRepository.Remove(entity);
+                    dirtySerializable.IsDirty = false;
+                }
+
+                foreach (var dirtySerializable in _saveCollection)
+                {
+                    var entity = dirtySerializable.GetEntity();
+                    _saveObjectRepository.Save(entity);
                     dirtySerializable.IsDirty = false;
                 }
 
                 unitOfWork.Commit();
 
-                _serializable.Clear();
+                _saveCollection.Clear();
+                _removeCollection.Clear();
                 OnCacheChanged();
             }
         }

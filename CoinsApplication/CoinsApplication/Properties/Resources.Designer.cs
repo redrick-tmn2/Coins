@@ -61,12 +61,39 @@ namespace CoinsApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Would you like to save changes before exit?.
+        /// </summary>
+        internal static string ClosingMessageBoxText {
+            get {
+                return ResourceManager.GetString("ClosingMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closing.
+        /// </summary>
+        internal static string ClosingMessageBoxTitle {
+            get {
+                return ResourceManager.GetString("ClosingMessageBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Coin_us_dollar_icon {
             get {
                 object obj = ResourceManager.GetObject("Coin_us_dollar_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field should not be blank.
+        /// </summary>
+        internal static string ErrorBlankField {
+            get {
+                return ResourceManager.GetString("ErrorBlankField", resourceCulture);
             }
         }
         
@@ -81,7 +108,7 @@ namespace CoinsApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Coin {0} will be removed?.
+        ///   Looks up a localized string similar to Are you sure want to remove {0}?.
         /// </summary>
         internal static string RemoveCoinMessageBoxText {
             get {
@@ -113,6 +140,24 @@ namespace CoinsApplication.Properties {
         internal static string UnknownErrorMessageBoxTitle {
             get {
                 return ResourceManager.GetString("UnknownErrorMessageBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Following items thrown validation issues: {0}.
+        /// </summary>
+        internal static string ValidationFailedMessageBoxText {
+            get {
+                return ResourceManager.GetString("ValidationFailedMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation failed.
+        /// </summary>
+        internal static string ValidationFailedMessageBoxTitle {
+            get {
+                return ResourceManager.GetString("ValidationFailedMessageBoxTitle", resourceCulture);
             }
         }
     }

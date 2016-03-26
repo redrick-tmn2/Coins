@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Repositories;
 using NHibernate.Linq;
@@ -15,6 +16,11 @@ namespace CoinsApplication.DAL.NHibernate.Repository
         public Coin Get(int id)
         {
             return NHibernateHelper.GetSession().Get<Coin>(id);
+        }
+
+        public void Save(Coin entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

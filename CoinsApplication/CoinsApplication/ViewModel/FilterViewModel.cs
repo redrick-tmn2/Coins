@@ -100,16 +100,12 @@ namespace CoinsApplication.ViewModel
 
         private bool IsCurrencyPassed(CoinModel coin)
         {
-            var selectedCurrencies = Currencies.Where(x => x.IsSelected);
-
-            return coin.Currency == null ? selectedCurrencies.Any(x => x.Model == null) : selectedCurrencies.Any(x => coin.Currency.Id == x.Model.Id);
+            return Currencies.Any(x => x.IsPassed(coin.Currency));
         }
 
         private bool IsCountryPassed(CoinModel coin)
         {
-            var selectedCountries = Countries.Where(x => x.IsSelected);
-
-             return coin.Country == null ? selectedCountries.Any(x => x.Model == null) : selectedCountries.Any(x => coin.Country.Id == x.Model.Id);
+            return Countries.Any(x => x.IsPassed(coin.Country));
         }
 
         private void RefreshCurrencies(ICurrencyRepository currencyService)

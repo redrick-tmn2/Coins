@@ -1,14 +1,14 @@
 ﻿using System.Windows;
-using System.Xml.Serialization;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.NHibernate;
 using CoinsApplication.DAL.NHibernate.Migrator;
 using CoinsApplication.DAL.NHibernate.Repository;
 using CoinsApplication.DAL.Repositories;
 using CoinsApplication.Models.Factories;
+using CoinsApplication.Services.ImageCaching;
 using CoinsApplication.Services.Implementation;
-using CoinsApplication.Services.Implementation.System;
 using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.ImageService;
 using CoinsApplication.ViewModel;
 using CoinsApplication.Views;
 using CommonServiceLocator.SimpleInjectorAdapter;
@@ -49,6 +49,8 @@ namespace CoinsApplication
          //   migrator.Migrate(runner => runner.MigrateDown(0));
 #endif
             migrator.Migrate(runner => runner.MigrateUp());
+
+
         }
 
         internal static void Bootstrap()
@@ -67,6 +69,7 @@ namespace CoinsApplication
 
             _container.Register<IDirtySerializableCacheService, DirtySerializableCacheService>(Lifestyle.Singleton);
             _container.Register<ICoinModelFactory, CoinModelFactory>(Lifestyle.Singleton);
+            _container.Register<IImageCacheService, ImageCacheService>(Lifestyle.Singleton);
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -83,6 +86,7 @@ namespace CoinsApplication
             _container.Register<ICoinRepository, CoinRepository>(Lifestyle.Singleton);
             _container.Register<ICurrencyRepository, CurrencyRepository>(Lifestyle.Singleton);
             _container.Register<ICountryRepository, CountryRepository>(Lifestyle.Singleton);
+            _container.Register<IImageRepository, ImageRepository>(Lifestyle.Singleton);
 
             _container.Register<ISaveObjectRepository, SaveObjectRepository>(Lifestyle.Singleton);
         }

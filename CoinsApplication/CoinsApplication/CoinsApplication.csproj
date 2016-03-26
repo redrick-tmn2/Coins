@@ -68,6 +68,10 @@
       <HintPath>..\packages\Portable.CommonServiceLocator.1.2.2\lib\net35\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MvvmValidation, Version=2.0.2.0, Culture=neutral, PublicKeyToken=113792d2053ac461, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmValidation.2.0.2\lib\net40-client\MvvmValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.3.1.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -101,13 +105,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DebuggingConverter.cs" />
-    <Compile Include="Converters\NoImageConverter.cs" />
+    <Compile Include="Converters\CachingImageConverter.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\CoinModel.cs" />
     <Compile Include="Models\DirtyObservableObject.cs" />
     <Compile Include="Models\Factories\CoinModelFactory.cs" />
     <Compile Include="Models\Factories\ICoinModelFactory.cs" />
+    <Compile Include="Models\ValidatatbleObservableObject.cs" />
     <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\SelectableViewModel\SelectableViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -217,6 +223,10 @@
     <ProjectReference Include="..\CoinsApplication.Misc\CoinsApplication.Misc.csproj">
       <Project>{A728708F-2FC6-412B-961E-B9AFB7130F2A}</Project>
       <Name>CoinsApplication.Misc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.Services.Interfaces\CoinsApplication.Services.Interfaces.csproj">
+      <Project>{f26b035d-41ef-4934-a433-a680d49b3a29}</Project>
+      <Name>CoinsApplication.Services.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoinsApplication.Services\CoinsApplication.Services.csproj">
       <Project>{8AB151DD-3C63-45B2-94BB-7678CCBD3D32}</Project>

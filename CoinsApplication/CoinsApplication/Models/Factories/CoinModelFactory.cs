@@ -1,6 +1,7 @@
 ﻿using System;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.ImageService;
 
 namespace CoinsApplication.Models.Factories
 {
@@ -8,11 +9,11 @@ namespace CoinsApplication.Models.Factories
     {
         private readonly IDirtySerializableCacheService _serializableCacheService;
 
-        public CoinModelFactory(IDirtySerializableCacheService serializableCacheService)
+        public CoinModelFactory(IDirtySerializableCacheService serializableCacheService, IImageCacheService imageCacheService)
         {
             if (serializableCacheService == null)
                 throw new ArgumentNullException(nameof(serializableCacheService));
-
+            
             _serializableCacheService = serializableCacheService;
         }
 
@@ -23,7 +24,11 @@ namespace CoinsApplication.Models.Factories
 
         public CoinModel Create()
         {
-            return new CoinModel(_serializableCacheService);
+            var result = new CoinModel(_serializableCacheService);
+
+            _serializableCacheService.Add(result);
+
+            return result;
         }
     }
 }

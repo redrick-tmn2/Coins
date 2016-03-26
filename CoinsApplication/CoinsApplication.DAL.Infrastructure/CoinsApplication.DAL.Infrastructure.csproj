@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity.cs" />
     <Compile Include="IRepositoryBase.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IUnitOfWork.cs" />

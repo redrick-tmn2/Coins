@@ -43,8 +43,10 @@
       <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +58,7 @@
     <Compile Include="CoinMap.cs" />
     <Compile Include="CountryMap.cs" />
     <Compile Include="CurrencyMap.cs" />
+    <Compile Include="ImageMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +72,10 @@
     <ProjectReference Include="..\CoinsApplication.DAL\CoinsApplication.DAL.csproj">
       <Project>{E453094C-DB88-4369-A08C-45B17B6BD282}</Project>
       <Name>CoinsApplication.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoinsApplication.Misc\CoinsApplication.Misc.csproj">
+      <Project>{a728708f-2fc6-412b-961e-b9afb7130f2a}</Project>
+      <Name>CoinsApplication.Misc</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

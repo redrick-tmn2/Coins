@@ -22,13 +22,14 @@ namespace CoinsApplication.DAL.NHibernate.Migrator
         {
             var options = new MigrationOptions
             {
-                PreviewOnly = false, Timeout = 0
+                PreviewOnly = false,
+                Timeout = 0
             };
 
             var factory = new SQLiteProcessorFactory();
             var assembly = Assembly.GetAssembly(typeof(InitialMigration));
-            
-            var announcer = new TextWriterAnnouncer(s => System.Diagnostics.Debug.WriteLine(s));
+
+            var announcer = new TextWriterAnnouncer(s => System.Diagnostics.Debug.WriteLine(s)) { ShowSql = true };
             var migrationContext = new RunnerContext(announcer);
 
             var processor = factory.Create(NHibernateConfigurationFactory.GetConnectionString(), announcer, options);

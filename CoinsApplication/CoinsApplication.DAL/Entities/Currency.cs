@@ -3,10 +3,8 @@ using CoinsApplication.DAL.Infrastructure;
 
 namespace CoinsApplication.DAL.Entities
 {
-    public class Currency : IEntity
+    public class Currency : Entity<Currency>
     {
-        public virtual int Id { get; set; }
-
         public virtual string Name { get; set; }
 
         public virtual string Code { get; set; }
