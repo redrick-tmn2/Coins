@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Coins Collection" Language="1033" Version="1.0.0.0" Manufacturer="Dmitry Kostyanetsky" UpgradeCode="9ae1b942-0206-4224-b71c-e5afc816b575">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate  EmbedCab="yes"/>
+
+		<Feature Id="ProductFeature" Title="Coins Collection" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Coins Collection" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Directory Id="x64Directory" Name="x64">
+        <Component Id="x64Components" Guid="{21662B78-A51D-4299-B830-73E95EAE956E}">
+            <File Source="$(var.CoinsApplication.TargetDir)\x64\SQLite.Interop.dll" Id="x64SQLite.Interop.dll" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Directory Id="x86Directory" Name="x86">
+        <Component Id="x86Components" Guid="{B0C0F5C6-7725-4276-B23B-B8060EB1C68C}">
+            <File Source="$(var.CoinsApplication.TargetDir)\x86\SQLite.Interop.dll" Id="x86SQLite.Interop.dll" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+    
+      
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+        <ComponentRef Id="x86Components" />
+        <ComponentRef Id="x64Components" />
+			   <Component Id="ProductComponent" Guid="{3967AC5A-2739-4967-9176-CC1EA64E8C0E}"> 
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.Infrastructure.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.NHibernate.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.NHibernate.Mappings.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.NHibernate.Migrations.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.exe" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.exe.config" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.Misc.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.Services.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.Services.Interfaces.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CommonServiceLocator.SimpleInjectorAdapter.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\FluentMigrator.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\FluentMigrator.Runner.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\FluentNHibernate.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\GalaSoft.MvvmLight.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\GalaSoft.MvvmLight.Extras.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\GalaSoft.MvvmLight.Platform.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\Iesi.Collections.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\MahApps.Metro.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\Microsoft.Practices.ServiceLocation.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\MvvmValidation.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\NHibernate.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\SimpleInjector.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\System.Data.SQLite.dll" />
+            <File Source="$(var.CoinsApplication.TargetDir)\System.Windows.Interactivity.dll" />
+			   </Component> 
+		</ComponentGroup>
+	</Fragment>
+</Wix>
