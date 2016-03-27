@@ -1,7 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
-using CoinsApplication.DAL.Entities;
 
-namespace CoinsApplication.Services.Interfaces.ImageService
+namespace CoinsApplication.Services.Interfaces.ImageCaching
 {
     public interface ICachedImage
     {

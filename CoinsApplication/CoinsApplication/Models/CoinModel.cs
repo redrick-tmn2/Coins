@@ -3,19 +3,16 @@ using System.Linq;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.Properties;
-using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
 using MvvmValidation;
 
 namespace CoinsApplication.Models
 {
     public class CoinModel : ValidatatbleObservableObject
     {
-        private Coin _coin;
+        private readonly Coin _coin;
 
-        public int Id
-        {
-            get { return _coin.Id; }
-        }
+        public int Id => _coin.Id;
 
         public ObservableCollection<Image> Images { get; } = new ObservableCollection<Image>();
         

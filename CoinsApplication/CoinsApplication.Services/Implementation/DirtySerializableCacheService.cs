@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.Repositories;
-using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
 
 namespace CoinsApplication.Services.Implementation
 {

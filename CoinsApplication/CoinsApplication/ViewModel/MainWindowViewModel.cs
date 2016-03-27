@@ -13,7 +13,9 @@ using CoinsApplication.Models;
 using CoinsApplication.Models.Factories;
 using CoinsApplication.Properties;
 using CoinsApplication.Services.Interfaces;
-using CoinsApplication.Services.Interfaces.ImageService;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
+using CoinsApplication.Services.Interfaces.ImageCaching;
+using CoinsApplication.Services.Interfaces.Logging;
 using CoinsApplication.Services.Interfaces.Window;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -27,6 +29,7 @@ namespace CoinsApplication.ViewModel
         private readonly ICoinModelFactory _coinModelFactory;
         private readonly IDirtySerializableCacheService _serializableCacheService;
         private readonly IImageCacheService _imageCacheService;
+        private readonly ILoggingService _loggingService;
 
         private  IWindowWrapper _window;
 
@@ -189,7 +192,6 @@ namespace CoinsApplication.ViewModel
                     Coins.Remove(current);
                     _serializableCacheService.Remove(current);
 
-
                     CoinsCollectionView.Refresh();
                 }
             }
@@ -252,13 +254,15 @@ namespace CoinsApplication.ViewModel
             IUnitOfWorkFactory unitOfWorkFactory,
             ICoinModelFactory coinModelFactory,
             IDirtySerializableCacheService serializableCacheService,
-            IImageCacheService imageCacheService)
+            IImageCacheService imageCacheService,
+            ILoggingService loggingService)
         {
             _dialogService = dialogService;
             _imageReaderService = imageReaderService;
             _coinModelFactory = coinModelFactory;
             _serializableCacheService = serializableCacheService;
             _imageCacheService = imageCacheService;
+            _loggingService = loggingService;
 
             AddCoinImageCommand = new RelayCommand(AddCoinImage, CanAddCoinImage);
             RemoveCoinImageCommand = new RelayCommand(RemoveCoinImage);
@@ -282,6 +286,7 @@ namespace CoinsApplication.ViewModel
 
         private async void ThrowUnknownErrorMessageBox(Exception ex)
         {
+            _loggingService.Error(Resources.UnknownErrorMessageBoxTitle, ex);
             await Window.ShowMessageAsync(Resources.UnknownErrorMessageBoxTitle
                 , string.Format(Resources.UnknownErrorMessageBoxText, ex.Message)
                 , DialogStyle.Affirmative);
@@ -310,17 +315,17 @@ namespace CoinsApplication.ViewModel
                 , DialogStyle.Affirmative);
         }
 
-        private async Task<DialogResult> ThrowClosingMessageBox()
-        {
-            return await Window.ShowMessageAsync(Resources.ClosingMessageBoxTitle
-                , Resources.ClosingMessageBoxText
-                , DialogStyle.AffirmativeAndNegative
-                , new DialogSettings
-                {
-                    AffirmativeButtonText = "Yes",
-                    NegativeButtonText = "No"
-                });
-        }
+        //private async Task<DialogResult> ThrowClosingMessageBox()
+        //{
+        //    return await Window.ShowMessageAsync(Resources.ClosingMessageBoxTitle
+        //        , Resources.ClosingMessageBoxText
+        //        , DialogStyle.AffirmativeAndNegative
+        //        , new DialogSettings
+        //        {
+        //            AffirmativeButtonText = "Yes",
+        //            NegativeButtonText = "No"
+        //        });
+        //}
 
         private void CacheChangedHandler(object sender, EventArgs eventArgs)
         {

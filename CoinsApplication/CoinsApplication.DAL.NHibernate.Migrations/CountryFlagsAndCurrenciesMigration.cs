@@ -1,6 +1,5 @@
 ﻿using CoinsApplication.Misc;
 using FluentMigrator;
-using Microsoft.Practices.ServiceLocation;
 using System.Collections.Generic;
 
 namespace CoinsApplication.DAL.NHibernate.Migrations
@@ -173,7 +172,7 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
         private readonly IList<dynamic> _countries = new List<dynamic>()
         {
             new { Name = "Afghanistan", Flag = Properties.Resources.Afghanistan.ToByteArray() },
-            new { Name = "African Union(OAS)", Flag = Properties.Resources.African_Union.ToByteArray() },
+            new { Name = "African Union (OAS)", Flag = Properties.Resources.African_Union.ToByteArray() },
             new { Name = "Albania", Flag = Properties.Resources.Albania.ToByteArray() },
             new { Name = "Algeria", Flag = Properties.Resources.Algeria.ToByteArray() },
             new { Name = "American Samoa", Flag = Properties.Resources.American_Samoa.ToByteArray() },
@@ -279,7 +278,7 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
             new { Name = "Israel", Flag = Properties.Resources.Israel.ToByteArray() },
             new { Name = "Italy", Flag = Properties.Resources.Italy.ToByteArray() },
             new { Name = "Jamaica", Flag = Properties.Resources.Jamaica.ToByteArray() },
-            new { Name = "japan", Flag = Properties.Resources.Japan.ToByteArray() },
+            new { Name = "Japan", Flag = Properties.Resources.Japan.ToByteArray() },
             new { Name = "Jersey", Flag = Properties.Resources.Jersey.ToByteArray() },
             new { Name = "Jordan", Flag = Properties.Resources.Jordan.ToByteArray() },
             new { Name = "Kazakhstan", Flag = Properties.Resources.Kazakhstan.ToByteArray() },
@@ -318,7 +317,7 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
             new { Name = "Montserrat", Flag = Properties.Resources.Montserrat.ToByteArray() },
             new { Name = "Morocco", Flag = Properties.Resources.Morocco.ToByteArray() },
             new { Name = "Mozambique", Flag = Properties.Resources.Mozambique.ToByteArray() },
-            new { Name = "Myanmar(Burma)", Flag = Properties.Resources.Myanmar_Burma_.ToByteArray() },
+            new { Name = "Myanmar (Burma)", Flag = Properties.Resources.Myanmar_Burma_.ToByteArray() },
             new { Name = "Namibia", Flag = Properties.Resources.Namibia.ToByteArray() },
             new { Name = "NATO", Flag = Properties.Resources.NATO.ToByteArray() },
             new { Name = "Nauru", Flag = Properties.Resources.Nauru.ToByteArray() },
@@ -357,7 +356,7 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
             new { Name = "Saudi Arabia", Flag = Properties.Resources.Saudi_Arabia.ToByteArray() },
             new { Name = "Scotland", Flag = Properties.Resources.Scotland.ToByteArray() },
             new { Name = "Senegal", Flag = Properties.Resources.Senegal.ToByteArray() },
-            new { Name = "Serbia(Yugoslavia)", Flag = Properties.Resources.Serbia.ToByteArray() },
+            new { Name = "Serbia (Yugoslavia)", Flag = Properties.Resources.Serbia.ToByteArray() },
             new { Name = "Seyshelles", Flag = Properties.Resources.Seyshelles.ToByteArray() },
             new { Name = "Sierra Leone", Flag = Properties.Resources.Sierra_Leone.ToByteArray() },
             new { Name = "Singapore", Flag = Properties.Resources.Singapore.ToByteArray() },
@@ -378,7 +377,7 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
             new { Name = "Sweden", Flag = Properties.Resources.Sweden.ToByteArray() },
             new { Name = "Switzerland", Flag = Properties.Resources.Switzerland.ToByteArray() },
             new { Name = "Syria", Flag = Properties.Resources.Syria.ToByteArray() },
-            new { Name = "Tahiti(French Polinesia)", Flag = Properties.Resources.Tahiti_French_Polinesia_.ToByteArray() },
+            new { Name = "Tahiti (French Polinesia)", Flag = Properties.Resources.Tahiti_French_Polinesia_.ToByteArray() },
             new { Name = "Taiwan", Flag = Properties.Resources.Taiwan.ToByteArray() },
             new { Name = "Tajikistan", Flag = Properties.Resources.Tajikistan.ToByteArray() },
             new { Name = "Tanzania", Flag = Properties.Resources.Tanzania.ToByteArray() },
@@ -395,8 +394,8 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
             new { Name = "Uganda", Flag = Properties.Resources.Uganda.ToByteArray() },
             new { Name = "Ukraine", Flag = Properties.Resources.Ukraine.ToByteArray() },
             new { Name = "United Arab Emirates", Flag = Properties.Resources.United_Arab_Emirates.ToByteArray() },
-            new { Name = "United Kingdom(Great Britain)", Flag = Properties.Resources.United_Kingdom_Great_Britain_.ToByteArray() },
-            new { Name = "United States of America(USA)", Flag = Properties.Resources.United_States_of_America.ToByteArray() },
+            new { Name = "United Kingdom (Great Britain)", Flag = Properties.Resources.United_Kingdom_Great_Britain_.ToByteArray() },
+            new { Name = "United States of America (USA)", Flag = Properties.Resources.United_States_of_America.ToByteArray() },
             new { Name = "Uruguay", Flag = Properties.Resources.Uruguay.ToByteArray() },
             new { Name = "Uzbekistan", Flag = Properties.Resources.Uzbekistan.ToByteArray() },
             new { Name = "Vanuatu", Flag = Properties.Resources.Vanutau.ToByteArray() },

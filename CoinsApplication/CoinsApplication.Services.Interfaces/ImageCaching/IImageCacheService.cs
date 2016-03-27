@@ -1,4 +1,4 @@
-﻿namespace CoinsApplication.Services.Interfaces.ImageService
+﻿namespace CoinsApplication.Services.Interfaces.ImageCaching
 {
     public interface IImageCacheService
     {

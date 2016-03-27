@@ -1,7 +1,6 @@
 ﻿using System;
 using CoinsApplication.DAL.Entities;
-using CoinsApplication.Services.Interfaces;
-using CoinsApplication.Services.Interfaces.ImageService;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
 
 namespace CoinsApplication.Models.Factories
 {
@@ -9,7 +8,7 @@ namespace CoinsApplication.Models.Factories
     {
         private readonly IDirtySerializableCacheService _serializableCacheService;
 
-        public CoinModelFactory(IDirtySerializableCacheService serializableCacheService, IImageCacheService imageCacheService)
+        public CoinModelFactory(IDirtySerializableCacheService serializableCacheService)
         {
             if (serializableCacheService == null)
                 throw new ArgumentNullException(nameof(serializableCacheService));

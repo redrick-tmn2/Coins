@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using CoinsApplication.DAL.Infrastructure;
-using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
 using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.Models

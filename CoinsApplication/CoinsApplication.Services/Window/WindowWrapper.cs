@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using CoinsApplication.Services.Interfaces;
 using CoinsApplication.Services.Interfaces.Window;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoinsApplication.Services.Interfaces
+namespace CoinsApplication.Services.Interfaces.DirtySerializing
 {
     public interface IDirtySerializableCacheService
     {

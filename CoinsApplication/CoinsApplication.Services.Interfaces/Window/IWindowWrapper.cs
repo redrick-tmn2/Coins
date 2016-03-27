@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
-using CoinsApplication.Services.Interfaces.Window;
 
-namespace CoinsApplication.Services.Interfaces
+namespace CoinsApplication.Services.Interfaces.Window
 {
     public interface IWindowWrapper
     {

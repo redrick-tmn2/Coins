@@ -65,7 +65,8 @@
             <File Source="$(var.CoinsApplication.TargetDir)\SimpleInjector.dll" />
             <File Source="$(var.CoinsApplication.TargetDir)\System.Data.SQLite.dll" />
             <File Source="$(var.CoinsApplication.TargetDir)\System.Windows.Interactivity.dll" />
-			   </Component> 
+            <File Source="$(var.CoinsApplication.TargetDir)\log4net.dll"/>
+         </Component> 
 		</ComponentGroup>
 	</Fragment>
 </Wix>

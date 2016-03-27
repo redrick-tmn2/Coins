@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CoinsApplication.Services.Interfaces;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
 using MvvmValidation;
 
 namespace CoinsApplication.Models
@@ -18,7 +17,7 @@ namespace CoinsApplication.Models
     {
         public ValidationHelper Validator { get; }
 
-        private DataErrorInfoAdapter DataErrorInfoAdapter { get; set; }
+        private DataErrorInfoAdapter DataErrorInfoAdapter { get; }
 
         public string this[string columnName] => DataErrorInfoAdapter[columnName];
 

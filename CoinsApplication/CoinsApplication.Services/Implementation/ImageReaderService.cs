@@ -1,5 +1,4 @@
 using System.IO;
-using System.Windows.Media.Imaging;
 using CoinsApplication.Misc;
 using CoinsApplication.Services.Interfaces;
 

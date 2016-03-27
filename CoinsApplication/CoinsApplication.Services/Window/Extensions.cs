@@ -42,7 +42,7 @@ namespace CoinsApplication.Services.Window
             }
         }
 
-        public static MetroDialogSettings ToMetroDialogSettings(this Interfaces.Window.DialogSettings dialogSettings)
+        public static MetroDialogSettings ToMetroDialogSettings(this DialogSettings dialogSettings)
         {
             if (dialogSettings == null)
             {

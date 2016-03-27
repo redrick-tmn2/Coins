@@ -8,7 +8,10 @@ using CoinsApplication.Models.Factories;
 using CoinsApplication.Services.ImageCaching;
 using CoinsApplication.Services.Implementation;
 using CoinsApplication.Services.Interfaces;
-using CoinsApplication.Services.Interfaces.ImageService;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
+using CoinsApplication.Services.Interfaces.ImageCaching;
+using CoinsApplication.Services.Interfaces.Logging;
+using CoinsApplication.Services.Logging;
 using CoinsApplication.ViewModel;
 using CoinsApplication.Views;
 using CommonServiceLocator.SimpleInjectorAdapter;
@@ -58,6 +61,7 @@ namespace CoinsApplication
             _container = new Container();
             _containerAdapter = new SimpleInjectorServiceLocatorAdapter(_container);
             
+            _container.Register<ILoggingService, LoggingService>(Lifestyle.Singleton);
             _container.Register<IDialogService, DialogService>(Lifestyle.Singleton);
             _container.Register<IImageReaderService, ImageReaderService>(Lifestyle.Singleton);
 

@@ -1,8 +1,8 @@
 using System.Windows.Media.Imaging;
 using CoinsApplication.Misc;
-using CoinsApplication.Services.Interfaces.ImageService;
+using CoinsApplication.Services.Interfaces.ImageCaching;
 
-namespace CoinsApplication.Services.ImageCaching
+namespace CoinsApplication.Services.ImageService
 {
     public class CachedImage : ICachedImage
     {

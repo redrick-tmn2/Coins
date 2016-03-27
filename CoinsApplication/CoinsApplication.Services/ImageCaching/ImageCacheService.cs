@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CoinsApplication.Services.Interfaces.ImageService;
+using CoinsApplication.Services.Interfaces.ImageCaching;
 
 namespace CoinsApplication.Services.ImageCaching
 {

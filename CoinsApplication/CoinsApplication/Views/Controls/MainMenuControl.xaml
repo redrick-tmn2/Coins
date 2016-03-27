@@ -14,6 +14,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Save all coins"
                         Command="{Binding SaveAllCommand}">
                 <Rectangle Width="16"
                            Height="16"
@@ -27,6 +28,7 @@
 
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Add new coin"
                         Command="{Binding AddNewCoinCommand}">
                 <Rectangle Width="16"
                            Height="16"
@@ -38,6 +40,7 @@
             </Button>
 
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40"
+                    ToolTip="Edit selected coin"
                         Command="{Binding EditCoinCommand}"
                         CommandParameter="{Binding CoinsCollectionView.CurrentItem}">
                 <Rectangle Width="16" Height="16"
@@ -49,6 +52,7 @@
             </Button>
 
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Remove selected coin"
                     Command="{Binding RemoveCoinCommand}">
                 <Rectangle Width="16"
                            Height="16"

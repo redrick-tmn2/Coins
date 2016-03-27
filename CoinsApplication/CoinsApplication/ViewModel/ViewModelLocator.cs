@@ -1,5 +1,4 @@
-﻿using System.Windows.Markup;
-using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.ServiceLocation;
 
 namespace CoinsApplication.ViewModel
 {

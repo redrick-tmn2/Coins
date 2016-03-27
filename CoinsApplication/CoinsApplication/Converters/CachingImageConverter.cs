@@ -1,8 +1,8 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using CoinsApplication.Services.ImageCaching;
-using CoinsApplication.Services.Interfaces.ImageService;
+using CoinsApplication.Services.ImageService;
+using CoinsApplication.Services.Interfaces.ImageCaching;
 using Microsoft.Practices.ServiceLocation;
 
 namespace CoinsApplication.Converters

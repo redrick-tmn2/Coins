@@ -38,16 +38,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageService\CachedImage.cs" />
-    <Compile Include="ImageService\IImageCacheService.cs" />
+    <Compile Include="ImageCaching\CachedImage.cs" />
+    <Compile Include="ImageCaching\IImageCacheService.cs" />
+    <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Window\DialogSettings.cs" />
     <Compile Include="Window\DialogResult.cs" />
     <Compile Include="Window\DialogStyle.cs" />
     <Compile Include="IDialogService.cs" />
-    <Compile Include="IDirtySerializable.cs" />
-    <Compile Include="IDirtySerializableCacheService.cs" />
+    <Compile Include="DirtySerializing\IDirtySerializable.cs" />
+    <Compile Include="DirtySerializing\IDirtySerializableCacheService.cs" />
     <Compile Include="IImageReaderService.cs" />
-    <Compile Include="IWindowWrapper.cs" />
+    <Compile Include="Window\IWindowWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
