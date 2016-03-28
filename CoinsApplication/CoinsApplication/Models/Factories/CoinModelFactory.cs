@@ -23,7 +23,10 @@ namespace CoinsApplication.Models.Factories
 
         public CoinModel Create()
         {
-            var result = new CoinModel(_serializableCacheService);
+            var result = new CoinModel(_serializableCacheService)
+            {
+                Year = DateTime.Now.Year
+            };
 
             _serializableCacheService.Add(result);
 

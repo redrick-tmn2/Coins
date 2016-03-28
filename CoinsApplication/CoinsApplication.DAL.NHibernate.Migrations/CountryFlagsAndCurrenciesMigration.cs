@@ -447,8 +447,7 @@ namespace CoinsApplication.DAL.NHibernate.Migrations
             {
                 Insert.IntoTable("Currency").Row(new
                 {
-                    Name = currency.Name,
-                    Code = currency.Code
+                    currency.Name, currency.Code
                 });
             }
         }

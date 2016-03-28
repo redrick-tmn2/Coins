@@ -139,6 +139,12 @@
   <data name="RemoveCoinMessageBoxTtitle" xml:space="preserve">
     <value>Coin removing</value>
   </data>
+  <data name="UnableToLoadImageErrorMessageBoxText" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="UnableToLoadImageErrorMessageBoxTitle" xml:space="preserve">
+    <value>Unable to load image</value>
+  </data>
   <data name="UnknownErrorMessageBoxText" xml:space="preserve">
     <value>{0}</value>
   </data>

@@ -20,6 +20,7 @@
         <StackPanel Orientation="Horizontal">
          
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Remove image"
                     Command="{Binding RemoveCoinImageCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=ImageFlipView}">
                 <Rectangle Width="16"
@@ -30,8 +31,9 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            
+
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Browse image..."
                     Command="{Binding AddCoinImageCommand}">
                 <Rectangle Width="16"
                            Height="16"

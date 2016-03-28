@@ -9,6 +9,7 @@ using CoinsApplication.Extensions;
 using CoinsApplication.Models;
 using CoinsApplication.ViewModel.SelectableViewModel;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CoinsApplication.ViewModel
 {
@@ -42,6 +43,23 @@ namespace CoinsApplication.ViewModel
 
         #endregion
 
+        #region CheckAllCommand\UncheckAllCommand
+
+        public RelayCommand<IEnumerable<ISelectable>> CheckAllCommand { get; }
+        public RelayCommand<IEnumerable<ISelectable>> UncheckAllCommand { get; }
+
+        private void ToggleAll(IEnumerable<ISelectable> selectables, bool value)
+        {
+            foreach (var selectable in selectables)
+            {
+                selectable.IsSelected = value;
+            }
+        }
+
+        #endregion
+
+
+        
         #region ctor
 
         public FilterViewModel(ICountryRepository countryRepository,
@@ -50,7 +68,11 @@ namespace CoinsApplication.ViewModel
             MainWindowViewModel mainViewModel)
         {
             _mainWindowViewModel = mainViewModel;
-            
+
+            CheckAllCommand = new RelayCommand<IEnumerable<ISelectable>>(x => ToggleAll(x, true));
+            UncheckAllCommand = new RelayCommand<IEnumerable<ISelectable>>(x => ToggleAll(x, false));
+
+
             using (unitOfWorkFactory.Create())
             {
                 RefreshCurrencies(currencyRepository);
@@ -94,7 +116,7 @@ namespace CoinsApplication.ViewModel
 
         private bool IsTitlePassed(CoinModel coin)
         {
-            return _titleFilterPattern == null ||
+            return string.IsNullOrEmpty(_titleFilterPattern) ||
                    coin.Title.Contains(_titleFilterPattern, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -110,7 +132,6 @@ namespace CoinsApplication.ViewModel
 
         private void RefreshCurrencies(ICurrencyRepository currencyService)
         {
-            Currencies.Add(SelectableViewModelBase<Currency>.Empty);
             Currencies.AddRange(currencyService.GetAll().Select(x => new SelectableViewModelBase<Currency>(x)));
 
             foreach (var currencyViewModel in Currencies)
@@ -121,7 +142,6 @@ namespace CoinsApplication.ViewModel
 
         private void RefreshCountries(ICountryRepository countryService)
         {
-            Countries.Add(SelectableViewModelBase<Country>.Empty);
             Countries.AddRange(countryService.GetAll().Select(x => new SelectableViewModelBase<Country>(x)));
 
             foreach (var countryViewModel in Countries)

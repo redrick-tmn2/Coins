@@ -7,6 +7,11 @@ namespace CoinsApplication.Services.ImageCaching
     {
         private readonly IDictionary<object, ICachedImage> _cache = new Dictionary<object, ICachedImage>();
 
+        public bool IsCached(object id)
+        {
+            return _cache.ContainsKey(id);
+        }
+
         public ICachedImage Get(object id)
         {
             ICachedImage result;

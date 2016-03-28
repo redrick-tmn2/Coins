@@ -128,6 +128,24 @@ namespace CoinsApplication.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0}.
         /// </summary>
+        internal static string UnableToLoadImageErrorMessageBoxText {
+            get {
+                return ResourceManager.GetString("UnableToLoadImageErrorMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to load image.
+        /// </summary>
+        internal static string UnableToLoadImageErrorMessageBoxTitle {
+            get {
+                return ResourceManager.GetString("UnableToLoadImageErrorMessageBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
         internal static string UnknownErrorMessageBoxText {
             get {
                 return ResourceManager.GetString("UnknownErrorMessageBoxText", resourceCulture);

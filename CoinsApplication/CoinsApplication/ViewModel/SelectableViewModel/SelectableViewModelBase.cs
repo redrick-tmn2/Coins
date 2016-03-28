@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight;
 
 namespace CoinsApplication.ViewModel.SelectableViewModel
 {
-    public class SelectableViewModelBase<T> : ViewModelBase
+    public class SelectableViewModelBase<T> : ViewModelBase, ISelectable
         where T : class, IEntity
     {
         public Entity<T> Model { get; set; }
@@ -43,7 +43,5 @@ namespace CoinsApplication.ViewModel.SelectableViewModel
 
             return model == Model;
         }
-
-        public static SelectableViewModelBase<T> Empty { get; } = new SelectableViewModelBase<T>();
     }
 }

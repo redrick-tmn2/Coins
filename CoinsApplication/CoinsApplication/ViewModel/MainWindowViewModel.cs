@@ -24,6 +24,9 @@ namespace CoinsApplication.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        const string OpenFileDialogFilter =
+            "Image files(*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+
         private readonly IDialogService _dialogService;
         private readonly IImageReaderService _imageReaderService;
         private readonly ICoinModelFactory _coinModelFactory;
@@ -114,13 +117,15 @@ namespace CoinsApplication.ViewModel
             {
                 if (SelectedCoin != null)
                 {
-                    var fileName = _dialogService.ShowOpenFileDialog();
+                    var fileName = _dialogService.ShowOpenFileDialog(OpenFileDialogFilter);
                     if (string.IsNullOrEmpty(fileName))
                     {
                         return;
                     }
 
                     var imageBytes = _imageReaderService.ReadImage(fileName);
+                    imageBytes.GetOrCreateCachedImage(_imageCacheService);
+
                     var image = new Image
                     {
                         Content = imageBytes,
@@ -130,6 +135,10 @@ namespace CoinsApplication.ViewModel
                     SelectedCoin.SelectedImage = image;
                     SelectedCoin.SetDirty();
                 }
+            }
+            catch (NotSupportedException ex)
+            {
+                ThrowUnableToLoadImageErrorMessageBox(ex);
             }
             catch (Exception ex)
             {
@@ -289,6 +298,14 @@ namespace CoinsApplication.ViewModel
             _loggingService.Error(Resources.UnknownErrorMessageBoxTitle, ex);
             await Window.ShowMessageAsync(Resources.UnknownErrorMessageBoxTitle
                 , string.Format(Resources.UnknownErrorMessageBoxText, ex.Message)
+                , DialogStyle.Affirmative);
+        }
+
+        private async void ThrowUnableToLoadImageErrorMessageBox(Exception ex)
+        {
+            _loggingService.Error(Resources.UnknownErrorMessageBoxTitle, ex);
+            await Window.ShowMessageAsync(Resources.UnableToLoadImageErrorMessageBoxTitle
+                , string.Format(Resources.UnableToLoadImageErrorMessageBoxText, ex.Message)
                 , DialogStyle.Affirmative);
         }
 

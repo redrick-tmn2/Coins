@@ -1,14 +1,18 @@
 using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
-using CoinsApplication.Services.ImageService;
+using CoinsApplication.Services.ImageCaching;
 using CoinsApplication.Services.Interfaces.ImageCaching;
+using CoinsApplication.Services.Interfaces.Logging;
 using Microsoft.Practices.ServiceLocation;
 
 namespace CoinsApplication.Converters
 {
     public class CachingImageConverter : IValueConverter
     {
+        protected ILoggingService LoggingService => ServiceLocator.Current.GetInstance<ILoggingService>();
+
         protected IImageCacheService ImageCacheService => ServiceLocator.Current.GetInstance<IImageCacheService>();
 
         protected ICachedImage GetOrCreateCachedImage(byte[] imageBytes)
@@ -28,15 +32,23 @@ namespace CoinsApplication.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var imageBytes = value as byte[];
-            if (imageBytes == null)
+            try
             {
-                return null;
+                var imageBytes = value as byte[];
+                if (imageBytes == null)
+                {
+                    return null;
+                }
+
+                var image = GetOrCreateCachedImage(imageBytes);
+
+                return image.BitmapImage;
             }
-
-            var image = GetOrCreateCachedImage(imageBytes);
-
-            return image.BitmapImage;
+            catch (Exception ex)
+            {
+                LoggingService.Error("Unable to convert image.", ex);
+                return DependencyProperty.UnsetValue;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -5,11 +5,12 @@ namespace CoinsApplication.Services.Implementation
 {
     public class DialogService : IDialogService
     {
-        private string OpenFileDialogAndGetFileName()
+        private string OpenFileDialogAndGetFileName(string filter)
         {
             var openFileDialog = new OpenFileDialog
             {
-                CheckFileExists = true
+                CheckFileExists = true,
+                Filter = filter,
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -20,9 +21,14 @@ namespace CoinsApplication.Services.Implementation
             return null;
         }
 
+        public string ShowOpenFileDialog(string filter)
+        {
+            return OpenFileDialogAndGetFileName(filter);
+        }
+
         public string ShowOpenFileDialog()
         {
-            return OpenFileDialogAndGetFileName();
+            return OpenFileDialogAndGetFileName(string.Empty);
         }
     }
 }

@@ -110,6 +110,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DebuggingConverter.cs" />
     <Compile Include="Converters\CachingImageConverter.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Models\Factories\ICoinModelFactory.cs" />
     <Compile Include="Models\ValidatatbleObservableObject.cs" />
     <Compile Include="ViewModel\FilterViewModel.cs" />
+    <Compile Include="ViewModel\SelectableViewModel\ISelectable.cs" />
     <Compile Include="ViewModel\SelectableViewModel\SelectableViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
