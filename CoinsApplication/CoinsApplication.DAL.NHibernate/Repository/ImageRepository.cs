@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Repositories;
 using NHibernate.Linq;
@@ -10,7 +11,7 @@ namespace CoinsApplication.DAL.NHibernate.Repository
     {
         public IEnumerable<Image> GetAll()
         {
-            return NHibernateHelper.GetSession().Query<Image>();
+            return NHibernateHelper.GetSession().Query<Image>().ToList();
         }
 
         public Image Get(int id)

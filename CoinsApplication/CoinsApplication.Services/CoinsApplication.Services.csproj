@@ -80,16 +80,10 @@
     <Compile Include="ImageCaching\CachedImage.cs" />
     <Compile Include="ImageCaching\ImageCacheService.cs" />
     <Compile Include="Logging\LoggingService.cs" />
-    <Compile Include="Window\WindowWrapper.cs" />
     <Compile Include="Implementation\DialogService.cs" />
     <Compile Include="Implementation\DirtySerializableCacheService.cs" />
     <Compile Include="Implementation\ImageReaderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Window\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,27 +110,6 @@
       <Project>{F26B035D-41EF-4934-A433-A680D49B3A29}</Project>
       <Name>CoinsApplication.Services.Interfaces</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\russia_64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\saint_kitts_and_nevis_64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\one_rouble.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curSymbol1088-1091-1073.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curSymbol36.gif" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

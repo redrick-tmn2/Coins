@@ -48,7 +48,6 @@
     <Compile Include="DirtySerializing\IDirtySerializable.cs" />
     <Compile Include="DirtySerializing\IDirtySerializableCacheService.cs" />
     <Compile Include="IImageReaderService.cs" />
-    <Compile Include="Window\IWindowWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

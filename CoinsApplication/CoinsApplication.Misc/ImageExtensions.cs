@@ -16,13 +16,16 @@ namespace CoinsApplication.Misc
         {
             if (byteArrayImage != null && byteArrayImage.Length > 0)
             {
+                var bitmapImage = new BitmapImage();
                 var memoryStream = new MemoryStream(byteArrayImage);
 
-                var bitmapImage = new BitmapImage();
-
+                
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = memoryStream;
+                bitmapImage.CacheOption = BitmapCacheOption.OnDemand;
                 bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                
 
                 return bitmapImage;
             }
@@ -42,11 +45,13 @@ namespace CoinsApplication.Misc
                 return null;
             }
 
-            MemoryStream memStream = new MemoryStream();
-            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(image));
-            encoder.Save(memStream);
-            return memStream.ToArray();
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+                encoder.Save(memStream);
+                return memStream.ToArray();
+            }
         }
     }
 }

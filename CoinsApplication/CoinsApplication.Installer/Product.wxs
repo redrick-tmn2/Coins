@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Coins Collection" Language="1033" Version="1.0.0.0" Manufacturer="Dmitry Kostyanetsky" UpgradeCode="9ae1b942-0206-4224-b71c-e5afc816b575">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+ 
+  <?define ProductName="Coins Collection" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define UpgradeCode="9ae1b942-0206-4224-b71c-e5afc816b575"?>
+  <?define Manufacturer="Dmitry Kostyanetsky"?>
+  <?define ShortcutName="Coins Collection" ?>
+  <?define AppDescription="Coins Collection" ?>
 
+	<Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+   
+    <Icon Id="icon.ico" SourceFile="icon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+    
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate  EmbedCab="yes"/>
 
 		<Feature Id="ProductFeature" Title="Coins Collection" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
+  
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" ></Property>
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
+    <UIRef Id="WixUI_InstallDir"/>
 	</Product>
 
 	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
+		<Directory Id="TARGETDIR" Name="SourceDir">            
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ShortcutName)"/>
+      </Directory>
+      <Directory Id="DesktopFolder" />
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLFOLDER" Name="Coins Collection" />
 			</Directory>
@@ -27,6 +46,7 @@
         </Component>
       </Directory>
     </DirectoryRef>
+    
     <DirectoryRef Id="INSTALLFOLDER">
       <Directory Id="x86Directory" Name="x86">
         <Component Id="x86Components" Guid="{B0C0F5C6-7725-4276-B23B-B8060EB1C68C}">
@@ -35,8 +55,34 @@
       </Directory>
     </DirectoryRef>
     
+    <DirectoryRef Id="ApplicationProgramsFolder">
+          <Component Id="ApplicationShortcut" Guid="{8AAC41A1-009B-4E42-985D-EBFF259B67BB}">
+              <Shortcut Id="ApplicationStartMenuShortcut" 
+                    Name="$(var.ShortcutName)" 
+                    Description="My Application Description"
+                    Target="[#CoinsApplication.exe]"
+                    WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+              <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+              <RegistryValue Root="HKCU" Key="Software\Microsoft\CoinsCollection" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+      </DirectoryRef>
+    
+     <DirectoryRef Id="DesktopFolder">
+       <Component Id="ApplicationShortcutDesktop" Guid="{24466758-E83D-4DB4-B476-636476F41FA3}">
+         <Shortcut Id="ApplicationDesktopShortcut" 
+                   Name="$(var.ShortcutName)" 
+                   Description="$(var.AppDescription)" 
+                   Target="[#CoinsApplication.exe]" 
+                   WorkingDirectory="INSTALLFOLDER" />
+         
+         <RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+         <RegistryValue Root="HKCU" Key="Software\Microsoft\CoinsCollection" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+       </Component>
+     </DirectoryRef>
       
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+        <ComponentRef Id="ApplicationShortcut" />   
+        <ComponentRef Id="ApplicationShortcutDesktop" />   
         <ComponentRef Id="x86Components" />
         <ComponentRef Id="x64Components" />
 			   <Component Id="ProductComponent" Guid="{3967AC5A-2739-4967-9176-CC1EA64E8C0E}"> 
@@ -45,7 +91,7 @@
             <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.NHibernate.dll" />
             <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.NHibernate.Mappings.dll" />
             <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.DAL.NHibernate.Migrations.dll" />
-            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.exe" />
+            <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.exe" ></File>
             <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.exe.config" />
             <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.Misc.dll" />
             <File Source="$(var.CoinsApplication.TargetDir)\CoinsApplication.Services.dll" />

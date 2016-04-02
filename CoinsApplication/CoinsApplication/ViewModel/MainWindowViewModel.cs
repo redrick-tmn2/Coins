@@ -1,70 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.Repositories;
 using CoinsApplication.Extensions;
 using CoinsApplication.Models;
 using CoinsApplication.Models.Factories;
-using CoinsApplication.Properties;
-using CoinsApplication.Services.Interfaces;
 using CoinsApplication.Services.Interfaces.DirtySerializing;
-using CoinsApplication.Services.Interfaces.ImageCaching;
-using CoinsApplication.Services.Interfaces.Logging;
-using CoinsApplication.Services.Interfaces.Window;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace CoinsApplication.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        const string OpenFileDialogFilter =
-            "Image files(*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-
-        private readonly IDialogService _dialogService;
-        private readonly IImageReaderService _imageReaderService;
         private readonly ICoinModelFactory _coinModelFactory;
         private readonly IDirtySerializableCacheService _serializableCacheService;
-        private readonly IImageCacheService _imageCacheService;
-        private readonly ILoggingService _loggingService;
-
-        private  IWindowWrapper _window;
 
         public ICollectionView CoinsCollectionView { get; set; }
 
-        public IWindowWrapper Window
-        {
-            get { return _window; }
-            set
-            {
-                if (_window != null)
-                {
-                    _window.Closing -= WindowClosingHandler;
-                }
-
-                _window = value;
-                _window.Closing += WindowClosingHandler;
-            }
-        }
-
-        #region Collections
+        #region Properties
 
         public ObservableCollection<CoinModel> Coins { get; } = new ObservableCollection<CoinModel>();
 
-        public List<Country> Countries { get; } = new List<Country>();
-
-        public List<Currency> Currencies { get; } = new List<Currency>();
-
-        #endregion
-
-        #region Properties
         public CoinModel SelectedCoin => CoinsCollectionView.CurrentItem as CoinModel;
+
+        private CoinModel _newCoin;
+        public CoinModel NewCoin
+        {
+            get { return _newCoin; }
+            set { Set(ref _newCoin, value); }
+        }
 
         private bool _isEditOpened;
         public bool IsEditOpened
@@ -73,100 +42,32 @@ namespace CoinsApplication.ViewModel
             set { Set(ref _isEditOpened, value); }
         }
 
-        #endregion
-
-        #region AddCoinImageCommand
-
-        public RelayCommand RemoveCoinImageCommand { get; }
-
-        private void RemoveCoinImage()
+        private bool _isAddOpened;
+        public bool IsAddOpened
         {
-            try
-            {
-                if (SelectedCoin?.SelectedImage == null)
-                {
-                    return;
-                }
-
-                var itemToRemove = SelectedCoin.SelectedImage;
-                SelectedCoin.SelectedImage = SelectedCoin.Images.PreviousOrNext(itemToRemove);
-                _imageCacheService.Remove(itemToRemove.Content);
-                SelectedCoin.Images.Remove(itemToRemove);
-                SelectedCoin.SetDirty();
-            }
-            catch (Exception ex)
-            {
-                ThrowUnknownErrorMessageBox(ex);
-            }
-        }
-
-        #endregion
-
-        #region AddCoinImageCommand
-
-        public RelayCommand AddCoinImageCommand { get; }
-
-        private bool CanAddCoinImage()
-        {
-            return CoinsCollectionView.CurrentItem != null;
-        }
-
-        private void AddCoinImage()
-        {
-            try
-            {
-                if (SelectedCoin != null)
-                {
-                    var fileName = _dialogService.ShowOpenFileDialog(OpenFileDialogFilter);
-                    if (string.IsNullOrEmpty(fileName))
-                    {
-                        return;
-                    }
-
-                    var imageBytes = _imageReaderService.ReadImage(fileName);
-                    imageBytes.GetOrCreateCachedImage(_imageCacheService);
-
-                    var image = new Image
-                    {
-                        Content = imageBytes,
-                    };
-
-                    SelectedCoin.AddImage(image);
-                    SelectedCoin.SelectedImage = image;
-                    SelectedCoin.SetDirty();
-                }
-            }
-            catch (NotSupportedException ex)
-            {
-                ThrowUnableToLoadImageErrorMessageBox(ex);
-            }
-            catch (Exception ex)
-            {
-                ThrowUnknownErrorMessageBox(ex);
-            }
+            get { return _isAddOpened; }
+            set { Set(ref _isAddOpened, value); }
         }
 
         #endregion
 
         #region AddNewCoinCommand
 
-        public RelayCommand AddNewCoinCommand { get; }
+        public RelayCommand<WindowCommandContext> AddNewCoinCommand { get; }
 
-        private void AddNewCoin()
+        private void AddNewCoin(WindowCommandContext context)
         {
             try
             {
-                var coinModel = _coinModelFactory.Create();
+                Coins.Add(NewCoin);
+                CoinsCollectionView.MoveCurrentTo(NewCoin);
 
-                Coins.Add(coinModel);
-                CoinsCollectionView.MoveCurrentTo(coinModel);
-
-                IsEditOpened = true;
+                IsAddOpened = false;
                 CoinsCollectionView.Refresh();
             }
             catch (Exception ex)
             {
-                ThrowUnknownErrorMessageBox(ex);
+                context.Window.ThrowUnknownErrorMessageBox(ex);
             }
         }
 
@@ -174,18 +75,18 @@ namespace CoinsApplication.ViewModel
 
         #region RemoveCoinCommand
 
-        public RelayCommand RemoveCoinCommand { get; }
+        public RelayCommand<WindowCommandContext> RemoveCoinCommand { get; }
 
-        private bool CanRemoveCoin()
+        private bool CanRemoveCoin(WindowCommandContext context)
         {
             return CoinsCollectionView.CurrentItem != null;
         }
 
-        private async void RemoveCoin()
+        private async void RemoveCoin(WindowCommandContext context)
         {
             try
             {
-                if (SelectedCoin != null && await ThrowWillBeRemovedMessageBox(SelectedCoin) == DialogResult.Affirmative)
+                if (SelectedCoin != null && await context.Window.ThrowWillBeRemovedMessageBox(SelectedCoin) == MessageDialogResult.Affirmative)
                 {
                     var isFirst = Coins.FirstOrDefault() == SelectedCoin;
                     var current = SelectedCoin;
@@ -206,38 +107,51 @@ namespace CoinsApplication.ViewModel
             }
             catch (Exception ex)
             {
-                ThrowUnknownErrorMessageBox(ex);
+                context.Window.ThrowUnknownErrorMessageBox(ex);
             }
         }
 
         #endregion
 
-        #region EditCoinCommand
+        #region ShowEditCoinControlCommand
 
-        public RelayCommand EditCoinCommand { get; }
+        public RelayCommand ShowEditCoinControlCommand { get; }
 
-        private bool CanEditCoin()
+        private bool CanShowEditCoinControl()
         {
             return SelectedCoin != null;
         }
 
-        private void EditCoin()
+        private void ShowEditCoinControl()
         {
             IsEditOpened = true;
         }
 
         #endregion
 
+        #region ShowAddCoinControlCommand
+
+        public RelayCommand ShowAddCoinControlCommand { get; }
+
+        private void ShowAddCoinControl()
+        {
+            NewCoin = _coinModelFactory.Create();
+
+            IsAddOpened = true;
+        }
+
+        #endregion
+
         #region SaveAllCommand
 
-        public RelayCommand SaveAllCommand { get; }
+        public RelayCommand<WindowCommandContext> SaveAllCommand { get; }
 
-        private bool CanSaveAll()
+        private bool CanSaveAll(WindowCommandContext context)
         {
             return !_serializableCacheService.IsEmpty;
         }
 
-        private async void SaveAll()
+        private async void SaveAll(WindowCommandContext context)
         {
             var invalidCoins = Coins.Where(x => !x.Validator.ValidateAll().IsValid)
                 .Select(x => x.Title)
@@ -249,43 +163,30 @@ namespace CoinsApplication.ViewModel
             }
             else
             {
-                await ThrowValidationFailedMessageBox(invalidCoins);
+                await context.Window.ThrowValidationFailedMessageBox(invalidCoins);
             }
         }
 
         #endregion
 
         public MainWindowViewModel(ICoinRepository coinRepository, 
-            ICountryRepository countryRepository, 
-            ICurrencyRepository currencyRepository, 
-            IDialogService dialogService, 
-            IImageReaderService imageReaderService,
             IUnitOfWorkFactory unitOfWorkFactory,
             ICoinModelFactory coinModelFactory,
-            IDirtySerializableCacheService serializableCacheService,
-            IImageCacheService imageCacheService,
-            ILoggingService loggingService)
+            IDirtySerializableCacheService serializableCacheService)
         {
-            _dialogService = dialogService;
-            _imageReaderService = imageReaderService;
             _coinModelFactory = coinModelFactory;
             _serializableCacheService = serializableCacheService;
-            _imageCacheService = imageCacheService;
-            _loggingService = loggingService;
 
-            AddCoinImageCommand = new RelayCommand(AddCoinImage, CanAddCoinImage);
-            RemoveCoinImageCommand = new RelayCommand(RemoveCoinImage);
-            RemoveCoinCommand = new RelayCommand(RemoveCoin, CanRemoveCoin);
-            EditCoinCommand = new RelayCommand(EditCoin, CanEditCoin);
-            SaveAllCommand = new RelayCommand(SaveAll, CanSaveAll);
-            AddNewCoinCommand = new RelayCommand(AddNewCoin);
+            RemoveCoinCommand = new RelayCommand<WindowCommandContext>(RemoveCoin, CanRemoveCoin);
+            ShowEditCoinControlCommand = new RelayCommand(ShowEditCoinControl, CanShowEditCoinControl);
+            ShowAddCoinControlCommand = new RelayCommand(ShowAddCoinControl);
+            SaveAllCommand = new RelayCommand<WindowCommandContext>(SaveAll, CanSaveAll);
+            AddNewCoinCommand = new RelayCommand<WindowCommandContext>(AddNewCoin);
 
             _serializableCacheService.CacheChanged += CacheChangedHandler;
 
             using (unitOfWorkFactory.Create())
             {
-                Countries.AddRange(countryRepository.GetAll());
-                Currencies.AddRange(currencyRepository.GetAll());
                 Coins.AddRange(coinRepository.GetAll().Select(x => _coinModelFactory.Create(x)));
             }
 
@@ -293,77 +194,15 @@ namespace CoinsApplication.ViewModel
             CoinsCollectionView.CurrentChanged += CoinsCollectionChangedHandler;
         }
 
-        private async void ThrowUnknownErrorMessageBox(Exception ex)
-        {
-            _loggingService.Error(Resources.UnknownErrorMessageBoxTitle, ex);
-            await Window.ShowMessageAsync(Resources.UnknownErrorMessageBoxTitle
-                , string.Format(Resources.UnknownErrorMessageBoxText, ex.Message)
-                , DialogStyle.Affirmative);
-        }
-
-        private async void ThrowUnableToLoadImageErrorMessageBox(Exception ex)
-        {
-            _loggingService.Error(Resources.UnknownErrorMessageBoxTitle, ex);
-            await Window.ShowMessageAsync(Resources.UnableToLoadImageErrorMessageBoxTitle
-                , string.Format(Resources.UnableToLoadImageErrorMessageBoxText, ex.Message)
-                , DialogStyle.Affirmative);
-        }
-
-        private async Task<DialogResult> ThrowWillBeRemovedMessageBox(CoinModel coin)
-        {
-            var message = string.Format(Resources.RemoveCoinMessageBoxText, coin.Title);
-            return await Window.ShowMessageAsync(Resources.RemoveCoinMessageBoxTtitle
-                , message
-                , DialogStyle.AffirmativeAndNegative
-                , new DialogSettings
-                {
-                    AffirmativeButtonText = "Yes",
-                    NegativeButtonText = "No"
-                });
-        }
-
-        private async Task<DialogResult> ThrowValidationFailedMessageBox(IEnumerable<string> invalidCoins)
-        {
-            var invalidCoinsMessage = Environment.NewLine + string.Join(Environment.NewLine, invalidCoins);
-
-            var message = string.Format(Resources.ValidationFailedMessageBoxText, invalidCoinsMessage);
-            return await Window.ShowMessageAsync(Resources.ValidationFailedMessageBoxTitle
-                , message
-                , DialogStyle.Affirmative);
-        }
-
-        //private async Task<DialogResult> ThrowClosingMessageBox()
-        //{
-        //    return await Window.ShowMessageAsync(Resources.ClosingMessageBoxTitle
-        //        , Resources.ClosingMessageBoxText
-        //        , DialogStyle.AffirmativeAndNegative
-        //        , new DialogSettings
-        //        {
-        //            AffirmativeButtonText = "Yes",
-        //            NegativeButtonText = "No"
-        //        });
-        //}
 
         private void CacheChangedHandler(object sender, EventArgs eventArgs)
         {
             SaveAllCommand.RaiseCanExecuteChanged();
         }
 
-        private void WindowClosingHandler(object sender, CancelEventArgs e)
-        {
-            //if (!_serializableCacheService.IsEmpty)
-            //{
-            //    var result = ThrowClosingMessageBox();
-            //    result.Wait();
-
-            //    e.Cancel = result.Result == DialogResult.Affirmative;
-            //}
-        }
-
         private void CoinsCollectionChangedHandler(object sender, EventArgs e)
         {
-            EditCoinCommand.RaiseCanExecuteChanged();
-            AddCoinImageCommand.RaiseCanExecuteChanged();
+            ShowEditCoinControlCommand.RaiseCanExecuteChanged();
             RemoveCoinCommand.RaiseCanExecuteChanged();
 
             RaisePropertyChanged(() => SelectedCoin);

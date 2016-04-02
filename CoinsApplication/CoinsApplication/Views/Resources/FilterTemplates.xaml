@@ -68,9 +68,23 @@
       
             <ContentControl Template="{StaticResource FilterPopupTemplate}">
                 <StackPanel>
-                    <Button Style="{DynamicResource AccentedSquareButtonStyle}" Command="{Binding CheckAllCommand}" CommandParameter="{Binding Currencies}">Check All</Button>
-                    <Button Style="{DynamicResource AccentedSquareButtonStyle}" Command="{Binding UncheckAllCommand}" CommandParameter="{Binding Currencies}">Uncheck All</Button>
-                    <ListBox ItemsSource="{Binding Currencies}" 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Margin="1"
+                                Style="{DynamicResource AccentedSquareButtonStyle}" 
+                                Command="{Binding CheckAllCommand}" 
+                                CommandParameter="{Binding Currencies}">Check All</Button>
+
+                        <Button Grid.Column="1" Margin="1"
+                                Style="{DynamicResource AccentedSquareButtonStyle}" 
+                                Command="{Binding UncheckAllCommand}" 
+                                CommandParameter="{Binding Currencies}">Uncheck All</Button>
+                    </Grid>
+                   <ListBox ItemsSource="{Binding Currencies}" 
                          ScrollViewer.VerticalScrollBarVisibility="Visible"
                          MaxHeight="200"
                          Width="350">

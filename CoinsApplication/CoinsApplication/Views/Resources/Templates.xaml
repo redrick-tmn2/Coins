@@ -1,8 +1,13 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:entities="clr-namespace:CoinsApplication.DAL.Entities;assembly=CoinsApplication.DAL">
+    xmlns:entities="clr-namespace:CoinsApplication.DAL.Entities;assembly=CoinsApplication.DAL"
+    xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:models="clr-namespace:CoinsApplication.Models">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/CoinsApplication;component/Views/Resources/FilterTemplates.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     <DataTemplate x:Key="CountryItemTemplate" DataType="{x:Type entities:Country}">
         <StackPanel Orientation="Horizontal">
             <Image Source="{Binding Flag, Converter={StaticResource CachingImageConverter}}" Height="16" Margin="1 0 1 0"/>
@@ -16,8 +21,56 @@
             <TextBlock Text="{Binding Name}" Margin="1 0 1 0"/>
         </StackPanel>
     </DataTemplate>
-    
-    <DataTemplate x:Key="ImageTemplate" DataType="{x:Type entities:Image}">
-        <Image Source="{Binding Content, Converter={StaticResource CachingImageConverter}}"/>
+
+    <DataTemplate x:Key="EditImageTemplate" DataType="models:CoinModel">
+        <StackPanel Orientation="Vertical">
+
+            <controls1:FlipView x:Name="ImageFlipView"
+                           Height="200"
+                           ItemsSource="{Binding Images}"
+                           SelectedItem="{Binding SelectedImage}"
+                           IsBannerEnabled="False"
+                           MouseOverGlowEnabled="False">
+                <controls1:FlipView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Content, Converter={StaticResource CachingImageConverter}}"/>
+                    </DataTemplate>
+                </controls1:FlipView.ItemTemplate>
+            </controls1:FlipView>
+
+            <StackPanel Orientation="Horizontal">
+
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Remove image"
+                    Command="{Binding RemoveCoinImageCommand}">
+                    <Button.CommandParameter>
+                        <models:WindowCommandContext Parameter="{Binding SelectedImage}"/>
+                    </Button.CommandParameter>
+                    <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Browse image..."
+                    Command="{Binding AddCoinImageCommand}">
+                    <Button.CommandParameter>
+                        <models:WindowCommandContext />
+                    </Button.CommandParameter>
+                    <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </StackPanel>
+        </StackPanel>
     </DataTemplate>
+
 </ResourceDictionary>

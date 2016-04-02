@@ -40,7 +40,7 @@ namespace CoinsApplication
 
         internal static void ShowWindow()
         {
-            var mainWindow = new MainWindow();
+            var mainWindow = _container.GetInstance<MainWindow>();
             // Show the window
             mainWindow.Show();
         }
@@ -97,6 +97,8 @@ namespace CoinsApplication
 
         private static void BootstrapViewModels()
         {
+            _container.Register<CountriesViewModel>(Lifestyle.Singleton);
+            _container.Register<CurrenciesViewModel>(Lifestyle.Singleton);
             _container.Register<MainWindowViewModel>(Lifestyle.Singleton);
             _container.Register<FilterViewModel>(Lifestyle.Singleton);
         }

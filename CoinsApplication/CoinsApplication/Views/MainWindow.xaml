@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:CoinsApplication.Views.Controls"
         xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:models="clr-namespace:CoinsApplication.Models"
         mc:Ignorable="d"
         Title="Coins" Height="600" Width="800"
       
@@ -21,8 +21,78 @@
         d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <mahApps:MetroWindow.Flyouts>
         <mahApps:FlyoutsControl>
-            <mahApps:Flyout x:Name="EditFlyout" Header="Edit the coin" Position="Right" Width="300" IsOpen="{Binding IsEditOpened}">
-                <controls:CoinEditorControl />
+            <mahApps:FlyoutsControl.Resources>
+                <DataTemplate x:Key="EditCoinTemplate" DataType="models:CoinModel">
+                    <ScrollViewer CanContentScroll="True"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    VerticalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Image:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource EditImageTemplate}" Content="{Binding}"/>
+
+                            <Label Grid.Row="2" Content="Title:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                            <TextBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" Text="{Binding Title, ValidatesOnDataErrors=True}"></TextBox>
+
+                            <Label Grid.Row="4" Content="Currency:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                            <ComboBox Grid.Row="5" Margin="{StaticResource DefaultThickness}" 
+                              IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" TextSearch.TextPath="Name"
+                              ItemsSource="{Binding CurrenciesViewModel.Currencies, Source={StaticResource ViewModelLocator}}" 
+                              SelectedItem="{Binding Currency, ValidatesOnDataErrors=True}" 
+                              ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>  
+
+                            <Label Grid.Row="6" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                            <ComboBox Grid.Row="7" Margin="{StaticResource DefaultThickness}" 
+                              IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" TextSearch.TextPath="Name"
+                              ItemsSource="{Binding CountriesViewModel.Countries, Source={StaticResource ViewModelLocator}}" 
+                              SelectedItem="{Binding Country, ValidatesOnDataErrors=True}"
+                              ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>   
+
+                            <Label Grid.Row="8" Content="Year:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                            <mahApps:NumericUpDown Grid.Row="9" Margin="{StaticResource DefaultThickness}" 
+                                    Value="{Binding Year}"></mahApps:NumericUpDown>
+                        </Grid>
+                    </ScrollViewer>
+                </DataTemplate>
+            </mahApps:FlyoutsControl.Resources>
+            <mahApps:Flyout x:Name="EditFlyout" Header="Edit existing coin" Position="Right" Width="300" IsOpen="{Binding IsEditOpened}">
+                <ContentControl ContentTemplate="{StaticResource EditCoinTemplate}" Content="{Binding SelectedCoin}"></ContentControl>
+            </mahApps:Flyout>
+            <mahApps:Flyout x:Name="AddFlyout" Header="Insert new coin" Position="Right" Width="300" IsOpen="{Binding IsAddOpened}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <ContentControl ContentTemplate="{StaticResource EditCoinTemplate}" Content="{Binding NewCoin}"></ContentControl>
+
+                    <StackPanel Grid.Row="1">
+                        <Button Content="Save"
+                            Command="{Binding AddNewCoinCommand}"
+                            Style="{DynamicResource AccentedSquareButtonStyle}"
+                            Margin="{StaticResource DefaultThickness}">
+                            <Button.CommandParameter>
+                                <models:WindowCommandContext/>
+                            </Button.CommandParameter>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
             </mahApps:Flyout>
         </mahApps:FlyoutsControl>
     </mahApps:MetroWindow.Flyouts>
@@ -32,8 +102,105 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <controls:MainMenuControl/>
+        <Grid Margin="0 0 0 2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-        <controls:CollectionControl Grid.Row="1" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                        ToolTip="Save all coins"
+                        Command="{Binding SaveAllCommand}">
+                    <Button.CommandParameter>
+                        <models:WindowCommandContext></models:WindowCommandContext>
+                    </Button.CommandParameter>
+                    <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                        ToolTip="Add new coin"
+                        Command="{Binding ShowAddCoinControlCommand}">
+                    <Button.CommandParameter>
+                        <models:WindowCommandContext/>
+                    </Button.CommandParameter>
+                    <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40"
+                    ToolTip="Edit selected coin"
+                        Command="{Binding ShowEditCoinControlCommand}">
+                    <Button.CommandParameter>
+                        <models:WindowCommandContext/>
+                    </Button.CommandParameter>
+                    <Rectangle Width="16" Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
+                    ToolTip="Remove selected coin"
+                    Command="{Binding RemoveCoinCommand}">
+                    <Button.CommandParameter>
+                        <models:WindowCommandContext/>
+                    </Button.CommandParameter>
+                    <Rectangle Width="16"
+                           Height="16"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+        <ListView Grid.Row="1" x:Name="ListView"
+            ItemsSource="{Binding Coins}" 
+            SelectionMode="Single"
+            IsSynchronizedWithCurrentItem="True"
+            DisplayMemberPath="Title">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
+                                    DisplayMemberBinding="{Binding Title}"
+                                    HeaderTemplate="{StaticResource TitleHeaderTemplate}">
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
+                                    DisplayMemberBinding="{Binding Currency.Name}"
+                                    HeaderTemplate="{StaticResource CurrencyHeaderTemplate}">
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="{Binding FilterViewModel, Source={StaticResource ViewModelLocator}}" 
+                                    DisplayMemberBinding="{Binding Country.Name}"
+                                    HeaderTemplate="{StaticResource CountryHeaderTemplate}"></GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+            <ListView.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource ExpanderGroupStyle}">
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
     </Grid>
 </mahApps:MetroWindow>
+

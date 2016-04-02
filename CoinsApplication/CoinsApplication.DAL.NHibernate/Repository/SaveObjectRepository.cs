@@ -1,5 +1,4 @@
-﻿using System;
-using CoinsApplication.DAL.Infrastructure;
+﻿using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.Repositories;
 
 namespace CoinsApplication.DAL.NHibernate.Repository

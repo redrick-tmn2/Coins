@@ -40,6 +40,9 @@
   <PropertyGroup>
     <StartupObject>CoinsApplication.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator.SimpleInjectorAdapter, Version=2.8.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.SimpleInjectorAdapter.2.8.2\lib\portable-net4+sl4+wp8+win8+wpa81\CommonServiceLocator.SimpleInjectorAdapter.dll</HintPath>
@@ -119,6 +122,9 @@
     <Compile Include="Models\Factories\CoinModelFactory.cs" />
     <Compile Include="Models\Factories\ICoinModelFactory.cs" />
     <Compile Include="Models\ValidatatbleObservableObject.cs" />
+    <Compile Include="Models\WindowCommandContext.cs" />
+    <Compile Include="ViewModel\CountriesViewModel.cs" />
+    <Compile Include="ViewModel\CurrenciesViewModel.cs" />
     <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\SelectableViewModel\ISelectable.cs" />
     <Compile Include="ViewModel\SelectableViewModel\SelectableViewModelBase.cs" />
@@ -128,40 +134,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="Views\Controls\CoinEditorControl.xaml.cs">
-      <DependentUpon>CoinEditorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\CollectionControl.xaml.cs">
-      <DependentUpon>CollectionControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\ImageControl.xaml.cs">
-      <DependentUpon>ImageControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\MainMenuControl.xaml.cs">
-      <DependentUpon>MainMenuControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Controls\CoinEditorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controls\CollectionControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controls\ImageControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controls\MainMenuControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Resources\FilterTemplates.xaml">
       <SubType>Designer</SubType>
@@ -240,7 +218,9 @@
       <Name>CoinsApplication.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Coin-us-dollar-icon.png" />
   </ItemGroup>

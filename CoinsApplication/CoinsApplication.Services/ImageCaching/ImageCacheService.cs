@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoinsApplication.Services.Interfaces.ImageCaching;
 
 namespace CoinsApplication.Services.ImageCaching
@@ -30,8 +31,10 @@ namespace CoinsApplication.Services.ImageCaching
             {
                 return;
             }
-            
+
             _cache.Remove(id);
+
+            cachedImage.Dispose();
         }
     }
 }

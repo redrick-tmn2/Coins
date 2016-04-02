@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Repositories;
 using NHibernate.Linq;
@@ -10,7 +11,7 @@ namespace CoinsApplication.DAL.NHibernate.Repository
     {
         public IEnumerable<Currency> GetAll()
         {
-            return NHibernateHelper.GetSession().Query<Currency>();
+            return NHibernateHelper.GetSession().Query<Currency>().ToList();
         }
 
         public Currency Get(int id)
