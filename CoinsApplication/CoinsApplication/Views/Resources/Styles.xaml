@@ -10,8 +10,7 @@
                     <Expander IsExpanded="True">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Name.Image}" Height="16" Margin="0 0 1 0"/>
-                                <TextBlock Text="{Binding Name.Title}" Foreground="White"  VerticalAlignment="Bottom" />
+                                <TextBlock Text="{Binding Name.Name, Converter={StaticResource DebuggingConverter}}" Foreground="White"  VerticalAlignment="Bottom" />
                             </StackPanel>
                         </Expander.Header>
                         <ItemsPresenter />

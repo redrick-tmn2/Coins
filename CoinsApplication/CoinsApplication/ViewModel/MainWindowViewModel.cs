@@ -49,6 +49,14 @@ namespace CoinsApplication.ViewModel
             set { Set(ref _isAddOpened, value); }
         }
 
+        private bool _isGroupingPanelVisible;
+        public bool IsGroupingPanelVisible
+        {
+            get { return _isGroupingPanelVisible; }
+            set { Set(ref _isGroupingPanelVisible, value); }
+        }
+        
+
         #endregion
 
         #region AddNewCoinCommand
@@ -129,6 +137,17 @@ namespace CoinsApplication.ViewModel
 
         #endregion
 
+        #region ToggleGroupingPanelCommand
+
+        public RelayCommand ToggleGroupingPanelCommand { get; }
+
+        private void ToggleGroupingPanel()
+        {
+            IsGroupingPanelVisible = !IsGroupingPanelVisible;
+        }
+
+        #endregion
+
         #region ShowAddCoinControlCommand
 
         public RelayCommand ShowAddCoinControlCommand { get; }
@@ -169,6 +188,8 @@ namespace CoinsApplication.ViewModel
 
         #endregion
 
+
+
         public MainWindowViewModel(ICoinRepository coinRepository, 
             IUnitOfWorkFactory unitOfWorkFactory,
             ICoinModelFactory coinModelFactory,
@@ -182,6 +203,7 @@ namespace CoinsApplication.ViewModel
             ShowAddCoinControlCommand = new RelayCommand(ShowAddCoinControl);
             SaveAllCommand = new RelayCommand<WindowCommandContext>(SaveAll, CanSaveAll);
             AddNewCoinCommand = new RelayCommand<WindowCommandContext>(AddNewCoin);
+            ToggleGroupingPanelCommand = new RelayCommand(ToggleGroupingPanel);
 
             _serializableCacheService.CacheChanged += CacheChangedHandler;
 

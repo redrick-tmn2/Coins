@@ -3,20 +3,108 @@
                     xmlns:viewModel="clr-namespace:CoinsApplication.ViewModel"
                     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
 
+
+    <Style x:Key="SquareToggleButtonStyle" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Background" Value="{DynamicResource TransparentWhiteBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="controls:ControlsHelper.CornerRadius" Value="0" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFont}" />
+        <Setter Property="FontSize" Value="{DynamicResource UpperCaseContentFontSize}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="Padding" Value="5 6" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Border x:Name="Background" Background="{TemplateBinding Background}" />
+                        <Border x:Name="Border"
+                                Background="{x:Null}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:ControlsHelper.CornerRadius), Mode=OneWay}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Border x:Name="DisabledVisualElement"
+                                Background="{DynamicResource ControlsDisabledBrush}"
+                                Opacity="0"
+                                CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:ControlsHelper.CornerRadius), Mode=OneWay}"
+                                IsHitTestVisible="False"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <controls:ContentControlEx x:Name="PART_ContentPresenter"
+                                                   Padding="{TemplateBinding Padding}"
+                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   Content="{TemplateBinding Content}"
+                                                   ContentCharacterCasing="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:ControlsHelper.ContentCharacterCasing)}"
+                                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                   RecognizesAccessKey="True"
+                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="DisabledVisualElement" Property="Opacity" Value="0.7" />
+                            <Setter TargetName="PART_ContentPresenter" Property="Opacity" Value="0.3" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource GrayBrush2}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush5}" />
+                <Setter Property="BorderThickness" Value="2" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsChecked" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource GrayBrush8}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsChecked" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource GrayBrush3}" />
+            </MultiTrigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource GrayBrush7}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}" />
+                <Setter Property="BorderThickness" Value="2" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <DataTemplate x:Key="FilterButtonContentTemplate">
-        <Rectangle Width="12" Height="12" Fill="Black">
+        <Rectangle Width="14" Height="14" Fill="Black">
             <Rectangle.OpacityMask>
                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
             </Rectangle.OpacityMask>
         </Rectangle>
     </DataTemplate>
 
+    <DataTemplate x:Key="GroupingButtonContentTemplate">
+        <Rectangle Width="14" Height="14" Fill="Black">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_diagram}" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </DataTemplate>
+
     <ControlTemplate x:Key="FilterPopupTemplate" TargetType="ContentControl">
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
             <Button x:Name="ShowFilterButton" Margin="1 0 0 0" 
                     Style="{DynamicResource SquareButtonStyle}"
                     ContentTemplate="{StaticResource FilterButtonContentTemplate}"
-                    Height="12" BorderThickness="0">
+                    Height="14" BorderThickness="0">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">
                         <EventTrigger.Actions>
@@ -41,7 +129,6 @@
                 <Border BorderBrush="{DynamicResource ControlBorderBrush}" 
                         BorderThickness="1"
                         Background="{DynamicResource WindowBackgroundBrush}">
-                    
                     <ContentPresenter/>
                 </Border>
             </Popup>
@@ -101,6 +188,14 @@
                     </ListBox>
                 </StackPanel>
             </ContentControl>
+
+            <ToggleButton x:Name="EnableGroupingButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareToggleButtonStyle}"
+                    ContentTemplate="{StaticResource GroupingButtonContentTemplate}"
+                    Command="{Binding SetGroupCommand}"
+                    CommandParameter="Currency"
+                    Height="14" BorderThickness="0">
+            </ToggleButton>
         </StackPanel>
     </DataTemplate>
 
@@ -144,6 +239,15 @@
                     </ListBox>
                 </StackPanel>
             </ContentControl>
+
+            <ToggleButton x:Name="EnableGroupingButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareToggleButtonStyle}"
+                    ContentTemplate="{StaticResource GroupingButtonContentTemplate}"
+                    Command="{Binding SetGroupCommand}"
+                    CommandParameter="Country"
+                    Height="14" BorderThickness="0">
+            </ToggleButton>
+
         </StackPanel>
     </DataTemplate>
     

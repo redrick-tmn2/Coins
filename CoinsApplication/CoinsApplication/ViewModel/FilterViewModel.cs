@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 using CoinsApplication.DAL.Entities;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.Repositories;
@@ -58,8 +59,17 @@ namespace CoinsApplication.ViewModel
 
         #endregion
 
+        #region SetGroupCommand
 
-        
+        public RelayCommand<string> SetGroupCommand { get; }
+
+        private void SetGroup(string propertyName)
+        {
+            ToggleLiveGrouping(_mainWindowViewModel.CoinsCollectionView, propertyName);
+        }
+
+        #endregion
+
         #region ctor
 
         public FilterViewModel(ICountryRepository countryRepository,
@@ -71,7 +81,7 @@ namespace CoinsApplication.ViewModel
 
             CheckAllCommand = new RelayCommand<IEnumerable<ISelectable>>(x => ToggleAll(x, true));
             UncheckAllCommand = new RelayCommand<IEnumerable<ISelectable>>(x => ToggleAll(x, false));
-
+            SetGroupCommand = new RelayCommand<string>(SetGroup);
 
             using (unitOfWorkFactory.Create())
             {
@@ -79,14 +89,14 @@ namespace CoinsApplication.ViewModel
                 RefreshCountries(countryRepository);
             }
 
-            SetFilter();
+            Apply();
         }
 
         #endregion
 
         #region private members
 
-        private void SetFilter()
+        private void Apply()
         {
             _mainWindowViewModel.CoinsCollectionView.Filter = item =>
             {
@@ -99,10 +109,33 @@ namespace CoinsApplication.ViewModel
                 return IsTitlePassed(coin) && IsCurrencyPassed(coin) && IsCountryPassed(coin);
             };
 
-            ActiveLiveFiltering(_mainWindowViewModel.CoinsCollectionView, _activeFilterProperties);
+            ActivateLiveFiltering(_mainWindowViewModel.CoinsCollectionView, _activeFilterProperties);
         }
-        
-        private void ActiveLiveFiltering(ICollectionView collectionView, IEnumerable<string> involvedProperties)
+
+        private void ToggleLiveGrouping(ICollectionView collectionView, string groupPropertyName)
+        {
+            var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
+
+            if (collectionViewLiveShaping != null && collectionViewLiveShaping.CanChangeLiveFiltering)
+            {
+                if (_activeFilterProperties.Contains(groupPropertyName))
+                {
+                    var groupDescription = collectionView.GroupDescriptions.OfType<PropertyGroupDescription>()
+                        .FirstOrDefault(x => x.PropertyName == groupPropertyName);
+
+                    if (groupDescription == null)
+                    {
+                        collectionView.GroupDescriptions.Add(new PropertyGroupDescription(groupPropertyName));
+                    }
+                    else
+                    {
+                        collectionView.GroupDescriptions.Remove(groupDescription);
+                    }
+                }
+            }
+        }
+
+        private void ActivateLiveFiltering(ICollectionView collectionView, IEnumerable<string> involvedProperties)
         {
             var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
 

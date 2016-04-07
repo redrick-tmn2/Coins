@@ -19,6 +19,9 @@
         
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
+    <mahApps:MetroWindow.Resources>
+        
+    </mahApps:MetroWindow.Resources>
     <mahApps:MetroWindow.Flyouts>
         <mahApps:FlyoutsControl>
             <mahApps:FlyoutsControl.Resources>
@@ -107,6 +110,10 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
@@ -125,7 +132,7 @@
                 </Button>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
                         ToolTip="Add new coin"
                         Command="{Binding ShowAddCoinControlCommand}">

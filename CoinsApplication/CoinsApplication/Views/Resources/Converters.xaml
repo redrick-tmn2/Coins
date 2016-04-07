@@ -4,4 +4,5 @@
     xmlns:converters="clr-namespace:CoinsApplication.Converters">
     <converters:CachingImageConverter x:Key="CachingImageConverter"></converters:CachingImageConverter>
     <converters:DebuggingConverter x:Key="DebuggingConverter"></converters:DebuggingConverter>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
 </ResourceDictionary>
