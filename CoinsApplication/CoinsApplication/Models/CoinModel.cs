@@ -46,12 +46,24 @@ namespace CoinsApplication.Models
             set { Set(ref _selectedImage, value); }
         }
         
-        public int Year
+        public int? Year
         {
             get { return _coin.Year; }
             set { SetAndDirty(_coin.Year, value, () => _coin.Year = value); }
         }
-        
+
+        public double? Diameter
+        {
+            get { return _coin.Diameter; }
+            set { SetAndDirty(_coin.Diameter, value, () => _coin.Diameter = value); }
+        }
+
+        public double? Thickness
+        {
+            get { return _coin.Thickness; }
+            set { SetAndDirty(_coin.Thickness, value, () => _coin.Thickness = value); }
+        }
+
         public Country Country
         {
             get { return _coin.Country; }

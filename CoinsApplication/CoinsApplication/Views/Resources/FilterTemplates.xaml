@@ -84,7 +84,7 @@
     </Style>
 
     <DataTemplate x:Key="FilterButtonContentTemplate">
-        <Rectangle Width="14" Height="14" Fill="Black">
+        <Rectangle Width="16" Height="16" Fill="Black">
             <Rectangle.OpacityMask>
                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
             </Rectangle.OpacityMask>
@@ -92,7 +92,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="GroupingButtonContentTemplate">
-        <Rectangle Width="14" Height="14" Fill="Black">
+        <Rectangle Width="16" Height="16" Fill="Black">
             <Rectangle.OpacityMask>
                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_diagram}" />
             </Rectangle.OpacityMask>
@@ -104,7 +104,7 @@
             <Button x:Name="ShowFilterButton" Margin="1 0 0 0" 
                     Style="{DynamicResource SquareButtonStyle}"
                     ContentTemplate="{StaticResource FilterButtonContentTemplate}"
-                    Height="14" BorderThickness="0">
+                    Height="32" Width="32" BorderThickness="0">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">
                         <EventTrigger.Actions>
@@ -194,7 +194,7 @@
                     ContentTemplate="{StaticResource GroupingButtonContentTemplate}"
                     Command="{Binding SetGroupCommand}"
                     CommandParameter="Currency"
-                    Height="14" BorderThickness="0">
+                    Height="32" Width="32" BorderThickness="0">
             </ToggleButton>
         </StackPanel>
     </DataTemplate>
@@ -245,7 +245,7 @@
                     ContentTemplate="{StaticResource GroupingButtonContentTemplate}"
                     Command="{Binding SetGroupCommand}"
                     CommandParameter="Country"
-                    Height="14" BorderThickness="0">
+                    Height="32" Width="32" BorderThickness="0">
             </ToggleButton>
 
         </StackPanel>

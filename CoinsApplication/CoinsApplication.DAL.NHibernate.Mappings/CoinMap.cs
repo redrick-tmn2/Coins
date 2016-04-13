@@ -9,8 +9,10 @@ namespace CoinsApplication.DAL.NHibernate.Mappings
         {
             Id(x => x.Id);
             Map(x => x.Title).Nullable();
-            Map(x => x.Year);
-            
+            Map(x => x.Diameter).Nullable();
+            Map(x => x.Thickness).Nullable();
+            Map(x => x.Year).Nullable();
+
             HasMany(x => x.Images)
                 .Inverse()
                 .KeyColumn("CoinId")

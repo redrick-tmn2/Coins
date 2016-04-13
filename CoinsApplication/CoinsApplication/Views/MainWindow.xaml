@@ -25,67 +25,96 @@
     <mahApps:MetroWindow.Flyouts>
         <mahApps:FlyoutsControl>
             <mahApps:FlyoutsControl.Resources>
+                <Style x:Key="InputOptionsStyle" TargetType="ColumnDefinition">
+                    <Setter Property="Width" Value="200"></Setter>
+                    <Setter Property="SharedSizeGroup" Value="InputOptionsGroup"></Setter>
+                </Style>
+                <Style x:Key="NumericUpDownMillimeters" TargetType="mahApps:NumericUpDown">
+                    <Setter Property="StringFormat" Value="{}{0:N2}"></Setter>
+                    <Setter Property="Minimum" Value="0"></Setter>
+                    <Setter Property="Interval" Value="0.01"></Setter>
+                    <Setter Property="Margin" Value="{StaticResource DefaultThickness}"></Setter>
+                </Style>
+                
                 <DataTemplate x:Key="EditCoinTemplate" DataType="models:CoinModel">
-                    <ScrollViewer CanContentScroll="True"
-                    HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto"
-                    VerticalAlignment="Stretch">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Style="{StaticResource InputOptionsStyle}"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                            <Label Content="Image:" Style="{DynamicResource DescriptionHeaderStyle}" />
-                            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource EditImageTemplate}" Content="{Binding}"/>
+                        <ContentControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="14" ContentTemplate="{StaticResource EditImageTemplate}" Content="{Binding}"/>
 
-                            <Label Grid.Row="2" Content="Title:" Style="{DynamicResource DescriptionHeaderStyle}" />
-                            <TextBox Grid.Row="3" Margin="{StaticResource DefaultThickness}" Text="{Binding Title, ValidatesOnDataErrors=True}"></TextBox>
+                        <Label Grid.Column="1" Grid.Row="0" Content="Title:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                        <TextBox Grid.Column="1" Grid.Row="1" Margin="{StaticResource DefaultThickness}" Text="{Binding Title, ValidatesOnDataErrors=True}"></TextBox>
 
-                            <Label Grid.Row="4" Content="Currency:" Style="{DynamicResource DescriptionHeaderStyle}" />
-                            <ComboBox Grid.Row="5" Margin="{StaticResource DefaultThickness}" 
+                        <Label Grid.Column="1" Grid.Row="2" Content="Currency:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                        <ComboBox Grid.Column="1" Grid.Row="3" Margin="{StaticResource DefaultThickness}" 
                               IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" TextSearch.TextPath="Name"
                               ItemsSource="{Binding CurrenciesViewModel.Currencies, Source={StaticResource ViewModelLocator}}" 
                               SelectedItem="{Binding Currency, ValidatesOnDataErrors=True}" 
-                              ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>  
+                              ItemTemplate="{StaticResource CurrencyItemTemplate}"></ComboBox>
 
-                            <Label Grid.Row="6" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
-                            <ComboBox Grid.Row="7" Margin="{StaticResource DefaultThickness}" 
+                        <Label Grid.Column="1" Grid.Row="4" Content="Country:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                        <ComboBox Grid.Column="1" Grid.Row="5" Margin="{StaticResource DefaultThickness}" 
                               IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" TextSearch.TextPath="Name"
                               ItemsSource="{Binding CountriesViewModel.Countries, Source={StaticResource ViewModelLocator}}" 
                               SelectedItem="{Binding Country, ValidatesOnDataErrors=True}"
-                              ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>   
+                              ItemTemplate="{StaticResource CountryItemTemplate}"></ComboBox>
 
-                            <Label Grid.Row="8" Content="Year:" Style="{DynamicResource DescriptionHeaderStyle}" />
-                            <mahApps:NumericUpDown Grid.Row="9" Margin="{StaticResource DefaultThickness}" 
-                                    Value="{Binding Year}"></mahApps:NumericUpDown>
-                        </Grid>
-                    </ScrollViewer>
+                        <Label Grid.Column="1" Grid.Row="6" Content="Year:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                        <mahApps:NumericUpDown Grid.Column="1" Grid.Row="7" 
+                                               Margin="{StaticResource DefaultThickness}" 
+                                                Value="{Binding Year}"/>
+
+                        <Label Grid.Column="1" Grid.Row="8" Content="Diameter:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                        <mahApps:NumericUpDown Grid.Column="1" Grid.Row="9" 
+                                               Style="{StaticResource NumericUpDownMillimeters}" 
+                                               Value="{Binding Diameter}"/>
+
+                        <Label Grid.Column="1" Grid.Row="10" Content="Thickness:" Style="{DynamicResource DescriptionHeaderStyle}" />
+                        <mahApps:NumericUpDown Grid.Column="1" Grid.Row="11"
+                                               Style="{StaticResource NumericUpDownMillimeters}" 
+                                               Value="{Binding Thickness}"/>
+                    </Grid>
                 </DataTemplate>
             </mahApps:FlyoutsControl.Resources>
-            <mahApps:Flyout x:Name="EditFlyout" Header="Edit existing coin" Position="Right" Width="300" IsOpen="{Binding IsEditOpened}">
+            <mahApps:Flyout x:Name="EditFlyout" Header="Edit existing coin" Position="Right" Width="600" IsOpen="{Binding IsEditOpened}">
                 <ContentControl ContentTemplate="{StaticResource EditCoinTemplate}" Content="{Binding SelectedCoin}"></ContentControl>
             </mahApps:Flyout>
-            <mahApps:Flyout x:Name="AddFlyout" Header="Insert new coin" Position="Right" Width="300" IsOpen="{Binding IsAddOpened}">
+            <mahApps:Flyout x:Name="AddFlyout" Header="Insert new coin" Position="Right" Width="600" IsOpen="{Binding IsAddOpened}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <ContentControl ContentTemplate="{StaticResource EditCoinTemplate}" Content="{Binding NewCoin}"></ContentControl>
+                    <ContentControl ContentTemplate="{StaticResource EditCoinTemplate}" 
+                                    Content="{Binding NewCoin}"></ContentControl>
 
-                    <StackPanel Grid.Row="1">
-                        <Button Content="Save"
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Style="{StaticResource InputOptionsStyle}"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="1" Content="Save"
                             Command="{Binding AddNewCoinCommand}"
                             Style="{DynamicResource AccentedSquareButtonStyle}"
                             Margin="{StaticResource DefaultThickness}">
@@ -93,8 +122,7 @@
                                 <models:WindowCommandContext/>
                             </Button.CommandParameter>
                         </Button>
-                    </StackPanel>
-
+                    </Grid>
                 </Grid>
             </mahApps:Flyout>
         </mahApps:FlyoutsControl>

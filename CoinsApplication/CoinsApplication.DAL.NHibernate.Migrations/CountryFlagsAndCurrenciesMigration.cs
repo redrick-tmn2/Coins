@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CoinsApplication.DAL.NHibernate.Migrations
 {
-    [Migration(250320161114)]
+    [Migration(201603251114)]
     public class CountryFlagsAndCurrenciesMigration : Migration
     {
         private readonly IList<dynamic> _currencies = new List<dynamic>

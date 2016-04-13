@@ -23,10 +23,13 @@
     </DataTemplate>
 
     <DataTemplate x:Key="EditImageTemplate" DataType="models:CoinModel">
-        <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
 
-            <controls1:FlipView x:Name="ImageFlipView"
-                           Height="200"
+            <controls1:FlipView x:Name="ImageFlipView" Grid.Row="0"
                            ItemsSource="{Binding Images}"
                            SelectedItem="{Binding SelectedImage}"
                            IsBannerEnabled="False"
@@ -38,8 +41,7 @@
                 </controls1:FlipView.ItemTemplate>
             </controls1:FlipView>
 
-            <StackPanel Orientation="Horizontal">
-
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" Width="40" Height="40" 
                     ToolTip="Remove image"
                     Command="{Binding RemoveCoinImageCommand}">
@@ -70,6 +72,6 @@
                     </Rectangle>
                 </Button>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

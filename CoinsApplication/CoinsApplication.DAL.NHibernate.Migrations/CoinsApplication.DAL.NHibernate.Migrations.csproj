@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalFieldsMigration.cs" />
     <Compile Include="CoinsMigration.cs" />
     <Compile Include="CountryFlagsAndCurrenciesMigration.cs" />
     <Compile Include="InitialMigration.cs" />

@@ -2,7 +2,7 @@
 
 namespace CoinsApplication.DAL.NHibernate.Migrations
 {
-    [Migration(250320161113)]
+    [Migration(201603251113)]
     public class CoinsMigration : Migration
     {
         public override void Up()
