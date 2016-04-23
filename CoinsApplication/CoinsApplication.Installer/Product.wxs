@@ -14,7 +14,7 @@
     <Icon Id="icon.ico" SourceFile="icon.ico"/>
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
     
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MajorUpgrade AllowDowngrades="no" AllowSameVersionUpgrades="no" DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate  EmbedCab="yes"/>
 
 		<Feature Id="ProductFeature" Title="Coins Collection" Level="1">

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using CoinsApplication.Models;
-using CoinsApplication.Services.Implementation;
+using CoinsApplication.Services.Interfaces.DirtySerializing;
 using CoinsApplication.Services.Interfaces.Logging;
-using CoinsApplication.Services.Interfaces.Window;
-using CoinsApplication.Services.Window;
-using CoinsApplication.ViewModel;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace CoinsApplication.Views
@@ -27,14 +24,15 @@ namespace CoinsApplication.Views
     public partial class MainWindow : IMainWindow
     {
         private readonly ILoggingService _loggingService;
+        private readonly IDirtySerializableCacheService _serializableService;
 
-        public MainWindow(ILoggingService loggingService)
+        public MainWindow(ILoggingService loggingService, IDirtySerializableCacheService serializableService)
         {
             _loggingService = loggingService;
+            _serializableService = serializableService;
 
             InitializeComponent();
         }
-
 
         public async Task<MessageDialogResult> ThrowValidationFailedMessageBox(IEnumerable<string> invalidCoins)
         {
@@ -71,6 +69,11 @@ namespace CoinsApplication.Views
                     AffirmativeButtonText = "Yes",
                     NegativeButtonText = "No"
                 });
+        }
+
+        private void OnClosedHandler(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewModel="clr-namespace:CoinsApplication.ViewModel"
-                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-
+    <system:Boolean x:Key="True">True</system:Boolean>
+    <system:Boolean x:Key="False">False</system:Boolean>
+    
     <Style x:Key="SquareToggleButtonStyle" TargetType="ToggleButton">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="Background" Value="{DynamicResource TransparentWhiteBrush}" />
@@ -99,6 +102,42 @@
         </Rectangle>
     </DataTemplate>
 
+    <DataTemplate x:Key="SortButtonContentTemplate" DataType="{x:Type viewModel:SortContext}">
+        <Rectangle Width="16" Height="16" Fill="Black">
+            <Rectangle.Style>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Style.Triggers>
+                        
+                        <DataTrigger Binding="{Binding Order}" Value="{x:Static viewModel:Order.Asc}">
+                            <Setter Property="OpacityMask">
+                                <Setter.Value>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_sort_alphabetical_ascending}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Order}" Value="{x:Static viewModel:Order.Desc}">
+                            <Setter Property="OpacityMask">
+                                <Setter.Value>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_sort_alphabetical_descending}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Order}" Value="{x:Static viewModel:Order.None}">
+                            <Setter Property="OpacityMask">
+                                <Setter.Value>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_sort_alphabetical}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
+    </DataTemplate>
+
     <ControlTemplate x:Key="FilterPopupTemplate" TargetType="ContentControl">
         <StackPanel Orientation="Horizontal">
             <Button x:Name="ShowFilterButton" Margin="1 0 0 0" 
@@ -146,6 +185,15 @@
                                  controls:TextBoxHelper.Watermark="Search text"></TextBox>
                 </StackPanel>
             </ContentControl>
+
+            <Button x:Name="EnableSortButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareButtonStyle}"
+                    Content="{Binding TitleSortContext}"
+                    ContentTemplate="{StaticResource SortButtonContentTemplate}"
+                    Command="{Binding SetSortCommand}"
+                    CommandParameter="{Binding TitleSortContext}"
+                    Height="32" Width="32" BorderThickness="0">
+            </Button>
         </StackPanel>
     </DataTemplate>
     
@@ -155,7 +203,7 @@
       
             <ContentControl Template="{StaticResource FilterPopupTemplate}">
                 <StackPanel>
-                    <Grid>
+                   <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -170,7 +218,7 @@
                                 Style="{DynamicResource AccentedSquareButtonStyle}" 
                                 Command="{Binding UncheckAllCommand}" 
                                 CommandParameter="{Binding Currencies}">Uncheck All</Button>
-                    </Grid>
+                   </Grid>
                    <ListBox ItemsSource="{Binding Currencies}" 
                          ScrollViewer.VerticalScrollBarVisibility="Visible"
                          MaxHeight="200"
@@ -196,6 +244,15 @@
                     CommandParameter="Currency"
                     Height="32" Width="32" BorderThickness="0">
             </ToggleButton>
+
+            <Button x:Name="EnableSortButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareButtonStyle}"
+                    Content="{Binding CurrenciesSortContext}"
+                    ContentTemplate="{StaticResource SortButtonContentTemplate}"
+                    Command="{Binding SetSortCommand}"
+                    CommandParameter="{Binding CurrenciesSortContext}"
+                    Height="32" Width="32" BorderThickness="0">
+            </Button>
         </StackPanel>
     </DataTemplate>
 
@@ -247,7 +304,16 @@
                     CommandParameter="Country"
                     Height="32" Width="32" BorderThickness="0">
             </ToggleButton>
-
+            
+            <Button x:Name="EnableSortButton" Margin="1 0 0 0" 
+                    Style="{DynamicResource SquareButtonStyle}"
+                    Content="{Binding CountriesSortContext}"
+                    ContentTemplate="{StaticResource SortButtonContentTemplate}"
+                    Command="{Binding SetSortCommand}"
+                    CommandParameter="{Binding CountriesSortContext}"
+                    Height="32" Width="32" BorderThickness="0">
+            </Button>
+            
         </StackPanel>
     </DataTemplate>
     

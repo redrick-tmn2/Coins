@@ -42,6 +42,14 @@ namespace CoinsApplication.ViewModel
 
         public List<SelectableViewModelBase<Currency>> Currencies { get; } = new List<SelectableViewModelBase<Currency>>();
 
+        public Dictionary<string, SortContext> SortContexts { get; } = new Dictionary<string, SortContext>();
+
+        public SortContext CountriesSortContext => SortContexts[nameof(CoinModel.Country)];
+
+        public SortContext CurrenciesSortContext => SortContexts[nameof(CoinModel.Currency)];
+
+        public SortContext TitleSortContext => SortContexts[nameof(CoinModel.Title)];
+
         #endregion
 
         #region CheckAllCommand\UncheckAllCommand
@@ -65,7 +73,22 @@ namespace CoinsApplication.ViewModel
 
         private void SetGroup(string propertyName)
         {
-            ToggleLiveGrouping(_mainWindowViewModel.CoinsCollectionView, propertyName);
+            ToggleGrouping(_mainWindowViewModel.CoinsCollectionView, propertyName);
+        }
+
+        #endregion
+
+        #region SetSortCommand
+
+        public RelayCommand<SortContext> SetSortCommand { get; }
+
+        private void SetSort(SortContext context)
+        {
+            if (context == null)
+                return;
+
+            context.ToggleOrder();
+            ToggleSorting(_mainWindowViewModel.CoinsCollectionView);
         }
 
         #endregion
@@ -79,9 +102,15 @@ namespace CoinsApplication.ViewModel
         {
             _mainWindowViewModel = mainViewModel;
 
+            foreach (var activeFilterProperty in this._activeFilterProperties)
+            {
+                SortContexts.Add(activeFilterProperty, new SortContext());
+            }
+
             CheckAllCommand = new RelayCommand<IEnumerable<ISelectable>>(x => ToggleAll(x, true));
             UncheckAllCommand = new RelayCommand<IEnumerable<ISelectable>>(x => ToggleAll(x, false));
             SetGroupCommand = new RelayCommand<string>(SetGroup);
+            SetSortCommand = new RelayCommand<SortContext>(SetSort);
 
             using (unitOfWorkFactory.Create())
             {
@@ -110,27 +139,41 @@ namespace CoinsApplication.ViewModel
             };
 
             ActivateLiveFiltering(_mainWindowViewModel.CoinsCollectionView, _activeFilterProperties);
+            ActivateLiveSorting(_mainWindowViewModel.CoinsCollectionView, _activeFilterProperties);
+            ActivateLiveGrouping(_mainWindowViewModel.CoinsCollectionView, _activeFilterProperties);
         }
 
-        private void ToggleLiveGrouping(ICollectionView collectionView, string groupPropertyName)
+        private void ToggleGrouping(ICollectionView collectionView, string groupPropertyName)
         {
-            var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
-
-            if (collectionViewLiveShaping != null && collectionViewLiveShaping.CanChangeLiveFiltering)
+            if (_activeFilterProperties.Contains(groupPropertyName))
             {
-                if (_activeFilterProperties.Contains(groupPropertyName))
-                {
-                    var groupDescription = collectionView.GroupDescriptions.OfType<PropertyGroupDescription>()
-                        .FirstOrDefault(x => x.PropertyName == groupPropertyName);
+                var groupDescription = collectionView.GroupDescriptions.OfType<PropertyGroupDescription>()
+                    .FirstOrDefault(x => x.PropertyName == groupPropertyName);
 
-                    if (groupDescription == null)
-                    {
-                        collectionView.GroupDescriptions.Add(new PropertyGroupDescription(groupPropertyName));
-                    }
-                    else
-                    {
-                        collectionView.GroupDescriptions.Remove(groupDescription);
-                    }
+                if (groupDescription == null)
+                {
+                    collectionView.GroupDescriptions.Add(new PropertyGroupDescription(groupPropertyName));
+                }
+                else
+                {
+                    collectionView.GroupDescriptions.Remove(groupDescription);
+                }
+            }
+        }
+
+        private void ToggleSorting(ICollectionView collectionView)
+        {
+            collectionView.SortDescriptions.Clear();
+            foreach (var sortContext in SortContexts)
+            {
+                if (sortContext.Value.Order == Order.Asc)
+                {
+                    collectionView.SortDescriptions.Add(new SortDescription(sortContext.Key, ListSortDirection.Ascending));
+                }
+
+                if (sortContext.Value.Order == Order.Desc)
+                {
+                    collectionView.SortDescriptions.Add(new SortDescription(sortContext.Key, ListSortDirection.Descending));
                 }
             }
         }
@@ -144,6 +187,30 @@ namespace CoinsApplication.ViewModel
                 foreach (var propName in involvedProperties)
                     collectionViewLiveShaping.LiveFilteringProperties.Add(propName);
                 collectionViewLiveShaping.IsLiveFiltering = true;
+            }
+        }
+
+        private void ActivateLiveSorting(ICollectionView collectionView, IEnumerable<string> involvedProperties)
+        {
+            var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
+
+            if (collectionViewLiveShaping != null && collectionViewLiveShaping.CanChangeLiveSorting)
+            {
+                foreach (var propName in involvedProperties)
+                    collectionViewLiveShaping.LiveSortingProperties.Add(propName);
+                collectionViewLiveShaping.IsLiveSorting = true;
+            }
+        }
+
+        private void ActivateLiveGrouping(ICollectionView collectionView, IEnumerable<string> involvedProperties)
+        {
+            var collectionViewLiveShaping = collectionView as ICollectionViewLiveShaping;
+
+            if (collectionViewLiveShaping != null && collectionViewLiveShaping.CanChangeLiveGrouping)
+            {
+                foreach (var propName in involvedProperties)
+                    collectionViewLiveShaping.LiveGroupingProperties.Add(propName);
+                collectionViewLiveShaping.IsLiveGrouping = true;
             }
         }
 

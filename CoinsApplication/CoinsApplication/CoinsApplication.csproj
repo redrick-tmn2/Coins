@@ -113,6 +113,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DebuggingConverter.cs" />
     <Compile Include="Converters\CachingImageConverter.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="ViewModel\CountriesViewModel.cs" />
     <Compile Include="ViewModel\CurrenciesViewModel.cs" />
     <Compile Include="ViewModel\FilterViewModel.cs" />
+    <Compile Include="ViewModel\Order.cs" />
     <Compile Include="ViewModel\SelectableViewModel\ISelectable.cs" />
     <Compile Include="ViewModel\SelectableViewModel\SelectableViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -133,9 +135,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\SortContext.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +164,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

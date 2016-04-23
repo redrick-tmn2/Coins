@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using CoinsApplication.DAL.Infrastructure;
 using CoinsApplication.DAL.NHibernate;
 using CoinsApplication.DAL.NHibernate.Migrator;
@@ -29,20 +30,45 @@ namespace CoinsApplication
         private static Container _container;
         private static SimpleInjectorServiceLocatorAdapter _containerAdapter;
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            MigrateDatabase();
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            Bootstrap();
+            var splash = ShowSplashWindow();
+
+            await BootstrapAsync();
+
+            splash.Close();
 
             ShowWindow();
         }
 
-        internal static void ShowWindow()
+        private static Task BootstrapAsync()
+        {
+            return new TaskFactory().StartNew(() =>
+            {
+                MigrateDatabase();
+
+                Bootstrap();
+            });
+        }
+
+        internal static Window ShowWindow()
         {
             var mainWindow = _container.GetInstance<MainWindow>();
             // Show the window
             mainWindow.Show();
+
+            return mainWindow;
+        }
+
+        internal static Window ShowSplashWindow()
+        {
+            var splashWindow = new SplashWindow();
+            // Show the window
+            splashWindow.Show();
+
+            return splashWindow;
         }
 
         internal static void MigrateDatabase()
@@ -79,8 +105,6 @@ namespace CoinsApplication
             {
 
             }
-            
-            _container.Verify();
 
             ServiceLocator.SetLocatorProvider(() => _containerAdapter);
         }

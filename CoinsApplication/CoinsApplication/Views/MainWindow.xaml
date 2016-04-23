@@ -16,7 +16,9 @@
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen"
         Icon="pack://application:,,,/CoinsApplication;component/Resources/Coin-us-dollar-icon.png"
-        
+
+        Closed="OnClosedHandler"
+                     
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         d:DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
     <mahApps:MetroWindow.Resources>

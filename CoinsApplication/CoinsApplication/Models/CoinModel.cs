@@ -84,7 +84,6 @@ namespace CoinsApplication.Models
             }
         }
 
-
         #region RemoveCoinImageCommand
 
         public RelayCommand<WindowCommandContext> RemoveCoinImageCommand { get; }
